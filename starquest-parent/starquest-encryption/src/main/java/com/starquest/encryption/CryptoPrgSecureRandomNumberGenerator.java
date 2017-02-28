@@ -6,12 +6,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import com.starquest.encryption.exception.InvalidSeed;
+import com.starquest.encryption.services.SaltGeneratorService;
 
 /**
  * 
  * @author mallesh
  * @since Feb 27, 2017-8:43:10 PM
- * @see com.starquest.encryption.SaltGeneratorService - Implementation for
+ * @see com.starquest.encryption.services.SaltGeneratorService - Implementation for
  *      SaltGeneratorService
  */
 public class CryptoPrgSecureRandomNumberGenerator implements SaltGeneratorService {

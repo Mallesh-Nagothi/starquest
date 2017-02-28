@@ -2,8 +2,8 @@ package com.starquest.encryption.test;
 
 import com.starquest.encryption.CryptoPrgSecureRandomNumberGenerator;
 import com.starquest.encryption.PasswordEncryption;
-import com.starquest.encryption.SaltGeneratorService;
-import com.starquest.encryption.SaltType;
+import com.starquest.encryption.services.SaltGeneratorService;
+import com.starquest.encryption.services.SaltType;
 
 /**
  * 

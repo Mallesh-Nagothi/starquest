@@ -5,6 +5,9 @@ import java.security.NoSuchAlgorithmException;
 
 import com.starquest.encryption.exception.InvalidSeed;
 import com.starquest.encryption.exception.UnsupportedAlgorithm;
+import com.starquest.encryption.services.EncryptionService;
+import com.starquest.encryption.services.SaltGeneratorService;
+import com.starquest.encryption.services.SaltType;
 
 /**
  * 

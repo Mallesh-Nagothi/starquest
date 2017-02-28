@@ -9,7 +9,10 @@
   
   
   <modules>
+  	<module>starquest-models</module>
   	<module>starquest-encryption</module>
+  	<module>starquest-encryption-rest-service</module>
+  	
   </modules>
   
   
