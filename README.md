@@ -31,6 +31,15 @@ What is not working
 The service is not flexible (yet) for using multiple alogorithms. But implementation exist, need to expose  more endpoints..coming up
 
 
+<b>03/02/2017</b>
+Add a Micro Service for Encrypting a String using CSPRNG Salt either native calls or with in java libraries.
+Added the service in Springboot
+Added the Springboot to a java Docker image 
+visit: https://hub.docker.com/
+Search for malleshnagothi to find all of my docker images
+
+What is not working
+The service is not flexible (yet) for using multiple alogorithms. But implementation exist, need to expose  more endpoints..coming up
 
 
 
