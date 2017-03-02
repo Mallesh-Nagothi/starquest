@@ -43,5 +43,11 @@ The service is not flexible (yet) for using multiple alogorithms. But implementa
 
 
 
+<b>03/02/2017</b>
+Add a Micro Service for saving salt and encrypted password by calling above micro service from docker image
+Added the service in Springboot for saving salt and hashed password
+Added the Springboot to a java Docker image 
+visit: https://hub.docker.com/u/malleshnagothi/
+or https://hub.docker.com -->Search for "malleshnagothi" to find all of my docker images
 
 
