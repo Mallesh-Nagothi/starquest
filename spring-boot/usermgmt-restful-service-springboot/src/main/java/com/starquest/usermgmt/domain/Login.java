@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.jooq.util.GenerationTool;
-import org.jooq.util.jaxb.Strategy;
 
 
 /**
@@ -21,12 +21,16 @@ import org.jooq.util.jaxb.Strategy;
  *
  */
 @Entity
+@Table(name = "LOGIN")
 public class Login {
 
 	@Id
 	@SequenceGenerator(name="login_id_seq", sequenceName="login_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.IDENTITY,generator="login_id_seq")
 	private Integer id;
+	
+	@Column(name = "userid")
+	private Integer userId;
 	
 	@Column(name = "passwordsalt")
 	private String passwordSalt;
@@ -39,7 +43,24 @@ public class Login {
 	
 	@Column(name = "createdon")
 	@Temporal(TemporalType.TIMESTAMP)
-    public java.util.Date createdOn;
+    private java.util.Date createdOn;
+	
+	 
+	
+	@OneToOne 
+	@JoinColumn(name="id")
+	private User user;
+	
+	
+	public Login(String passwordSalt, String passwordHash, String createdBy){
+		this.passwordHash 	= passwordHash;
+		this.passwordSalt 	= passwordSalt;
+		this.createdBy		= createdBy;
+	}
+	
+	public Login(){ 	}
+	
+	
 	/**
 	 * @return the id
 	 */
@@ -99,6 +120,34 @@ public class Login {
 	 */
 	public void setCreatedOn(java.util.Date createdOn) {
 		this.createdOn = createdOn;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public Integer getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	

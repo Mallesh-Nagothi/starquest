@@ -3,12 +3,19 @@
  */
 package com.starquest.usermgmt.vo;
 
+import java.io.Serializable;
+
 /**
  * @author mallesh
  *
  */
-public class LoginVo {
+public class LoginVo  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private String passwordSalt;
 	private String passwordHash;
