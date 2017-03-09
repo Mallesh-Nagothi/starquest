@@ -57,6 +57,10 @@ Added a  Micro Service with Springboot for JPA persistance
 Implemented Micro Service with HATEOS
 CODE STILL NOT CLEAN ENOUGH...coming up....................
 
+<b>03/08/2017</b>
+Added new UI project built on plain HTML and Angular JS.
+Registration page, calls restful micro service....to register users....
+
 
 
 
