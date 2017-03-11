@@ -1,0 +1,3 @@
+default.configuration=poc-usermgmt-rest-service-springboot
+eclipse.preferences.version=1
+hibernate3.enabled=true
