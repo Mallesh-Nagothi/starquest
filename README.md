@@ -61,6 +61,10 @@ CODE STILL NOT CLEAN ENOUGH...coming up....................
 Added new UI project built on plain HTML and Angular JS.
 Registration page, calls restful micro service....to register users....
 
+<b>03/10/2017</b>
+Time for house cleaning :)
+Added Platform-Indep for users who would like to just pull the code, build and run
+
 
 
 
