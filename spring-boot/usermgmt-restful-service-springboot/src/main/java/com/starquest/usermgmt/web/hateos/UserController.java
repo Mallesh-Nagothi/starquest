@@ -9,14 +9,19 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.starquest.usermgmt.service.UserBusinessLogic;
+import com.starquest.usermgmt.service.UserProfileService;
 import com.starquest.usermgmt.utils.StarQuestUtils;
+import com.starquest.usermgmt.vo.UserProfile;
+import com.starquest.usermgmt.vo.UserVo;
 import com.starquest.usermgmt.vo.hateos.UserHo;
 
 /**
@@ -37,10 +42,12 @@ public class UserController {
 	Logger logger = Logger.getLogger(UserController.class);
 	
 	UserBusinessLogic userBusinessLogic;
+	UserProfileService userProfileService;
 	
 	@Autowired
-	public UserController(UserBusinessLogic userBusinessLogic) {
+	public UserController(UserBusinessLogic userBusinessLogic,UserProfileService userProfileService) {
 		this.userBusinessLogic = userBusinessLogic;
+		this.userProfileService = userProfileService;
 	}
 	
 	
@@ -88,6 +95,44 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(path="/userByIdJSON/{id}", method = RequestMethod.GET, 
+			consumes={"text/plain"}, 
+			produces={"application/json"})
+	@CrossOrigin(origins = "http://localhost:9000")
+	public UserVo findUserByIdJSON(
+		@PathVariable String id){
+		
+		//TODO 
+		//come up with nice way of reporting back requester
+		HttpStatus status = HttpStatus.OK;
+		Integer intId = new Integer(0);
+		if(null != id && StarQuestUtils.isNumeric(id)){
+			intId = new Integer(id);
+		}
+		UserHo userHo = userBusinessLogic.findUserById(intId);
+		userHo.add(ControllerLinkBuilder.linkTo(
+				ControllerLinkBuilder.methodOn(
+						UserController.class).findUserById(id)).withSelfRel());
+		
+		if(null == userHo.getUserId()){
+			status = HttpStatus.NO_CONTENT;
+		}
+		
+		UserVo userVo = new UserVo();
+		userVo.setCreatedBy(userHo.getCreatedBy());
+		userVo.setCreatedOn(new java.sql.Date(userHo.getCreatedOn().getTime()));
+		userVo.setFirstName(userHo.getFirstName());
+		userVo.setLastName(userHo.getLastName());
+		userVo.setEmailAddress(userHo.getEmailAddress());
+		userVo.setUserId(userHo.getUserId());
+		
+		
+		
+		
+		return userVo;
+	}
+	
+	
 	@RequestMapping(path="/userByEmailAddress/{emailAddress}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<UserHo>> findUserByEmailAddress(
 		@PathVariable String emailAddress){
@@ -128,6 +173,68 @@ public class UserController {
 		}
 		return new ResponseEntity<List<UserHo>>(listOfUserHos, status);
 		
+		
+	}
+	
+	
+	@RequestMapping(value="/getUserProfiles/{size}", method= {RequestMethod.GET})
+	public ResponseEntity<List<UserProfile>> getUserProfiles(@PathVariable String size){
+		
+		Integer totRecordsFetchSize = Integer.valueOf(size);
+		
+		return new ResponseEntity<List<UserProfile>>(userProfileService.getUserProfileById(totRecordsFetchSize.intValue()), HttpStatus.OK);
+		
+	}
+	
+	
+	@RequestMapping(value = "/createUserProfile", method = { RequestMethod.POST }, 
+			consumes = { "application/json"}, produces = { "application/json",})
+	public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile){
+		logger.debug("Entrypoint :: /createUserProfile");
+		
+		
+		
+		//Save user profile
+		userProfileService.createUserProfile(userProfile);
+		
+		
+		logger.debug("Exitpoint :: /createUserProfile");
+		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
+		
+	}
+	
+	
+	
+	@RequestMapping(value = "/createHouseHold", method = { RequestMethod.POST }, 
+			consumes = { "application/json"}, produces = { "application/json",})
+	public ResponseEntity<UserProfile> createHouseHold(@RequestBody UserProfile userProfile){
+		logger.debug("Entrypoint :: /createHouseHold");
+		
+		
+		
+		//Save user profile
+		userProfileService.createUserProfile(userProfile);
+		
+		
+		logger.debug("Exitpoint :: /createHouseHold");
+		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
+		
+	}
+	
+	
+	@RequestMapping(value = "/createMemberIncome", method = { RequestMethod.POST }, 
+			consumes = { "application/json"}, produces = { "application/json",})
+	public ResponseEntity<UserProfile> createMemberIncome(@RequestBody UserProfile userProfile){
+		logger.debug("Entrypoint :: /createMemberIncome");
+		
+		
+		
+		//Save user profile
+		userProfileService.createUserProfile(userProfile);
+		
+		
+		logger.debug("Exitpoint :: /createMemberIncome");
+		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
 		
 	}
 	

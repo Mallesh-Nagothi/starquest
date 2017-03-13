@@ -5,7 +5,7 @@
 
     <groupId>com.starquest</groupId>
     <artifactId>non-mobile-ui-springboot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>starquest-non-mobile-ui</name>
     <description>StarQuest Non Mobile User Interface</description>

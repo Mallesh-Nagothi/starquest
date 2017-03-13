@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="notesApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Material Design Bootstrap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body  ng-controller="MainController as mainController">
+
+
+    <!--Navbar-->
+    <nav class="navbar navbar-toggleable-md navbar-dark scrolling-navbar fixed-top">
+        <div class="container">
+            
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="https://mdbootstrap.com/img/logo/mdb-transparent-sm-shadows.png" class="d-inline-block align-top z-depth-0" alt="MDBootstrap">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav1">
+                <!--Links-->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#best-features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#examples-of-use">Examples</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>    
+    <!--/.Navbar-->
+
+    <!--Mask-->
+    <div class="view hm-black-strong">
+        <div class="full-bg-img flex-center">
+            <div class="container">
+                <div class="row" id="home">
+
+                    <!--First column-->
+                    <div class="col-lg-6">
+                        <div class="description">
+                            <h2 class="h2-responsive wow fadeInLeft">Landing Page </h2>
+                            <hr class="hr-dark">
+                            <p class="wow fadeInLeft" data-wow-delay="0.4s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae, quisquam iste, maiores. Nulla.</p>
+                            <br>
+                            <a href="#best-features" class="btn btn-primary wow fadeInLeft" data-wow-delay="0.7s">Learn more</a>
+                        </div>
+                    </div>
+                    <!--/.First column-->
+
+                    <!--Second column-->
+                    <div class="col-lg-6">
+                        <!--Form-->
+                        <div class="card wow fadeInRight">
+                            <div class="card-block">
+                                <!--Header-->
+                                <div class="text-center">
+                                    <h3><i class="fa fa-user"></i> Register with StarQuest</h3>
+                                    <a href="" class="btn-floating btn-fb btn-small"><i class="fa fa-facebook"></i></a>
+                                    <a href="" class="btn-floating btn-tw btn-small"><i class="fa fa-twitter"></i></a>
+                                    <a href="" class="btn-floating btn-gplus btn-small"><i class="fa fa-google-plus"></i></a>
+                                    <a href="" class="btn-floating btn-li btn-small"><i class="fa fa-linkedin"></i></a>
+                                    <a href="" class="btn-floating btn-git btn-small"><i class="fa fa-github"></i></a>
+                                    <hr>
+                                    <h3>or:</h3>
+                                </div>
+
+                                <!--Body-->
+                                <div class="md-form">
+                                    <i class="fa fa-envelope prefix"></i>
+                                    <input type="text" id="form2" class="form-control">
+                                    <label for="form2">Your email</label>
+                                </div>
+                                <div class="md-form">
+                                    <i class="fa fa-lock prefix"></i>
+                                    <input type="password" id="form4" class="form-control">
+                                    <label for="form4">Repeat password</label>
+                                </div>
+
+                                <div class="text-center">
+                                    <button class="btn btn-primary btn-lg">Sign up</button>
+                                    <hr>
+                                    <fieldset class="form-group">
+                                        <input type="checkbox" id="checkbox1">
+                                        <label for="checkbox1">Subscribe me to the newsletter</label>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--/.Form-->
+                    </div>
+                    <!--/Second column-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.Mask-->
+
+    <!--Main container-->
+    <div class="container">
+
+        <div class="divider-new">
+            <h2 class="h2-responsive wow fadeInDown">Best Features</h2>
+        </div>
+
+        <!--Section: Best features-->
+        <section id="best-features">
+            <div class="row">
+                <!--First columnn-->
+                <div class="col-md-4">
+                    <!--Card-->
+                    <div class="card wow fadeInUp">
+
+                        <!--Card image-->
+                        <div class="view overlay hm-white-slight">
+                            <img src="https://mdbootstrap.com/images/regular/city/img%20(2).jpg" class="img-fluid" alt="">
+                            <a href="#">
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--/.Card image-->
+
+                        <!--Card content-->
+                        <div class="card-block text-center">
+                            <!--Title-->
+                            <h4 class="card-title">Card title</h4>
+                            <hr>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--First columnn-->
+
+                <!--Second columnn-->
+                <div class="col-md-4">
+                    <!--Card-->
+                    <div class="card wow fadeInUp" data-wow-delay="0.2s">
+
+                        <!--Card image-->
+                        <div class="view overlay hm-white-slight">
+                            <img src="https://mdbootstrap.com/images/regular/city/img%20(4).jpg" class="img-fluid" alt="">
+                            <a href="#">
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--/.Card image-->
+
+                        <!--Card content-->
+                        <div class="card-block text-center">
+                            <!--Title-->
+                            <h4 class="card-title">Card title</h4>
+                            <hr>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Second columnn-->
+
+                <!--Third columnn-->
+                <div class="col-md-4">
+                    <!--Card-->
+                    <div class="card wow fadeInUp" data-wow-delay="0.4s">
+
+                        <!--Card image-->
+                        <div class="view overlay hm-white-slight">
+                            <img src="https://mdbootstrap.com/images/regular/city/img%20(8).jpg" class="img-fluid" alt="">
+                            <a href="#">
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+                        <!--/.Card image-->
+
+                        <!--Card content-->
+                        <div class="card-block text-center">
+                            <!--Title-->
+                            <h4 class="card-title">Card title</h4>
+                            <hr>
+                            <!--Text-->
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Third columnn-->
+            </div>
+        </section>
+        <!--/Section: Best features-->
+
+        <div class="divider-new">
+            <h2 class="h2-responsive wow fadeInDown">Additional Features</h2>
+        </div>
+
+        <!--Section: Additional features-->
+        <section id="additional-features">
+            <div class="row">
+                <!--First columnn-->
+                <div class="col-md-6">
+
+                    <!--Card-->
+                    <div class="card">
+
+                        <!--Card image-->
+                        <div class="view overlay hm-white-slight">
+                            <img src="https://mdbootstrap.com/images/reg/reg%20(2).jpg" class="img-fluid" alt="">
+                            <a href="#">
+                                <div class="mask waves-light"></div>
+                            </a>
+                        </div>
+                        <!--/.Card image-->
+
+                       <!--Card content-->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Cras justo odio <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Dapibus ac facilisis in <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Morbi leo risus <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Cras justo odio <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Dapibus ac facilisis in <i class="fa fa-check ml-auto"></i>
+                            </li>
+                        </ul>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--First columnn-->
+
+                <!--Second column-->
+                <div class="col-md-6">
+
+                    <!--Card-->
+                    <div class="card">
+
+                        <!--Card image-->
+                        <div class="view overlay hm-white-slight">
+                            <img src="https://mdbootstrap.com/images/reg/reg%20(2).jpg" class="img-fluid" alt="">
+                            <a href="#">
+                                <div class="mask waves-light"></div>
+                            </a>
+                        </div>
+                        <!--/.Card image-->
+
+                       <!--Card content-->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Cras justo odio <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Dapibus ac facilisis in <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Morbi leo risus <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Cras justo odio <i class="fa fa-check ml-auto"></i>
+                            </li>
+                            <li class="list-group-item">
+                                Dapibus ac facilisis in <i class="fa fa-check ml-auto"></i>
+                            </li>
+                        </ul>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--/Second column-->
+            </div>
+        </section>
+        <!--/Section: Additional features-->
+
+        <div class="divider-new">
+            <h2 class="h2-responsive wow fadeInDown">Examples of use</h2>
+        </div>
+
+        <!--Section: Examples of use-->
+        <section id="examples-of-use">
+            <div class="row">
+                <!--First column-->
+                <div class="col-md-5 wow fadeIn">
+                    <h2 class="h2-responsive">Why is it so great?</h2>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus modi sint accusantium earum, quisquam dolore odit cumque magnam temporibus blanditiis, nostrum voluptas perferendis, iusto repellendus error corporis ex totam voluptatem.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus modi sint accusantium earum, quisquam dolore odit cumque magnam temporibus blanditiis, nostrum voluptas perferendis, iusto repellendus error corporis ex totam voluptatem.</p>
+                </div>
+                <!--/First column-->
+
+                <!--Second column-->
+                <div class="col-md-7">
+                    <!--Carousel Wrapper-->
+                    <div id="carousel-example-2" class="carousel slide carousel-fade no-flex wow fadeIn" data-wow-delay="0.3s" data-ride="carousel">
+                        <!--Indicators-->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-2" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-2" data-slide-to="2"></li>
+                        </ol>
+                        <!--/.Indicators-->
+
+                        <!--Slides-->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="img-fluid" src="https://mdbootstrap.com/images/regular/city/img%20(3).jpg" alt="First slide">
+                                <div class="carousel-caption">
+                                    <h3>Heading</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid" src="https://mdbootstrap.com/images/regular/city/img%20(7).jpg" alt="Second slide">
+                                <div class="carousel-caption">
+                                    <h3>Heading</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid" src="https://mdbootstrap.com/images/regular/city/img%20(13).jpg" alt="Third slide">
+                                <div class="carousel-caption">
+                                    <h3>Heading</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.Slides-->
+
+                        <!--Controls-->
+                        <a class="left carousel-control" href="#carousel-example-2" role="button" data-slide="prev">
+                            <span class="icon-prev" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-2" role="button" data-slide="next">
+                            <span class="icon-next" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <!--/.Controls-->
+                    </div>
+                    <!--/.Carousel Wrapper-->
+                </div>
+                <!--/Second column-->
+            </div>
+        </section>
+        <!--/Section: Examples of use-->
+
+        <div class="divider-new">
+            <h2 class="h2-responsive wow fadeInDown">Testimonials</h2>
+        </div>
+
+        <!--Section: Testimonials-->
+        <section id="testimonials">
+            <div class="row">
+
+                <!--Carousel Wrapper-->
+                <div id="multi-item-example" class="carousel slide carousel-multi-item wow fadeIn" data-ride="carousel">
+
+                    <!--Controls-->
+                    <div class="controls-top">
+                        <a class="btn-floating btn-small mdb-color" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                        <a class="btn-floating btn-small mdb-color" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+                    </div>
+                    <!--/.Controls-->
+
+                    <!--Indicators-->
+                    <ol class="carousel-indicators">
+                        <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                        <li data-target="#multi-item-example" data-slide-to="1"></li>
+                        <li data-target="#multi-item-example" data-slide-to="2"></li>
+                    </ol>
+                    <!--/.Indicators-->
+
+                    <!--Slides-->
+                    <div class="carousel-inner" role="listbox">
+
+                        <!--First slide-->
+                        <div class="carousel-item active">
+
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up green lighten-1">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/avatar-1.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up green darken-2">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/avatar-2.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up  green darken-4">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/avatar-3.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                        </div>
+                        <!--/.First slide-->
+
+                        <!--Second slide-->
+                        <div class="carousel-item">
+
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up blue lighten-1">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/team-avatar-1.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up blue darken-2">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/team-avatar-2.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up blue darken-4">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/team-avatar-3.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                        </div>
+                        <!--/.Second slide-->
+
+                        <!--Third slide-->
+                        <div class="carousel-item">
+
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up indigo lighten-1">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/avatar-3.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up indigo darken-1">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/team-avatar-1.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                            <div class="col-md-4 hidden-sm-down">
+                                <!--Card-->
+                                <div class="card testimonial-card">
+
+                                    <!--Bacground color-->
+                                    <div class="card-up indigo darken-4">
+                                    </div>
+
+                                    <!--Avatar-->
+                                    <div class="avatar"><img src="https://mdbootstrap.com/wp-content/uploads/2015/10/team-avatar-2.jpg" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class="card-block">
+                                        <!--Name-->
+                                        <h4 class="card-title">Anna Doe</h4>
+                                        <hr>
+                                        <!--Quotation-->
+                                        <p><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+                                    </div>
+
+                                </div>
+                                <!--/.Card-->
+                            </div>
+
+                        </div>
+                        <!--/.Third slide-->
+
+                    </div>
+                    <!--/.Slides-->
+
+                </div>
+                <!--/.Carousel Wrapper-->
+
+            </div>
+        </section>
+        <!--/Section: Testimonials-->
+
+        <div class="divider-new">
+            <h2 class="h2-responsive wow fadeInDown">Pricing</h2>
+        </div>
+
+        <!--Section: Pricing-->
+        <section id="pricing">
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-4">
+
+
+
+                </div>
+                <!--/.First column-->
+
+                <!--Second column-->
+                <div class="col-md-4">
+
+
+
+                </div>
+                <!--/.Second column-->
+
+                <!--Third column-->
+                <div class="col-md-4">
+
+
+
+                </div>
+                <!--/.Third column-->
+
+            </div>
+        </section>
+        <!--/Section: Pricing-->
+
+        <div class="divider-new">
+            <h2 class="h2-responsive">Contact us</h2>
+            <form ng-submit="mainController.submit()" name="myForm"> 
+            <input type="number" ng-model="mainController.fetchId" required/><br>
+            <input type="submit" value="Submit">
+            </form>
+
+            <div ng-repeat="item in mainController.items">
+            <div>ID{{ item.id }}</div>
+            <div>USer Id{{ item.userId }}</div>
+            <div>First Name{{ item.firstName }}</div>
+            <div>Last Name{{ item.lastName }}</div>
+            <div>Created By{{ item.createdBy }}</div>
+            <div>Created On{{ item.createdOn }}</div>
+            <div>Email Address{{ item.emailAddress }}</div>
+            <div>Password{{ item.password }}</div>
+            <div>Salt{{ item.salt }}</div>
+
+            </div>
+           
+        </div>
+
+        <!--Section: Contact-->
+        <section id="contact">
+            <div class="row">
+                <!--First column-->
+                <div class="col-md-8">
+
+                </div>
+                <!--/First column-->
+
+                <!--Second column-->
+                <div class="col-md-4">
+
+                </div>
+                <!--/Second column-->
+            </div>
+        </section>
+        <!--Section: Contact-->
+
+    </div>
+    <!--/Main container-->
+
+    <!--Footer-->
+    <footer class="page-footer center-on-small-only">
+
+
+    </footer>
+    <!--/.Footer-->
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/tether.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+    <!-- Mallesh Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"></script>
+
+<script type="text/javascript">
+
+	var app = angular.module('notesApp', []);
+	
+	app.controller('MainController', ['$http' ,function($http) {
+		
+		var self = this;
+		self.items = [];
+		self.fetchId = 5;
+		$http({
+			method: 'GET',
+			url: 'http://localhost:9000/starquest/userById/'+self.fetchId,
+			data: '',
+			headers: {'Content-Type': 'text/plain'
+					   
+					}
+			}).then(
+    	    	function(response) {
+    				self.items = response;
+    	    		console.log(response);
+    			},
+    	    	function(errorResponse) {
+    				console.log('Error while fetching from server');
+    			}
+    		);
+		
+	}]);
+
+</script>
+    
+
+</body>
+
+</html>

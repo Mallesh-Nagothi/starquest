@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="sqRegistration">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>NYSOH-Phone Application Designed on SPA[AngularJS]</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css" rel="stylesheet">
+</head>
+
+    
+<body class="hidden-sn mdb-skin" ng-controller="SqRegistrationController as formController">
+    <!--Double navigation-->
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav sn-bg-1 custom-scrollbar">
+            <!-- Logo -->
+            <li>
+                <div class="logo-wrapper waves-light">
+                    <a href="#"><img src="img/mallesh.png" class="img-fluid flex-center rounded-circle"></a>
+                    
+                </div>
+            </li>
+            <!--/. Logo -->
+            <!--Social-->
+           <!-- <li>
+                <ul class="social">
+                    <li><a class="icons-sm fb-ic"><i class="fa fa-facebook"> </i></a></li>
+                    <li><a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a></li>
+                    <li><a class="icons-sm gplus-ic"><i class="fa fa-google-plus"> </i></a></li>
+                    <li><a class="icons-sm tw-ic"><i class="fa fa-twitter"> </i></a></li>
+                </ul>
+            </li>-->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i>Phone Applications<i class="fa fa-angle-down rotate-icon"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#" class="waves-effect">Individual</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">Employee</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">Employer</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-hand-pointer-o"></i>CSR Instructions<i class="fa fa-angle-down rotate-icon"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#" class="waves-effect">For Individual Applications</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">For Employee Applications</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">For Employer Applications</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-eye"></i>General Help<i class="fa fa-angle-down rotate-icon"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#" class="waves-effect">FAQs</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">About Errors/Warnings</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-envelope-o"></i> Contact NYSOH<i class="fa fa-angle-down rotate-icon"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#" class="waves-effect">FAQ</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">Report Incident</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">Report Defect</a>
+                                </li>
+                                <li><a href="#" class="waves-effect">General Enquiry</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </li>
+            <p><small> Designed By Mallesh Nagothi <br>using Material Design</small></p>
+            <!--/. Side navigation links -->
+            <div class="sidenav-bg mask-strong"></div>
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn mr-auto">
+                <p>Individual Phone Application [on SPA using AngularJS]</p>
+            </div>
+            
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"><i class="fa fa-sign-in" aria-hidden="true"></i> 
+                        <span class="hidden-sm-down">Go to Backoffice</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.Navbar -->
+    </header>
+    <!--/.Double navigation-->
+    <!--Main layout-->
+    <main>
+        <form  name="regForm" ng-submit="formController.registerNewUser()">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="stepper stepper-horizontal">
+                        <li class="completed">
+                            <a href="#!">
+                                <span class="circle">1</span>
+                                <span class="label">User Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <span class="circle">2</span>
+                                <span class="label">Build Household</span>
+                            </a>
+                        </li>
+                        <!--<li class="warning">-->
+                        <li>
+                            <a href="#!">
+                                <!--<span class="circle"><i class="fa fa-warning"></i></span>-->
+                                <span class="circle">3</span>
+                                <span class="label">Income</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <span class="circle">4</span>
+                                <span class="label">Special Questions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <span class="circle">5</span>
+                                <span class="label">Eligibility</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <span class="circle">6</span>
+                                <span class="label">Plan Selection</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <span class="circle">7</span>
+                                <span class="label">Check out</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            
+            
+            <!-- Start of 1 st row-->
+            <div class="row">
+                <div class="col">
+                    <!--<i class="fa fa-user-plus fa-2x teal-text" aria-hidden="true">User Profile</i>-->
+                </div>   
+            <div class="col">    
+                    <!--2nd Col of First Row-->
+            </div>
+                <!-- End of Middle Col of first row-->
+                <div class="col">
+                    <!--3rd Col-->
+                </div>   
+            </div>
+            <!-- End of 1st Row-->
+            <!-- Start of 2nd Row -- Start of Cards -->
+            <div class="row">
+                <div class="col">
+                    <!-- Basic User Profile Fields-->
+                     <!--Rotating card-->
+                    <div class="card-wrapper">
+                        <div id="card-1" class="card-rotating effect__click">
+
+                            <!--Front Side-->
+                            <div class="face front">
+                                <!--Content-->
+                                <div class="card-block" align="left">
+                                    
+                                    <a>
+                                    <div class="mask waves-effect waves-light ">
+                                    <i class="fa fa-user fa-2x teal-text" aria-hidden="true"><label class="text-fluid">Personal Details</label></i>
+
+                                    </div>
+                                    </a>
+                                        <br>
+                                        <table>
+                                            <tr>
+                                              <td>First Name*</td>
+                                              <td>Middle Name</td>
+                                              <td>Last Name*</td>
+                                              <td>Suffix</td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <input name="uname" type="text">
+                                                  
+                                                </td>
+                                              <td>
+                                                    <input name="uname" type="text">
+                                              </td>
+                                              <td>
+                                                  <input name="uname" type="text">  
+                                              </td>
+                                              <td>
+                                                  <input name="uname" type="text">
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">Gender*</td>
+                                                <td colspan="2">Date of Brith*</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <!-- Switch -->
+                                                      <div class="switch">
+                                                        <label>
+                                                          Male
+                                                          <input type="checkbox">
+                                                          <span class="lever"></span>
+                                                          Female
+                                                        </label>
+                                                      </div>
+                                                </td>  
+                                                <td colspan="2">
+                                                    <div class="md-form">
+                                                        <input placeholder="Select date" type="text" id="date-picker-example" class="form-control datepicker">
+                                                    </div>
+                                                </td>
+                                            </tr> 
+                                    </table>
+                                    <table>
+                                            <tr>
+                                                <td colspan="4">
+                                                    Social Security Number
+                                                </td>  
+                                            </tr>  
+                                            <tr>
+                                                <td width="20%">
+                                                    <input type="password" size="3" maxlength="3" placeholder="***">
+                                                </td>  
+                                                <td width="20%">
+                                                    <input type="password" size="2" maxlength="2"  placeholder="**">
+                                                </td>  
+                                                <td width="20%">
+                                                     <!--<input type="text" name="ssn" ng-model="sqRegController.userProfile.ssn" class="form-control">-->
+                                                    <input type="text" ng-model="formController.text1">
+                                                </td>  
+                                                <td width="50%">
+                                                    <fieldset class="form-group">
+                                                        <input type="checkbox" class="filled-in" id="checkbox1">
+                                                        <label for="checkbox1">I Don't have one</label>
+                                                    </fieldset>
+                                                </td>  
+                                            </tr>    
+                                    </table>
+                                    <!--Triggering button-->
+                                    
+                                    <br><br><br><br>
+                                    <br><br>
+                                    <a class="rotate-btn" data-card="card-1"><i class="fa fa-repeat"></i> Click here for Instructions</a>
+                                </div>
+                            </div>
+                            <!--/.Front Side-->
+                            <!--Back Side-->
+                            <div class="face back">
+
+                                <!--Content-->
+                                <h4>Instruction to fill User Profile</h4>
+                                <hr>
+                                <p>
+                                    First and Last Name, Date of Birth, Gender must be accurate. <br>
+                                    Address field are used for Address validation and Remote Identify Proofing
+                                    Remote Identity Proofing will be performed when consumer logs into NYSOH for the first time
+                                    
+                                </p>
+                                <hr>
+                                <!--Triggering button-->
+                                <a class="rotate-btn" data-card="card-1"><i class="fa fa-undo"></i> Click here to rotate back</a>
+
+                            </div>
+                            <!--/.Back Side-->
+
+                        </div>
+                    </div>
+                    <!--/.Rotating card-->  
+
+
+                    
+                    
+                    
+                </div>   
+                <!-- End of 1st Col of 2nd Row -->
+                <div class="col">
+                    
+                    <div class="col">    
+                    <!--Rotating card-->
+                    <div class="card-wrapper">
+                        <div id="card-2" class="card-rotating effect__click">
+                            <!--Front Side-->
+                            <div class="face front">
+                                <!--Content-->
+                                <div class="card-block" align="left">
+                                    <i class="fa fa-envelope fa-2x teal-text" aria-hidden="true"><label class="text-fluid">Contact Details</label></i><br>
+                                    <br>
+                                    <table>
+<!--
+                                            <tr>
+                                                <td colspan="4">
+                                                    <b>Mailing Address</b>
+                                                </td>  
+                                            </tr>  
+                                    
+-->
+                                            <tr>
+                                                <td colspan="2">Address Line 1*</td>  
+                                                <td>Apt/Suite</td>  
+                                                <td>Address Line 2</td>  
+                                            </tr>  
+                                            <tr>
+                                                <td colspan="2">
+                                                    <input type="text">
+                                                </td>  
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                            </tr>  
+                                            <tr>
+                                                <td>City*</td>
+                                                <td>Zip Code*</td>
+                                                <td>County</td>
+                                                <td>State</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                                <td>
+                                                    <input name="uname" type="text">
+                                                     <!-- Small button group -->
+                                                    <!--<div class="btn-group">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">County *
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">Albany</a>
+                                                            <a class="dropdown-item" href="#">Orange</a>
+                                                            <a class="dropdown-item" href="#">Mango</a>
+                                                            <a class="dropdown-item" href="#">Guava</a>
+                                                        </div>
+                                                    </div>-->
+                                                </td>  
+                                                <td>
+                                                   <input type="text">
+                                                    <!-- Small button group -->
+                                                    <!--<div class="btn-group">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">State *
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">New York</a>
+                                                            <a class="dropdown-item" href="#">New Jersey</a>
+                                                            <a class="dropdown-item" href="#">Texas</a>
+                                                        </div>
+                                                    </div>-->
+                                                </td>  
+                                            </tr>  
+                                          </tbody>
+                                    </table>
+                                    <i class="fa fa-mail-forward" aria-hidden="true"></i>
+                                    <p><a href="#">Click here if you want your mail sent in care of another person </a></p>
+                                    <br>
+                                    <table>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <b>Telephone Numbers</b>
+                                                </td>  
+                                            </tr>  
+                                            <tr>
+                                                <td>Primary Phone</td>  
+                                                <td>Extension</td>  
+                                                <td colspan="2">Phone Type</td>  
+                                            </tr>  
+                                            <tr>
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                                <td>
+                                                    <input type="text">
+                                                </td>  
+                                                <td colspan="2">
+                                                    <input type="text">
+                                                    <!-- Small button group -->
+                                                    <!--<div class="btn-group">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">Office</a>
+                                                            <a class="dropdown-item" href="#">Cell</a>
+                                                            <a class="dropdown-item" href="#">Other</a>
+                                                        </div>
+                                                    </div>-->
+                                                </td>  
+                                                
+                                            </tr>  
+                                          </tbody>
+                                    </table>
+                                    <fieldset class="form-group">
+                                        <input type="checkbox" class="filled-in" id="checkbox2">
+                                        <label for="checkbox2">Use this phone number when contacting me by phone</label>
+                                    </fieldset>
+                                    
+                                    <i class="fa fa-mobile-phone" aria-hidden="true"></i>
+                                    <a href="#">Add another Phone Number </a>
+                                    <br>
+                                    <br>
+                                    <!--Triggering button-->
+                                    <a class="rotate-btn" data-card="card-2"><i class="fa fa-repeat"></i> Click here for Instructions</a>
+                                </div>
+                            </div>
+                            <!--/.Front Side-->
+                            <!--Back Side-->
+                            <div class="face back">
+                                <!--Content-->
+                                <h4>Instruction to fill Contact Details</h4>
+                                <hr>
+                                <p>
+                                    First and Last Name, Date of Birth, Gender must be accurate. <br>
+                                    Address field are used for Address validation and Remote Identify Proofing
+                                    Remote Identity Proofing will be performed when consumer logs into NYSOH for the first time
+                                </p>
+                                <hr>
+                                <!--Triggering button-->
+                                <a class="rotate-btn" data-card="card-2"><i class="fa fa-undo"></i> Click here to rotate back</a>
+                            </div>
+                            <!--/.Back Side-->
+
+                        </div>
+                    </div>
+                    <!--/.Rotating card-->                        
+                    </div>
+                    
+            </div>   
+                <!-- End of 2nd col of 2nd row-->
+            
+                <div class="col">
+                    <!--Rotating card-->
+                    <div class="card-wrapper">
+                        <div id="card-3" class="card-rotating effect__click">
+
+                            <!--Front Side-->
+                            <div class="face front">
+                                <!--Content-->
+                                <div class="card-block" align="left">
+                                    <i class="fa fa-address-book fa-2x teal-text" aria-hidden="true">
+                                    <label class="text-fluid">Other Personal Details</label></i>
+                                    <br>
+                                    <br>
+                                    <fieldset class="form-group">
+                                        <input type="checkbox" class="filled-in" id="checkbox3">
+                                        <label for="checkbox3">Check here if the consumer is blind or seriously visually impaired and would like to receive written notices in an alternative format.</label>
+                                    </fieldset>
+                                    
+                                    <fieldset class="form-group">
+                                        <input type="checkbox" class="filled-in" id="checkbox4">
+                                        <label>Check here if consumer would like to get information and all future communications about your applications by email.</label>
+                                    </fieldset>
+                                    <!--Email validation-->
+                                    <div class="md-form">
+                                        <i class="fa fa-envelope-o prefix"></i>
+                                        <input type="email" id="form9" class="form-control validate">
+                                        <label for="form9" data-error="wrong" data-success="right">Account holder email</label>
+                                    </div>
+                                    <table>
+                                        <tr>
+                                        <td colspan="2"><b>Language Preferences</b></td>
+                                        </tr>
+                                        <tr><td>Spoken</td><td>Written</td></tr>
+                                        <tr> <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Spanish</a>
+                                                    <a class="dropdown-item" href="#">German</a>
+                                                </div>
+                                            </div> 
+                                        </td>
+                                        <td>
+                                                <div class="btn-group">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">English</button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Spanish</a>
+                                                    <a class="dropdown-item" href="#">German</a>
+                                                </div>
+                                            </div> 
+                                        </td></tr>
+                                    </table><br>
+                                     <!-- Switch -->
+                                      <div class="switch">
+                                        <label>
+                                          YES Consumer needs Agent
+                                          <input type="checkbox">
+                                          <span class="lever"></span>
+                                          NO Consumer doesn't need Agent
+                                        </label>
+                                      </div>
+
+                                    <!--Triggering button-->
+                                    <br>
+                                    <a class="rotate-btn" data-card="card-3"><i class="fa fa-repeat"></i> Click here for Instructions</a>
+                                </div>
+                            </div>
+                            <!--/.Front Side-->
+                            <!--Back Side-->
+                            <div class="face back">
+
+                                <!--Content-->
+                                <h4>Instruction to fill Other Personal Details</h4>
+                                <hr>
+                                <p>
+                                    First and Last Name, Date of Birth, Gender must be accurate. <br>
+                                    Address field are used for Address validation and Remote Identify Proofing
+                                    Remote Identity Proofing will be performed when consumer logs into NYSOH for the first time
+                                    
+                                </p>
+                                <hr>
+                                <!--Triggering button-->
+                                <a class="rotate-btn" data-card="card-3"><i class="fa fa-undo"></i> Click here to rotate back</a>
+
+                            </div>
+                            <!--/.Back Side-->
+
+                        </div>
+                    </div>
+                    <!--/.Rotating card--> 
+                </div>
+                <!-- End of 3rd col 2nd row -->
+                </div>
+            <!-- End of 2nd Row-->
+            
+    
+            <div class="row">
+                <p>
+                <br>
+              <!--  <a class="btn btn-default btn-lg" id="alert-target" >Get Sample Data<a>
+                <button type="button" class="btn btn-default">Get Sample Data</button>-->
+                <button class="btn btn-default" type="submit">Create Account</button>  
+                </p>
+                <br>
+                <p  class="pink-text">
+                    {{ formController.serverResponse }}
+                </p>
+                <br>
+                <p class="pink-text">
+                    <h6>{{ formController.ssnType }}</h6>
+                </p>
+                                   
+            </div>
+        
+        </form>
+    
+    
+    </main>
+    <!--/Main layout-->
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/js/compiled.min.js"></script>
+    <script>
+        $(".button-collapse").sideNav();
+        var el = document.querySelector('.custom-scrollbar');
+            Ps.initialize(el);
+        
+        // Data Picker Initialization
+        $('.datepicker').pickadate();
+        $("#alert-target").click(function () {
+            toastr["error"]("First Name is mandatory!")
+        });
+        
+    </script>
+    
+    <!-- Mallesh AngularJS Starts here-->
+    <script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"></script>
+    <script type="text/javascript">
+        
+        angular.module('sqRegistration', [])
+		.controller('SqRegistrationController', ['$http', function($http) {
+			var self = this;
+			self.registerNewUser = function() {
+                console.log('coming here', self.text1);
+                 var regReqData = {
+                        ssn:self.text1,
+                        firstName:'POC-FirstName'
+                };
+                var postRegReq = $http.post('http://localhost:9000/starquest/createUserProfile',regReqData);
+                postRegReq.success(function(data, status, headers, config){
+                this.message = data;
+                self.serverResponse = 'AngularJS-SPA-->User Create Micro Service[WildFly]-->Validate SSN Micro Service-->Business Rules Micro Service-->If Good SSN then -->User Password Encryption Micro Service--> back to SPA with this message';
+                self.ssnType = 'Business Rules Applied and SSN is -->'+data.userProfileStatus;
+                self.text1 = data.userProfileStatus;
+                console.log('received data:', data);
+                
+            }); 
+                
+                
+            };
+		}]);
+        
+        
+    </script>
+    
+    
+</body>
+
+</html>

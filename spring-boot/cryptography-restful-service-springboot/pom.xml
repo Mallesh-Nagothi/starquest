@@ -5,7 +5,7 @@
 
     <groupId>com.starquest</groupId>
     <artifactId>cryptography-rest-service-springboot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>starquest-cryptography-resful-service</name>
     <description>StarQuest Cryptography Restful Service</description>
 

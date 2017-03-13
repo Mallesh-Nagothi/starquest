@@ -1,0 +1,32 @@
+<!-- File: chapter1/basic-angularjs-app.html -->
+<!DOCTYPE html>
+<html ng-app="notesApp">
+	<head><title>Hello Angular</title>
+</head>
+<body ng-controller="MainController as mainController">
+	<h1>{{ mainController.helloMsg }} AngularJS <br>
+	    {{ mainController.goodBye }} AngularJS	
+	</h1>
+
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js">
+</script>
+
+<script>
+	angular.module('notesApp', []).controller('MainController',[
+		function(){
+			//controller specific code goes here
+			this.helloMsg = 'Hello!! ';
+			//var goodBye = 'Good Bye ';
+			this.goodBye = 'Good Bye ';
+			console.log('MainController has been created and fired');
+		}
+	]);
+
+
+
+</script>
+
+
+</body>
+</html>

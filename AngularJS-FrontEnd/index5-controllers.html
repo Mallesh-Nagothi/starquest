@@ -1,0 +1,48 @@
+<!-- File: chapter1/basic-angularjs-app.html -->
+<!DOCTYPE html>
+<html ng-app="notesApp">
+	<head><title>Hello Angular</title>
+</head>
+<body ng-controller="MainController as mainController">
+
+	{{ mainController.message }} AngularJS 
+	
+	<button ng-click="mainController.changeToGoodBye()">
+		Good Bye
+	</button>
+
+	<button ng-click="mainController.changeToHello()">
+		Hello World
+	</button>
+	    
+
+
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js">
+</script>
+
+<script type="text/javascript">
+	angular.module('notesApp', []).controller('MainController',
+			[
+				function(){ 
+					var self = this;
+					self.message = 'Hello ';
+					self.changeToGoodBye = function(){ 
+								self.message = 'Goodbye';
+							     };
+			
+					self.changeToHello = function(){ 
+								self.message = 'Hello';
+							     };
+				}
+			]
+
+		);
+
+
+
+</script>
+
+
+</body>
+</html>

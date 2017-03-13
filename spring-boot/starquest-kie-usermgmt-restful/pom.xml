@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.starquest</groupId>
+    <artifactId>kie-usermgmt-rest-service-springboot</artifactId>
+    <version>1.0.0</version>
+    <name>Kie-Usermgmt-Rest-Service-Springboot</name>
+    <description>Kie-Usermgmt-Rest-Service-Springboot</description>
+
+	<developers>
+		<developer>
+			<name>Mallesh Nagothi</name>
+			<email>malleswara.nd@gmail.com</email>
+			<organization>Free Lancer</organization>
+		</developer>
+	</developers>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<kie.version>6.5.0.Final</kie.version>
+	</properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.1.RELEASE</version>
+    </parent>
+
+    <dependencies>
+       <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+       </dependency>
+       <dependency>
+	     	<groupId>com.starquest</groupId>
+	     	<artifactId>starquest-domain-objects</artifactId>
+	     	<version>1.0.0</version>
+  		</dependency>
+       
+       
+       <!-- JBoss DROOLS - KIE Dependecies start -->
+       <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-decisiontables</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-templates</artifactId>
+            <version>${kie.version}</version>
+        </dependency>
+        <!-- JBoss DROOLS - KIE dependecies end -->
+
+        <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-data-solr</artifactId>
+        </dependency>
+    </dependencies>
+
+	<build>
+	    <plugins>
+		<plugin>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	    </plugins>
+	</build>
+
+</project>

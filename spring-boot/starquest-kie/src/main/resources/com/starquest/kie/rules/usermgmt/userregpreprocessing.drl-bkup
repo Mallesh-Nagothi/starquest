@@ -1,0 +1,16 @@
+package com.starquest.kie.rules.usermgmt;
+
+
+import com.starquest.usermgmt.vo.LoginVo;
+
+
+
+rule "Classify User by Password Size"
+    when
+        $l: LoginVo( passwordHash.length <= 6, failCategory== FailCategory.NA)
+    then
+        modify($l){ 
+		setFailCategory(LoginVo.FailCategory.TOO_WEAK) 
+	};
+end 
+

@@ -7,6 +7,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +22,8 @@ import com.starquest.usermgmt.repositories.LoginRepository;
 import com.starquest.usermgmt.repositories.UserRepository;
 import com.starquest.usermgmt.vo.UserVo;
 import com.starquest.usermgmt.vo.hateos.UserHo;
+
+import net.minidev.json.JSONObject;
 
 /**
  * @author mallesh
@@ -44,31 +52,56 @@ public class UserBusinessLogicImpl implements UserBusinessLogic {
 		
 		logger.debug("Entrypoint :: /saveUser");
 		
-		//TODO
-		//validate for duplicates before proceeding
+		String urlStringForPasswordRules = new String("http://localhost:8282/starquest/userregrules/validatepassword");
+		String passwordHashURL = new  String("http://localhost:8080/encryption/");
+		
+		JSONObject jsonRequest = new JSONObject();
+		jsonRequest.put("","");
+		jsonRequest.put("password", userVo.getPassword());
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+		
+		HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
 		
 		RestTemplate restTeamplate = new RestTemplate();
-		String passwordHash = restTeamplate.getForObject("http://localhost:8080/encryption/"+userVo.getPassword(), String.class);
-		if(null==passwordHash){
-        	passwordHash = userVo.getPassword();
-        }
-        User user = new User();
-		user.setUserId(userVo.getUserId());
-		user.setFirstName(userVo.getFirstName());
-		user.setLastName(userVo.getLastName());
-		user.setEmailAddress(userVo.getEmailAddress());
-		user.setCreatedBy(userVo.getCreatedBy());
-		user.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
-		user = userRepository.save(user);
+		ResponseEntity<UserVo> respEntity = 
+				restTeamplate.exchange(urlStringForPasswordRules,HttpMethod.POST, entity, UserVo.class);
 		
-		Login login = new Login();
-		login.setPasswordSalt("NoSaltYet");
-		login.setPasswordHash(passwordHash);
-		login.setCreatedBy(userVo.getCreatedBy());
-		login.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
-		login.setUserId(user.getId());
-		login.setUser(user);
-		loginRepository.save(login);
+		if(respEntity.getStatusCode() == HttpStatus.OK){
+			UserVo filteredNewUser = respEntity.getBody();
+			userVo.setFailCategory(filteredNewUser.getFailCategory());
+		}
+		
+		if(userVo.getFailCategory()==UserVo.FailCategory.VERY_STRONG || 
+				userVo.getFailCategory()==UserVo.FailCategory.VERY_VERY_STRONG ||
+				userVo.getFailCategory()==UserVo.FailCategory.VERY_VERY_VERY_STRONG || userVo.getFailCategory()==UserVo.FailCategory.STRONG_ENOUGH){
+			
+			String passwordHash = restTeamplate.getForObject(passwordHashURL+userVo.getPassword(), String.class);
+			if(null==passwordHash){
+	        	passwordHash = userVo.getPassword();
+	        }
+	        User user = new User();
+			user.setUserId(userVo.getUserId());
+			user.setFirstName(userVo.getFirstName());
+			user.setLastName(userVo.getLastName());
+			user.setEmailAddress(userVo.getEmailAddress());
+			user.setCreatedBy(userVo.getCreatedBy());
+			user.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
+			user = userRepository.save(user);
+			
+			Login login = new Login();
+			login.setPasswordSalt("NoSaltYet");
+			login.setPasswordHash(passwordHash);
+			login.setCreatedBy(userVo.getCreatedBy());
+			login.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
+			login.setUserId(user.getId());
+			login.setUser(user);
+			loginRepository.save(login);
+		
+		}
+		
 		logger.debug("Exitpoint :: /saveUser");
 		return userVo;
 	}

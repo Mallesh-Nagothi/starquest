@@ -1,0 +1,90 @@
+<!-- File: chapter1/basic-angularjs-app.html -->
+<!DOCTYPE html>
+<html ng-app="notesApp"><head></head>
+
+<body ng-controller="MainController as mainController">
+	<H1>Server Response: </H1>
+	
+	<form ng-submit="mainController.submit()" name="myForm"> 
+	<input type="number" ng-model="mainController.fetchId" required/><br>
+	<input type="submit" value="Submit" ng-disabled="myForm.$invalid" -->
+	</form>
+	
+	<div ng-repeat="item in mainController.items">
+	<div>ID{{ item.id }}</div>
+	<div>USer Id{{ item.userId }}</div>
+	<div>First Name{{ item.firstName }}</div>
+	<div>Last Name{{ item.lastName }}</div>
+	<div>Created By{{ item.createdBy }}</div>
+	<div>Created On{{ item.createdOn }}</div>
+	<div>Email Address{{ item.emailAddress }}</div>
+	<div>Password{{ item.password }}</div>
+	<div>Salt{{ item.salt }}</div>
+	
+	</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"></script>
+
+<script type="text/javascript">
+
+	var app = angular.module('notesApp', []);
+	
+	app.controller('MainController', ['$http' ,function($http) {
+		
+		var self = this;
+		self.items = [];
+		self.fetchId = 5;
+		$http({
+			method: 'GET',
+			url: 'http://localhost:9000/starquest/userById/'+self.fetchId,
+			data: '',
+			headers: {'Content-Type': 'text/plain'
+					   
+					}
+			}).then(
+    	    	function(response) {
+    				self.items = response;
+    	    		console.log(response);
+    			},
+    	    	function(errorResponse) {
+    				console.log('Error while fetching from server');
+    			}
+    		);
+		
+	}]);
+
+</script>
+
+
+</body>
+</html>
+
+
+google-chrome --disable-web-security --user-data-dir ~/.config/google-chrome/Default
+
+
+<!-- 'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==', 
+'Accept': 'text/plain'
+'X-Login-Ajax-call': 'true',
+'Access-Control-Allow-Origin': 'http://localhost:8181'
+
+chromium-browser --disable-web-security --user-data-dir
+
+const wchar_t kDisableWebSecurity[] = L"disable-web-security";
+chromium-browser --disable-web-security
+
+google-chrome --disable-web-security --user-data-dir ~/.config/google-chrome/Default
+
+
+And apparently now --disable-web-security does not work unless you also explicitly give a 
+--user-data-dir. ie OSX /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security --user-data-dir=~/ChromeUserDat
+
+Google Chrome: ~/.config/google-chrome/Default
+Chromium: ~/.config/chromium/Default
+
+google-chrome  --disable-web-security
+
+
+-->

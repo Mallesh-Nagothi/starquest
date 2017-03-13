@@ -65,6 +65,14 @@ Registration page, calls restful micro service....to register users....
 Time for house cleaning :)
 Added Platform-Indep for users who would like to just pull the code, build and run
 
+<b>03/13/2017</b>
+Added SPA with AngularJS calling a micro service on springboot --> calling a valudated ssn micros service --> calls a service which loads 
+excel rules and applies and returns to service --> if valid snn --> then it calls another micro service sitting on wildfly swarm for validating password business rules
+--> if this goes good --> it calls another micros service sitting on wildfly swarm docker for encrypting password with JNI Salt Gen
+--> if this goes good another micro service is called for JPA persistence.--> SPA displays message either case..
+
+
+
 
 
 

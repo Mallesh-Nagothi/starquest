@@ -1,0 +1,30 @@
+<!-- File: chapter4/simple-form.html -->
+<html ng-app="notesApp">
+<head><title>Notes App</title></head>
+<body ng-controller="MainCtrl as ctrl">
+<form ng-submit="ctrl.submit()">
+<input type="text" ng-model="ctrl.username">
+<input type="password" ng-model="ctrl.password">
+<input type="submit" value="Submit">
+
+{{ctrl.user.username}}
+{{ctrl.user.password}}
+
+
+</form>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js">
+</script>
+<script type="text/javascript">
+	angular.module('notesApp', [])
+		.controller('MainCtrl', [function() {
+			var self = this;
+			self.submit = function() {
+			var user = {username: self.username, password: self.password };
+			console.log('User Name ', user);
+			console.log('Password Name ', user.password);
+	};
+	}]);
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+!-- File: chapter4/nested-forms.html -->
+<html ng-app>
+<head>
+<title>Notes App</title>
+</head>
+<body>
+<form novalidate name="myForm">
+<input type="text"
+class="username"
+name="uname"
+ng-model="ctrl.user.username"
+required=""
+placeholder="Username"
+ng-minlength="4" />
+<input type="password"
+class="password"
+name="pwd"
+ng-model="ctrl.user.password"
+placeholder="Password"
+required="" />
+<ng-form name="profile">
+<input type="text"
+name="firstName"
+ng-model="ctrl.user.profile.firstName"
+placeholder="First Name"
+required>
+<input type="text"
+name="middleName"
+placeholder="Middle Name"
+ng-model="ctrl.user.profile.middleName">
+<input type="text"
+name="lastName"
+placeholder="Last Name"
+ng-model="ctrl.user.profile.lastName"
+required>
+<input type="date"
+name="dob"
+placeholder="Date Of Birth"
+ng-model="ctrl.user.profile.dob">
+</ng-form>
+<span ng-show="myForm.profile.$invalid">
+Please fill out the profile information
+</span>
+
+<textarea ng-model="ctrl.user.address" required></textarea>
+<input type="checkbox" ng-model="ctrl.user.agree">
+<input type="checkbox"
+ng-model="ctrl.user.agree1"
+ng-true-value="YES"
+ng-false-value="NO">
+
+
+<div ng-init="user = {gender: 'female'}">
+<input type="radio"
+name="gender"
+ng-model="user.gender"
+value="male">
+<input type="radio"
+name="gender"
+ng-model="user.gender"
+value="female">
+</div>
+
+<div ng-init="otherGender = 'other'">
+<input type="radio"
+name="gender"
+ng-model="user.gender"
+value="male">Male
+<input type="radio"
+name="gender"
+ng-model="user.gender"
+value="female">Female
+<input type="radio"
+name="gender"
+ng-model="user.gender"
+ng-value="otherGender">{{otherGender}}
+</div>
+
+
+<div ng-init="location = 'India'">
+<select ng-model="location">
+<option value="USA">USA</option>
+<option value="India">India</option>
+<option value="Other">None of the above</option>
+</select>
+</div>
+
+<input type="submit"
+value="Submit"
+ng-disabled="myForm.$invalid"/>
+</form>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js">
+</script>
+</body>
+</html>

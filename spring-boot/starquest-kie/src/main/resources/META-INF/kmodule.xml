@@ -1,0 +1,14 @@
+<kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://jboss.org/kie/6.0.0/kmodule">
+
+	<kbase name="rules.starquest.userMgmtKBase" packages="com.starquest.kie.rules.usermgmt">
+		<ksession name="rules.starquest.userMgmtKSession" />
+	</kbase>
+	
+	
+	<kbase name="rules.starquest.userMgmtSSNKBase" packages="com.starquest.kie.rules.usermgmt.ssnrules">
+		<ksession name="rules.starquest.userMgmtSSNKSession" />
+	</kbase>
+
+
+</kmodule>
