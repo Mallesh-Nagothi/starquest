@@ -1,0 +1,15 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+[
+  // the Email Notification work item for StarQuest
+  [
+    "name" : "SqLogNotification",
+    "parameters" : [
+      "Message" : new StringDataType(),
+      "From" : new StringDataType(),
+      "To" : new StringDataType(),
+      "Priority" : new StringDataType(),
+    ],
+    "displayName" : "StarQuestLogNotification",
+    "icon" : "icons/notification1.gif"
+  ]
+]

@@ -13,8 +13,13 @@ import com.starquest.usermgmt.vo.UserVo;
 public interface UserRegistrationRules {
 	
 	
+	public UserProfile startNewUserRegistrationBPMProcess(UserProfile userProfile);
+	
 	public UserVo applyNewUserRegistrationPasswordRules(UserVo userVo);
 	
 	public UserProfile applyNewUserRegistrationSSNRules(UserProfile userProfile);
+	
+	
+	
 
 }

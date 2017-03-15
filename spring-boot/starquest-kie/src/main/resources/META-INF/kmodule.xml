@@ -11,4 +11,9 @@ xmlns="http://jboss.org/kie/6.0.0/kmodule">
 	</kbase>
 
 
+	<kbase name="bpm.starquest.userMgmtNotificationKBase" packages="com.starquest.kie.process.userreg">
+		<ksession name="rules.starquest.userMgmtNotificationKSession" />
+	</kbase>
+	
+
 </kmodule>

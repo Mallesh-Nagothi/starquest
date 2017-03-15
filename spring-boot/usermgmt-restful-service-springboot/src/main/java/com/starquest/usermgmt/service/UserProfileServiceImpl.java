@@ -15,11 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.starquest.usermgmt.domain.Login;
-import com.starquest.usermgmt.domain.User;
 import com.starquest.usermgmt.vo.UserProfile;
-import com.starquest.usermgmt.vo.UserVo;
-import com.starquest.usermgmt.vo.UserProfile.UserProfileStatus;
 
 import net.minidev.json.JSONObject;
 
@@ -32,15 +28,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfile createUserProfile(UserProfile userProfile){
 		
 		
-		//Userless coding... moved it to business rules called over a micros service
+		//Useless coding... moved it to business rules called over a micros service
 		//call database here persist
 		//userProfile.setUserProfileStatus(UserProfileStatus.GOOD_SSN);
-				
-				
-		//Apply Business Rules for SSN\
+	
+		//Apply Business Rules for SSN
+		//Above comment is too old :) Moved to jBPM Workflow.
 		logger.debug("Entrypoint :: /createUserProfile");
 		
-		String urlStringForSSNRules = new String("http://localhost:8282/starquest/userregrules/validateSSN");
+		//String urlStringForSSNRules = new String("http://localhost:8282/starquest/userregrules/validateSSN");
+		String urlStringForSSNRules = new String("http://localhost:8282/starquest/userregrules/startRegistrationProcess");
 		
 		
 		JSONObject jsonRequest = new JSONObject();

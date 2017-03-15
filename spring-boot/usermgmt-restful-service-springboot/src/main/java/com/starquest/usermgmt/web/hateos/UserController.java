@@ -191,13 +191,17 @@ public class UserController {
 			consumes = { "application/json"}, produces = { "application/json",})
 	public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile){
 		logger.debug("Entrypoint :: /createUserProfile");
-		
+		System.out.println("Welcome to the World of WildFlies.....");
+		System.out.println("Received Request @SERVER[CONTROLLER] End");
+		System.out.println("Delegating @SERVER[CONTROLLER] to @SERVER[BusinessLayer]");
 		
 		
 		//Save user profile
 		userProfileService.createUserProfile(userProfile);
 		
 		
+		System.out.println("Back to @SERVER[CONTROLLER] from @SERVER[BusinessLayer]");
+		System.out.println("See Ya ...@SERVER[CONTROLLER]-Visit me Again@http://localhost:9000/I_AM_RESTful_Guy/starquest/createUserProfile");
 		logger.debug("Exitpoint :: /createUserProfile");
 		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
 		
@@ -226,13 +230,13 @@ public class UserController {
 			consumes = { "application/json"}, produces = { "application/json",})
 	public ResponseEntity<UserProfile> createMemberIncome(@RequestBody UserProfile userProfile){
 		logger.debug("Entrypoint :: /createMemberIncome");
-		
-		
-		
+		System.out.println("Welcome to the World of WildFlies.....");
+		System.out.println("Received Request @SERVER[CONTROLLER] End");
+		System.out.println("Delegating @SERVER[CONTROLLER] to @SERVER[BusinessLayer]");
 		//Save user profile
 		userProfileService.createUserProfile(userProfile);
-		
-		
+		System.out.println("Back to @SERVER[CONTROLLER] from @SERVER[BusinessLayer]");
+		System.out.println("See Ya ...@SERVER[CONTROLLER]-Visit me Again@http://localhost:9000/I_AM_RESTful_Guy/starquest/createMemberIncome");
 		logger.debug("Exitpoint :: /createMemberIncome");
 		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
 		

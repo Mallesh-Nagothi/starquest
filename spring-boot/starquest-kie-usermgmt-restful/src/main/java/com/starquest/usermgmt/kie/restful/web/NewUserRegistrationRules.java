@@ -52,5 +52,16 @@ public class NewUserRegistrationRules {
 	}
 	
 	
+	@RequestMapping(path="/startRegistrationProcess", method = RequestMethod.POST,
+			consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserProfile> startRegistrationBPMProcess(@RequestBody UserProfile userProfile){
+		
+		userRegistrationRules.startNewUserRegistrationBPMProcess(userProfile);
+		
+		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
+		
+	}
+	
+	
 
 }

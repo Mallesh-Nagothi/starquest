@@ -1,0 +1,23 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+[
+  // this is mallesh at his best.... hiehhee
+  //sorry for the bad comments above. This is MVL Expression for RESTful API 
+  //BPMN2 compliance 
+   [
+    "name" : "SqRESTfulServiceEndPoint",
+    "parameters" : [
+      "URI" : new StringDataType(),
+      "PORT" : new StringDataType(),
+      "OPERATION" : new StringDataType(),
+      "MEDIATYPE" : new StringDataType(),
+      "PAYLOADJSON" : new StringDataType(),
+      "PAYLOADPOJO" : new ObjectDataType("net.minidev.json.JSONObject"),
+      
+    ], 
+    "results" : [ 
+        "Result" : new ObjectDataType("java.util.Map") 
+    ],
+    "displayName" : "SqRESTfulServiceEndPoint",
+    "icon" : "icons/notification.gif"
+  ]
+]
