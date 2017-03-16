@@ -14,11 +14,9 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import com.starquest.usermgmt.kie.restful.bpm.RESTfulServiceWorkItemHandler;
-import com.starquest.usermgmt.kie.restful.bpm.notify.EmailNotificationWorkItemHandler;
 import com.starquest.usermgmt.vo.UserProfile;
 import com.starquest.usermgmt.vo.UserVo;
 
@@ -32,7 +30,7 @@ import net.minidev.json.JSONObject;
 public class UserRegistrationRulesImpl implements UserRegistrationRules {
 
 	//externalize this baby
-	private String hostStringForSSNRules 	= new String("http://localhost:");
+	private String hostStringForSSNRules 	= new String("http://localhost:8282/starquest/userregrules/validateSSN");
 	private String portStringForSSNRules 	= new String("8282");
 	private String uriStringForSSNRules		= new String ("/starquest/userregrules/startRegistrationProcess");
 	
@@ -59,6 +57,8 @@ public class UserRegistrationRulesImpl implements UserRegistrationRules {
 		JSONObject jsonRequest = new JSONObject();
 		jsonRequest.put("","");
 		jsonRequest.put("ssn", userProfile.getSsn());
+		jsonRequest.put("password", "fakePasswordBuddy");
+		
 		
 		Map<String, Object> userRegFlowParams = new HashMap<String, Object>();
 		userRegFlowParams.put("URI", hostStringForSSNRules);
@@ -68,10 +68,29 @@ public class UserRegistrationRulesImpl implements UserRegistrationRules {
 		userRegFlowParams.put("PAYLOADJSON", userProfile.toString());
 		userRegFlowParams.put("PAYLOADPOJO", jsonRequest);
 		
-		ProcessInstance processInstance = kieSession.startProcess("com.starquest.kie.process.userreg.NewUserRegistrationProcess",userRegFlowParams);
+		ProcessInstance processInstance = kieSession.startProcess("com.starquest.kie.process.userreg.PocRESTfulJsonObject",userRegFlowParams);
 		
+		System.out.println("Done with Process...Start printing...");
 		
-		
+		Map<String, Object> results = (HashMap<String, Object>)((WorkflowProcessInstance) processInstance).getVariable("Result");
+		 System.out.println("JBPM Processed and returned objects size::"+results.size());
+		 
+		 
+		 Iterator<Entry<String, Object>> itr = results.entrySet().iterator();
+		 while(itr.hasNext()){
+			 Map.Entry<String,Object> entry = (Map.Entry<String, Object>) itr.next();
+			 System.out.println("Key  = " + entry.getKey() + " Value=" + entry.getValue());
+			 
+			 if(entry.getKey().equals("USERPROFILE")){
+				 UserProfile tempUserProfile = (UserProfile) entry.getValue();
+				 if(null!=tempUserProfile){
+					 System.out.println("Bpm and Rules Processed User Profile Received..."+tempUserProfile.getUserProfileStatus());
+					 userProfile.setUserProfileStatus(tempUserProfile.getUserProfileStatus());
+					 
+				 }
+			 }
+		 }
+		 
 		 /*Map<String, Object> emailNotifyParams = new HashMap<String, Object>();
 		 emailNotifyParams.put("From", "KIE-UserRegistrationRulesRESTful-WildflySwarm");
 		 emailNotifyParams.put("To", "SYSOUT CONSOLE");
@@ -89,8 +108,8 @@ public class UserRegistrationRulesImpl implements UserRegistrationRules {
 		 while(itr.hasNext()){
 			 Map.Entry<String,Object> entry = (Map.Entry<String, Object>) itr.next();
 			 System.out.println("Key  = " + entry.getKey() + " Value=" + entry.getValue());
-		 }
-		 System.out.println("startNewUserRegistrationBPMProcess() END");*/
+		 }*/
+		 System.out.println("startNewUserRegistrationBPMProcess() END");
 		
 		return userProfile;
 	}	

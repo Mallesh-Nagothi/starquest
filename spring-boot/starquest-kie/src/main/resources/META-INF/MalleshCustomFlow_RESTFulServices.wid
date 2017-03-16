@@ -12,6 +12,8 @@ import org.drools.core.process.core.datatype.impl.type.StringDataType;
       "MEDIATYPE" : new StringDataType(),
       "PAYLOADJSON" : new StringDataType(),
       "PAYLOADPOJO" : new ObjectDataType("net.minidev.json.JSONObject"),
+      "USERPROFILE" : new ObjectDataType("com.starquest.usermgmt.vo.UserProfile"),
+      
       
     ], 
     "results" : [ 
