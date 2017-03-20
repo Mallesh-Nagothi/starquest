@@ -15,7 +15,7 @@ public class UserVo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public enum Category {
-        NEW_USER, EXISTING_USER, INACTIVE_USER, NA
+		NA, NEW_USER, EXISTING_USER, INACTIVE_USER, REGISTRATION_SUCCESS, REGISTRATION_FAILED
     };
     
     public enum FailCategory {
@@ -31,6 +31,8 @@ public class UserVo implements Serializable{
         NA
     };
     
+   
+    
 	private Integer id;
 	private String userId;
 	private String firstName;
@@ -45,6 +47,9 @@ public class UserVo implements Serializable{
 	private Category category = Category.NA;
 	
 	
+	public UserVo() {
+		
+	}
 	
 	/**
 	 * @return the id

@@ -1,0 +1,26 @@
+kie:
+  registrationBPMWorkflow: "registrationBPMWorkflow"
+  ssnValidation: "ssnValidation"
+  validatepassword: "validatepassword"
+  invalidEndPointURL: "http://localhost:9002/404_page.html"
+  globalMediaTypeJson: "APPLICATION_JSON"
+  globalOperationPost: "POST"
+  endPoints:
+    - 
+      endPoint: "registrationBPMWorkflow" 
+      url: "http://localhost:8282/sq/registrationkie/startRegistrationKieProcess"
+      context: "/sq/registrationkie/startRegistrationKieProcess"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "ssnValidation" 
+      url: "http://localhost:8282/starquest/userregrules/validateSSN"
+      context: "/starquest/userregrules/validateSSN"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "validatepassword" 
+      url: "http://localhost:8282/starquest/userregrules/validatepassword"
+      context: "/starquest/userregrules/validatepassword"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"

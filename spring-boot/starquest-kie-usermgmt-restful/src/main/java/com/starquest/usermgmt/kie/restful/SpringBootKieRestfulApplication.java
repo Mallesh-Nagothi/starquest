@@ -25,7 +25,6 @@ public class SpringBootKieRestfulApplication {
 	
 	public static void main(String[] args){
 		SpringApplication.run(SpringBootKieRestfulApplication.class, args);
-		System.out.println("SpringBootKieRestfulApplication Started......");
 	}
 
 	

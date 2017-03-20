@@ -1,0 +1,22 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+[
+  //This is MVL Expression for RESTful API 
+  //BPMN2 compliance 
+   [
+    "name" : "SQRESTfulPost",
+    "parameters" : [
+      "URL" : new StringDataType(),
+      "OPERATION" : new StringDataType(),
+      "MEDIATYPE" : new StringDataType(),
+      "PAYLOADJSON" : new ObjectDataType("net.minidev.json.JSONObject"),
+      "USERVO" : new ObjectDataType("com.starquest.usermgmt.vo.UserVo"),
+      
+      
+    ], 
+    "results" : [ 
+        "Result" : new ObjectDataType("java.util.Map") 
+    ],
+    "displayName" : "SQRESTfulPost",
+    "icon" : "icons/notification.gif"
+  ]
+]

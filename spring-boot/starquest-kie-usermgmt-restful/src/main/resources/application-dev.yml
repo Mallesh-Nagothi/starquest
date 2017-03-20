@@ -1,0 +1,22 @@
+kie:
+    registrationKIESession: "bpm.starquest.registrationKSession"
+    registrationBPMProcessflowName: "SQNewRegistrationProcess"
+    registrationBPMProcessflowFulllName: "registrationBPMProcessflowcom.starquest.kie.process.userreg.SQNewRegistrationProcess"
+    registrationPasswordRulesKSession: "rules.starquest.registrationPasswordKSession"
+    registrationBPMWorkflow: "registrationBPMWorkflow"
+    registrationPasswordRulesflow: "registrationPasswordRulesflow"
+    globalMediaTypeJSON: "APPLICATION_JSON"
+    globalOperationPOST: "POST"
+    endPoints:
+    - 
+      endPoint: "registrationBPMWorkflow" 
+      url: "http://localhost:8282/sq/registrationkie/startRegistrationKieProcess"
+      context: "/sq/registrationkie/startRegistrationKieProcess"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "registrationPasswordRulesflow" 
+      url: "http://localhost:8282/sq/registrationkie/applyPasswordRules"
+      context: "/sq/registrationkie/applyPasswordRules"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
