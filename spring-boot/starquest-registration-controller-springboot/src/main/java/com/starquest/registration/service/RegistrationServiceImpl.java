@@ -107,14 +107,20 @@ public class RegistrationServiceImpl implements RegistrationService  {
 		ResponseEntity<UserVo> respEntity = 
 				restTeamplate.exchange(registrationBPMWorkflowEndPoint ,registrationBPMWorkflowHttpMethod, entity, UserVo.class);
 		
+		//forcefully making failed
 		newUser.setCategory(UserVo.Category.REGISTRATION_FAILED);
-		newUser.setFailCategory(UserVo.FailCategory.TOO_WEAK);
+		newUser.setFailCategory(UserVo.FailCategory.INVALID_REGISTRATION_DATA);
 		
 		if(respEntity.getStatusCode() == HttpStatus.OK){
 			UserVo retUserVo = (UserVo)respEntity.getBody();
 			if(null!=retUserVo){
 				newUser.setFailCategory(retUserVo.getFailCategory());
 				newUser.setCategory(retUserVo.getCategory());
+				newUser.setBadEmail(retUserVo.isBadEmail());
+				newUser.setBadLastName(retUserVo.isBadLastName());
+				newUser.setBadFirstName(retUserVo.isBadFirstName());
+				newUser.setBadPassword(retUserVo.isBadPassword());
+				
 			}
 		}
 		newUser.setPassword(null);

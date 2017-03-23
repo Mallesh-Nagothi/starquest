@@ -19,18 +19,42 @@ import com.starquest.registration.config.SQEndPoint;
 @ConfigurationProperties(prefix = "kie")
 public class SQBPMConfiguration {
 	
+	//jBPM Process Configuration
 	private String registrationKIESession;
 	private String registrationBPMProcessflowName;
 	private String registrationBPMProcessflowFulllName;
 	private String registrationPasswordRulesKSession;
 	private List<SQEndPoint> endPoints = new ArrayList<SQEndPoint>();
 	
-	//Password Rules End Point Properties
-	private String registrationBPMWorkflow;
-	private String registrationPasswordRulesflow;
+	//RESTful End point configuration for GLOBAL SETUP. 
+	//Fall back, in case if the properties are not available
 	private String globalMediaTypeJson;
 	private String globalOperationPost;
 	
+	//RESTful End point configuration for jBPM Workflow for New Registration
+	private String registrationBPMWorkflow;
+	
+	//RESTful End point configuration for Password Rules (Registration Rules) with in New Registration jBPM workflow 
+	//for New Registration
+	private String registrationPasswordRulesflow;
+	
+	//RESTful End point configuration for Password Rules (Registration Rules) with in New Registration jBPM workflow 
+	//for New Registration
+	private String registrationPasswordRulesFailflow;
+	
+	//RESTful End point configuration for Password Rules (Registration Rules) with in New Registration jBPM workflow 
+	//for New Registration
+	private String registrationPasswordRulesSuccessflow;
+	
+	//Work Item for Applying Registration Rules in Registration jBPM Process 
+	private String wiApplyRegistrationRules;
+
+	//Work Item for Processing Registration Rules Failed Request in Registration jBPM Process 
+	private String wiProcessFailedRegistration;
+
+	//Work Item for Encrypting Key Fields once Registration Rules Success in Registration jBPM Process 
+	private String wiEncryptKeyFields;
+
 	
 	public SQBPMConfiguration(String registrationKIESession,
 								String registrationBPMProcessflowName, 
@@ -40,7 +64,12 @@ public class SQBPMConfiguration {
 								String globalMediaTypeJson,
 								String globalOperationPost,
 								String registrationBPMWorkflow,
-								String registrationPasswordRulesflow) {
+								String registrationPasswordRulesflow,
+								String registrationPasswordRulesFailflow,
+								String registrationPasswordRulesSuccessflow,
+								String wiApplyRegistrationRules,
+								String wiProcessFailedRegistration,
+								String wiEncryptKeyFields) {
 		
 		this.registrationBPMProcessflowFulllName 	= registrationBPMProcessflowFulllName;
 		this.registrationBPMProcessflowName			= registrationBPMProcessflowName;
@@ -51,6 +80,12 @@ public class SQBPMConfiguration {
 		this.globalOperationPost					= globalOperationPost;
 		this.registrationBPMWorkflow				= registrationBPMWorkflow;
 		this.registrationPasswordRulesflow			= registrationPasswordRulesflow;
+		this.registrationPasswordRulesFailflow		= registrationPasswordRulesFailflow;
+		this.registrationPasswordRulesSuccessflow	= registrationPasswordRulesSuccessflow;
+		this.wiApplyRegistrationRules				= wiApplyRegistrationRules;
+		this.wiEncryptKeyFields						= wiEncryptKeyFields;
+		this.wiProcessFailedRegistration			= wiProcessFailedRegistration;
+		
 	}
 	
 	public SQBPMConfiguration() {
@@ -181,6 +216,76 @@ public class SQBPMConfiguration {
 	 */
 	public void setRegistrationPasswordRulesflow(String registrationPasswordRulesflow) {
 		this.registrationPasswordRulesflow = registrationPasswordRulesflow;
+	}
+
+	/**
+	 * @return the registrationPasswordRulesFailflow
+	 */
+	public String getRegistrationPasswordRulesFailflow() {
+		return registrationPasswordRulesFailflow;
+	}
+
+	/**
+	 * @param registrationPasswordRulesFailflow the registrationPasswordRulesFailflow to set
+	 */
+	public void setRegistrationPasswordRulesFailflow(String registrationPasswordRulesFailflow) {
+		this.registrationPasswordRulesFailflow = registrationPasswordRulesFailflow;
+	}
+
+	/**
+	 * @return the registrationPasswordRulesSuccessflow
+	 */
+	public String getRegistrationPasswordRulesSuccessflow() {
+		return registrationPasswordRulesSuccessflow;
+	}
+
+	/**
+	 * @param registrationPasswordRulesSuccessflow the registrationPasswordRulesSuccessflow to set
+	 */
+	public void setRegistrationPasswordRulesSuccessflow(String registrationPasswordRulesSuccessflow) {
+		this.registrationPasswordRulesSuccessflow = registrationPasswordRulesSuccessflow;
+	}
+
+	/**
+	 * @return the wiApplyRegistrationRules
+	 */
+	public String getWiApplyRegistrationRules() {
+		return wiApplyRegistrationRules;
+	}
+
+	/**
+	 * @param wiApplyRegistrationRules the wiApplyRegistrationRules to set
+	 */
+	public void setWiApplyRegistrationRules(String wiApplyRegistrationRules) {
+		this.wiApplyRegistrationRules = wiApplyRegistrationRules;
+	}
+
+	/**
+	 * @return the wiProcessFailedRegistration
+	 */
+	public String getWiProcessFailedRegistration() {
+		return wiProcessFailedRegistration;
+	}
+
+	/**
+	 * @param wiProcessFailedRegistration the wiProcessFailedRegistration to set
+	 */
+	public void setWiProcessFailedRegistration(String wiProcessFailedRegistration) {
+		this.wiProcessFailedRegistration = wiProcessFailedRegistration;
+	}
+
+	/**
+	 * @return the wiEncryptKeyFields
+	 */
+	public String getWiEncryptKeyFields() {
+		return wiEncryptKeyFields;
+	}
+
+	/**
+	 * @param wiEncryptKeyFields the wiEncryptKeyFields to set
+	 */
+	public void setWiEncryptKeyFields(String wiEncryptKeyFields) {
+		this.wiEncryptKeyFields = wiEncryptKeyFields;
 	}
 	
 	

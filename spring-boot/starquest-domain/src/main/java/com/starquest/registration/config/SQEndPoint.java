@@ -10,11 +10,22 @@ package com.starquest.registration.config;
  * YML properties holder class
  */
 public class SQEndPoint {
+	
+	private static final long serialVersionUID = 1L;
 
-	private String endPoint;
-	private String url;
+	/**  To Store what kind of end point **/
+	private String endPoint; 
+	
+	/**  To Store Actual URL **/
+	private String url;       
+	
+	/**  To Store Context for End Point **/
 	private String context;
+	
+	/**  To Store Operation type POST/GET for End Point **/
 	private String operation;
+	
+	/**  To Store media type JSON/XML etc for End Point **/
 	private String mediaType;
 	
 	public SQEndPoint() {
@@ -60,10 +71,11 @@ public class SQEndPoint {
 	@Override
     public String toString() {
         return "EndPoint{" +
-                "name='" + endPoint + '\'' +
-                ", path='" + url + '\'' +
+                "endPointType='" + endPoint + '\'' +
+                ", url='" + url + '\'' +
+                ", context='" + context + '\'' +
                 ", operation='" + operation + '\'' +
-                ", title='" + context + '\'' +
+                ", mediaType='" + mediaType + '\'' +
                 '}';
     }
 	/**

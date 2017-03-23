@@ -6,7 +6,6 @@ package com.starquest.usermgmt.kie.restful.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,11 +17,9 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
-import com.starquest.registration.config.SQEndPoint;
+import com.starquest.registration.config.SQRESTfulEndPoints;
 import com.starquest.usermgmt.kie.restful.bpm.SQRESTfulPostWorkItemHandler;
 import com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration;
 import com.starquest.usermgmt.kie.restful.utils.Utilities;
@@ -49,11 +46,8 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	private String registrationBPMProcessflowFulllName;
 	private String registrationPasswordRulesKSession;
 	
-	//Password Rules Related Properties
-	private String registrationPasswordRulesflow;
-	private String registrationPasswordRulesflowEndPoint;
-	private HttpMethod registrationPasswordRulesflowHttpMethod;
-	private MediaType registrationPasswordRulesflowMediaType;
+	private SQRESTfulEndPoints sqRESTfulEndpoints;
+	
 	
 	@Autowired
 	public UserRegistrationKieServiceImpl(KieContainer kieContainer) {
@@ -63,6 +57,8 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	
 	@PostConstruct
 	private void init(){
+		
+		//Assign all jBPM related configuration
 		if(null!=sqBpmConfig.getRegistrationKIESession()){
 			this.registrationKIESession = sqBpmConfig.getRegistrationKIESession();
 		}
@@ -75,40 +71,14 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesKSession()){
 			this.registrationPasswordRulesKSession = sqBpmConfig.getRegistrationPasswordRulesKSession();
 		}
-		if(null!=sqBpmConfig.getRegistrationPasswordRulesflow()){
-			this.registrationPasswordRulesflow = sqBpmConfig.getRegistrationPasswordRulesflow();
-		}
 		
-		List<SQEndPoint> sqEndPoints = sqBpmConfig.getEndPoints();
-		if(sqEndPoints.size()>0){
-			for(SQEndPoint sqEndPoint: sqEndPoints){
-				if(this.registrationPasswordRulesflow.equalsIgnoreCase(sqEndPoint.getEndPoint())){
-					this.registrationPasswordRulesflowEndPoint	= sqEndPoint.getUrl();
-					
-					if(null!=sqEndPoint.getOperation() 
-							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
-						this.registrationPasswordRulesflowHttpMethod	= HttpMethod.POST;
-					}
-					if(null!=sqEndPoint.getMediaType() && 
-							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
-						this.registrationPasswordRulesflowMediaType	= MediaType.APPLICATION_JSON;
-					}
-					
-				}
-			}
-		}
+		sqRESTfulEndpoints = new SQRESTfulEndPoints();
+		this.sqRESTfulEndpoints.setSqEndPoints(sqBpmConfig.getEndPoints());
 		
 		System.out.println("registrationKIESession -->"+registrationKIESession);
 		System.out.println("registrationBPMProcessflowName -->"+registrationBPMProcessflowName);
 		System.out.println("registrationBPMProcessflowFulllName -->"+registrationBPMProcessflowFulllName);
 		System.out.println("registrationPasswordRulesKSession -->"+registrationPasswordRulesKSession);
-		System.out.println("registrationPasswordRulesflow -->"+registrationPasswordRulesflow);
-		System.out.println("registrationPasswordRulesflowEndPoint -->"+registrationPasswordRulesflowEndPoint);
-		System.out.println("registrationPasswordRulesflowHttpMethod -->"+registrationPasswordRulesflowHttpMethod);
-		System.out.println("registrationPasswordRulesflowMediaType -->"+registrationPasswordRulesflowMediaType);
-		
-		
-		
 	}
 
 	
@@ -129,11 +99,10 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		JSONObject jsonRequest = utils.convertPojoToJSONObj(userVo);
 		
 		Map<String, Object> userRegFlowParams = new HashMap<String, Object>();
-		userRegFlowParams.put("URL", getRegistrationPasswordRulesflowEndPoint());
-		userRegFlowParams.put("OPERATION", getRegistrationPasswordRulesflowHttpMethod());
-		userRegFlowParams.put("MEDIATYPE", getRegistrationPasswordRulesflowMediaType());
+		
 		userRegFlowParams.put("PAYLOADJSON", jsonRequest);
 		userRegFlowParams.put("USERVO", userVo);
+		userRegFlowParams.put("SQBPMConfiguration", sqBpmConfig);
 		
 		
 		ProcessInstance processInstance = kieSession.startProcess(registrationBPMProcessflowFulllName,userRegFlowParams);
@@ -152,8 +121,16 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 				 if(null!=tempUserProfile){
 					 userVo.setFailCategory(tempUserProfile.getFailCategory());
 					 userVo.setCategory(tempUserProfile.getCategory());
+					 userVo.setBadEmail(tempUserProfile.isBadEmail());
+					 userVo.setBadLastName(tempUserProfile.isBadLastName());
+					 userVo.setBadFirstName(tempUserProfile.isBadFirstName());
+					 userVo.setBadPassword(tempUserProfile.isBadPassword());
 					 System.out.println("Bpm and Rules Processed User Profile with User.FAILCATEGORY="+tempUserProfile.getFailCategory());
 					 System.out.println("Bpm and Rules Processed User Profile with User.CATEGORY=..."+tempUserProfile.getCategory());
+					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADEMAIL="+tempUserProfile.isBadEmail());
+					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADLNAME=..."+tempUserProfile.isBadLastName());
+					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADFNAME="+tempUserProfile.isBadFirstName());
+					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADPASSWORD=..."+tempUserProfile.isBadPassword());
 				 }
 			 }
 		 }
@@ -168,8 +145,9 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	@Override
 	public UserVo applySQPasswordRules(UserVo userVo) throws Exception {
 
+		//Commented for testing diverge
 		//Mallesh Dont Load all rules....Load Only SSN Rules. 
-		KieSession kieSession = kieContainer.newKieSession(registrationPasswordRulesKSession);
+		/*KieSession kieSession = kieContainer.newKieSession(registrationPasswordRulesKSession);
 		
 		kieSession.insert(userVo);
 		
@@ -186,7 +164,22 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 				System.out.println("User Category::"+lVo.getCategory());
 				System.out.println("Kie Object Data :: END");
 			}
-		}
+		}*/
+		
+		System.out.println("START applySQPasswordRules()");
+		KieSession kieSession = kieContainer.newKieSession(registrationKIESession);
+		kieSession.getWorkItemManager().registerWorkItemHandler("com.starquest.kie.process.userreg.divergeTestingProcess", new SQRESTfulPostWorkItemHandler());
+		
+		
+		Map<String, Object> userRegFlowParams = new HashMap<String, Object>();
+		
+		userRegFlowParams.put("isRegRulesPassed", new Boolean(false));
+		
+		
+		ProcessInstance processInstance = kieSession.startProcess(registrationBPMProcessflowFulllName,userRegFlowParams);
+		
+		
+		
 		return userVo;
 	}
 	
@@ -271,65 +264,6 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	public void setRegistrationPasswordRulesKSession(String registrationPasswordRulesKSession) {
 		this.registrationPasswordRulesKSession = registrationPasswordRulesKSession;
 	}
-
-	/**
-	 * @return the registrationPasswordRulesflow
-	 */
-	public String getRegistrationPasswordRulesflow() {
-		return registrationPasswordRulesflow;
-	}
-
-	/**
-	 * @param registrationPasswordRulesflow the registrationPasswordRulesflow to set
-	 */
-	public void setRegistrationPasswordRulesflow(String registrationPasswordRulesflow) {
-		this.registrationPasswordRulesflow = registrationPasswordRulesflow;
-	}
-
-	/**
-	 * @return the registrationPasswordRulesflowEndPoint
-	 */
-	public String getRegistrationPasswordRulesflowEndPoint() {
-		return registrationPasswordRulesflowEndPoint;
-	}
-
-	/**
-	 * @param registrationPasswordRulesflowEndPoint the registrationPasswordRulesflowEndPoint to set
-	 */
-	public void setRegistrationPasswordRulesflowEndPoint(String registrationPasswordRulesflowEndPoint) {
-		this.registrationPasswordRulesflowEndPoint = registrationPasswordRulesflowEndPoint;
-	}
-
-	/**
-	 * @return the registrationPasswordRulesflowHttpMethod
-	 */
-	public HttpMethod getRegistrationPasswordRulesflowHttpMethod() {
-		return registrationPasswordRulesflowHttpMethod;
-	}
-
-	/**
-	 * @param registrationPasswordRulesflowHttpMethod the registrationPasswordRulesflowHttpMethod to set
-	 */
-	public void setRegistrationPasswordRulesflowHttpMethod(HttpMethod registrationPasswordRulesflowHttpMethod) {
-		this.registrationPasswordRulesflowHttpMethod = registrationPasswordRulesflowHttpMethod;
-	}
-
-	/**
-	 * @return the registrationPasswordRulesflowMediaType
-	 */
-	public MediaType getRegistrationPasswordRulesflowMediaType() {
-		return registrationPasswordRulesflowMediaType;
-	}
-
-	/**
-	 * @param registrationPasswordRulesflowMediaType the registrationPasswordRulesflowMediaType to set
-	 */
-	public void setRegistrationPasswordRulesflowMediaType(MediaType registrationPasswordRulesflowMediaType) {
-		this.registrationPasswordRulesflowMediaType = registrationPasswordRulesflowMediaType;
-	}
-
-	
-	
 	
 
 }

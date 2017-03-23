@@ -5,8 +5,13 @@ kie:
   registrationPasswordRulesKSession: "rules.starquest.registrationPasswordKSession"
   registrationBPMWorkflow: "registrationBPMWorkflow"
   registrationPasswordRulesflow: "registrationPasswordRulesflow"
+  registrationPasswordRulesFailflow: "registrationPasswordRulesFailflow"
+  registrationPasswordRulesSuccessflow: "registrationPasswordRulesSuccessflow"
   globalMediaTypeJson: "APPLICATION_JSON"
   globalOperationPost: "POST"
+  WIApplyRegistrationRules: "WIApplyRegistrationRules"
+  WIProcessFailedRegistration: "WIProcessFailedRegistration"
+  WIEncryptKeyFields: "WIEncryptKeyFields"
   endPoints:
     - 
       endPoint: "registrationBPMWorkflow" 
@@ -18,5 +23,17 @@ kie:
       endPoint: "registrationPasswordRulesflow" 
       url: "http://localhost:8282/sq/registrationkie/applyPasswordRules"
       context: "/sq/registrationkie/applyPasswordRules"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "registrationPasswordRulesFailflow" 
+      url: "http://localhost:8282/sq/registrationkie/processPasswordRulesFail"
+      context: "/sq/registrationkie/processPasswordRulesFail"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"  
+    - 
+      endPoint: "registrationPasswordRulesSuccessflow" 
+      url: "http://localhost:8282/sq/registrationkie/registrationPasswordRulesSuccessflow"
+      context: "/sq/registrationkie/registrationPasswordRulesSuccessflow"
       mediaType: "APPLICATION_JSON"
       operation: "POST"

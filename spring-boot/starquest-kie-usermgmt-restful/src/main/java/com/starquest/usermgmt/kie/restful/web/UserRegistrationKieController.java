@@ -61,6 +61,37 @@ public class UserRegistrationKieController {
 		
 	}
 	
+	
+	@RequestMapping(path="/processPasswordRulesFail", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> processPasswordRulesFail(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPasswordRulesFail()....");
+		try{
+			//userVo = userRegistrationKieService.applySQPasswordRules(userVo);
+			System.out.println("Empty for now.....");
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->processPasswordRulesFail()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="/registrationPasswordRulesSuccessflow", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> registrationPasswordRulesSuccessflow(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->registrationPasswordRulesSuccessflow()....");
+		try{
+			//userVo = userRegistrationKieService.applySQPasswordRules(userVo);
+			System.out.println("Empty for now.....");
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->registrationPasswordRulesSuccessflow()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+	
+	
+	
 	@RequestMapping(path="/applyPasswordRules", method = RequestMethod.POST,
 	consumes = { "application/json"}, produces = { "application/json"})
 	public ResponseEntity<UserVo> validatePasswordNewwUserRegistration(@RequestBody UserVo userVo){
@@ -73,5 +104,20 @@ public class UserRegistrationKieController {
 		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->validatePasswordNewwUserRegistration()....");
 		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(path="/divergeTestingt", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> divergeTestingt(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->divergeTestingt()....");
+		try{
+			userVo = userRegistrationKieService.applySQPasswordRules(userVo);
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->divergeTestingt()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+
 
 }

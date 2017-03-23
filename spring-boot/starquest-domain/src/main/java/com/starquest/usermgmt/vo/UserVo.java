@@ -19,15 +19,9 @@ public class UserVo implements Serializable{
     };
     
     public enum FailCategory {
-        TOO_MANY_TIMES_USED, 
-        TOO_WEAK,
-        TOO_LESS_CHARS,
-        TOO_MANY_CHARS,
-        FAILED_MIN_REQUIREMENT, 
-        STRONG_ENOUGH, 
-        VERY_STRONG,
-        VERY_VERY_STRONG,
-        VERY_VERY_VERY_STRONG,
+    	INVALID_REGISTRATION_DATA,
+        DUP_EMAIL,
+        ALL_GOOD,
         NA
     };
     
@@ -40,6 +34,10 @@ public class UserVo implements Serializable{
 	private String emailAddress;
 	private String password;
 	private String salt;
+	private boolean badPassword;
+	private boolean badLastName;
+	private boolean badFirstName;
+	private boolean badEmail;
 	private Date createdOn;
 	private String createdBy;
 	
@@ -189,6 +187,66 @@ public class UserVo implements Serializable{
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	/**
+	 * @return the badEmail
+	 */
+	public boolean isBadEmail() {
+		return badEmail;
+	}
+
+	/**
+	 * @param badEmail the badEmail to set
+	 */
+	public void setBadEmail(boolean badEmail) {
+		this.badEmail = badEmail;
+	}
+
+	/**
+	 * @return the badPassword
+	 */
+	public boolean isBadPassword() {
+		return badPassword;
+	}
+
+	/**
+	 * @param badPassword the badPassword to set
+	 */
+	public void setBadPassword(boolean badPassword) {
+		this.badPassword = badPassword;
+	}
+
+	/**
+	 * @return the badLastName
+	 */
+	public boolean isBadLastName() {
+		return badLastName;
+	}
+
+	/**
+	 * @param badLastName the badLastName to set
+	 */
+	public void setBadLastName(boolean badLastName) {
+		this.badLastName = badLastName;
+	}
+
+	/**
+	 * @return the badFirstName
+	 */
+	public boolean isBadFirstName() {
+		return badFirstName;
+	}
+
+	/**
+	 * @param badFirstName the badFirstName to set
+	 */
+	public void setBadFirstName(boolean badFirstName) {
+		this.badFirstName = badFirstName;
+	}
+
+	
+		
+	
 
 
 }

@@ -1,4 +1,5 @@
 import org.drools.core.process.core.datatype.impl.type.StringDataType;
+import org.drools.core.process.core.datatype.impl.type.BooleanDataType;
 [
   //This is MVL Expression for RESTful API 
   //BPMN2 compliance 
@@ -10,6 +11,8 @@ import org.drools.core.process.core.datatype.impl.type.StringDataType;
       "MEDIATYPE" : new StringDataType(),
       "PAYLOADJSON" : new ObjectDataType("net.minidev.json.JSONObject"),
       "USERVO" : new ObjectDataType("com.starquest.usermgmt.vo.UserVo"),
+      "isRegRulesPassed" : new BooleanDataType(),
+      "SQBPMConfiguration" : new ObjectDataType("com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration"),
       
       
     ], 
