@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kie.api.cdi.KSession;
-import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
-import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.starquest.registration.config.SQEndPoint;
 import com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration;
@@ -160,8 +158,8 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		System.out.println("registrationPasswordRulesFailflowMediaType -->"+registrationPasswordRulesFailflowMediaType);
 		
 		System.out.println("registrationPasswordRulesSuccessflow -->"+registrationPasswordRulesSuccessflow);
-		System.out.println("registrationPasswordRulesSuccessflowEndPoint -->"+registrationPasswordRulesSuccessflow);
-		System.out.println("registrationPasswordRulesSuccessflowHttpMethod -->"+registrationPasswordRulesSuccessflow);
+		System.out.println("registrationPasswordRulesSuccessflowEndPoint -->"+registrationPasswordRulesSuccessflowEndPoint);
+		System.out.println("registrationPasswordRulesSuccessflowHttpMethod -->"+registrationPasswordRulesSuccessflowHttpMethod);
 		System.out.println("registrationPasswordRulesSuccessflowMediaType -->"+registrationPasswordRulesSuccessflowMediaType);
 		
 		System.out.println("wiApplyRegistrationRules -->"+wiApplyRegistrationRules);
@@ -175,12 +173,8 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		
 		
 		System.out.println("Work Item: "+ workItem.getName() +", Work Item Id: "+ workItem.getId() + " Started::");
-		Boolean isRegRulesPassed = false;
-		 workItem.getResults().put("isRegRulesPassed", isRegRulesPassed);
-	     manager.completeWorkItem(workItem.getId(), null);
-		
 		//Commented for DivergeTesting
-		/*UserVo userVo =  new UserVo();
+		UserVo userVo =  new UserVo();
 		
 		//Retrieve json representation of UserVo and UserVo POJO
 		JSONObject jsonRequest 					= (JSONObject) workItem.getParameter("PAYLOADJSON");
@@ -207,6 +201,7 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 			//Process Registration Rules Work Item
 			//if(workItem.getName().equalsIgnoreCase(getWiApplyRegistrationRules())){
 			if(1==workItem.getId()){
+				System.out.println("WORK ITEM 1 STARTED");
 				
 				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
 				ResponseEntity<UserVo> respEntity = 
@@ -225,19 +220,36 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 				Map<String, Object> results = new HashMap<String, Object>();
 		        Map<String,Object> processedResults = new HashMap<String, Object>();
 		        processedResults.put("USERVO", userVo);
-		        processedResults.put("isRegRulesPassed", nextStep);
 		        results.put("Result", processedResults);
 		        results.put("isRegRulesPassed", nextStep);
-		        System.out.println("Results Size="+results.size());
+		        manager.completeWorkItem(workItem.getId(), results);
+		        System.out.println("WORK ITEM 1 END");
 		        
-		        workItem.getResults().put("isRegRulesPassed", new Boolean(false));
+			}else if(2==workItem.getId()){
+				
+				System.out.println("WORK ITEM 2 STARTED");
+				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+				ResponseEntity<UserVo> respEntity = 
+						restTeamplate.exchange(getRegistrationPasswordRulesSuccessflowEndPoint(),HttpMethod.POST, entity, UserVo.class);
+				Boolean nextStep = new Boolean(false);
+				
+				//TODO Handle all other HTTP Responses
+				if(respEntity.getStatusCode() == HttpStatus.OK){
+					UserVo encryptedUserVo = respEntity.getBody();
+					userVo.setPassword(encryptedUserVo.getPassword());
+				}
+				System.out.println("Encrypted Password = "+userVo.getPassword());
+				Map<String, Object> results = new HashMap<String, Object>();
+		        Map<String,Object> processedResults = new HashMap<String, Object>();
+		        processedResults.put("USERVO", userVo);
+		        results.put("Result", processedResults);
+		        manager.completeWorkItem(workItem.getId(), results);
+		        System.out.println("WORK ITEM 2 END");
 		        
-				//manager.completeWorkItem(workItem.getId(), results);
-		        manager.completeWorkItem(workItem.getId(), null);
+			}else if(3==workItem.getId()){
 				
-				
-			}//else if(workItem.getName().equalsIgnoreCase(getWiEncryptKeyFields())){
-			else if(2==workItem.getId()){
+
+				System.out.println("WORK ITEM 3 STARTED");
 				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
 				ResponseEntity<UserVo> respEntity = 
 						restTeamplate.exchange(getRegistrationPasswordRulesFailflowEndPoint(),HttpMethod.POST, entity, UserVo.class);
@@ -253,131 +265,21 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		        Map<String,Object> processedResults = new HashMap<String, Object>();
 		        processedResults.put("USERVO", userVo);
 		        results.put("Result", processedResults);
-		        System.out.println("Results Size="+results.size());
-		        
-		        workItem.getResults().put("isRegRulesPassed", new Boolean(false));
-		        manager.completeWorkItem(workItem.getId(), null);
-				//manager.completeWorkItem(workItem.getId(), results);
-				
-				
-			}//else if(workItem.getName().equalsIgnoreCase(getWiProcessFailedRegistration())){
-			else if(3==workItem.getId()){
-				
-				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
-				ResponseEntity<UserVo> respEntity = 
-						restTeamplate.exchange(getRegistrationPasswordRulesSuccessflowEndPoint(),HttpMethod.POST, entity, UserVo.class);
-				
-				//TODO Handle all other HTTP Responses
-				if(respEntity.getStatusCode() == HttpStatus.OK){
-					UserVo resultedUserVo = respEntity.getBody();
-					userVo.setFailCategory(resultedUserVo.getFailCategory());
-					userVo.setCategory(resultedUserVo.getCategory());
-				}
-				
-				Map<String, Object> results = new HashMap<String, Object>();
-		        Map<String,Object> processedResults = new HashMap<String, Object>();
-		        processedResults.put("USERVO", userVo);
-		        results.put("Result", processedResults);
-		        System.out.println("Results Size="+results.size());
-		        workItem.getResults().put("isRegRulesPassed", new Boolean(true));
-		        manager.completeWorkItem(workItem.getId(), null);
-		        
-		        //manager.completeWorkItem(workItem.getId(), results);
+		        //workItem.getResults().put("isRegRulesPassed", new Boolean(true));
+		        //manager.completeWorkItem(workItem.getId(), null);
+				manager.completeWorkItem(workItem.getId(), results);
+				System.out.println("WORK ITEM 3 END");
 				
 			}else{
 				System.out.println("Work Item : "+workItem.getId()+ " Not configured Yet!!");
 			}
-			
-			
-			
-			  
 			//End of Work Items
-			
-			
 		}else{
 			System.out.println("Invalid JSON Payload Received.......");
 		}
-		*/
-		//Enmd of comments for testing Diverge
-		
-		//Not requried
-		/*SQRESTfulEndPoints sqRESTfulEndPoints 	= (SQRESTfulEndPoints) workItem.getParameter("SQRESTfulEndPoints");
-		List<SQEndPoint> sqEndPoints;
-		if(null!=sqRESTfulEndPoints.getSqEndPoints() && 
-				!sqRESTfulEndPoints.getSqEndPoints().isEmpty()){
-			
-			sqEndPoints = sqRESTfulEndPoints.getSqEndPoints();
-			for(SQEndPoint sqEndPoint: sqEndPoints){
-				
-			}
-		
-		
-		}else{
-			System.out.println("Invalid Configuration!! Unable to start jBPM Work Item:: WorkItem Name: " + workItem.getName() +
-					"WorkItem Id: " + workItem.getId() + " in Process Instance Id: "+ workItem.getProcessInstanceId());
-		}*/
-		
-		
-		
-		
 		System.out.println("Work Item: "+ workItem.getName() +", Work Item Id: "+ workItem.getId() + " End::");
-		
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.kie.api.runtime.process.WorkItemHandler#executeWorkItem(org.kie.api.runtime.process.WorkItem, org.kie.api.runtime.process.WorkItemManager)
-	 */
-	/*@Override
-	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
-
-		String uri 				= (String) workItem.getParameter("URL");
-		HttpMethod operation	= (HttpMethod) workItem.getParameter("OPERATION");
-		MediaType mediaType 	= (MediaType) workItem.getParameter("MEDIATYPE");
-		JSONObject jsonRequest 	= (JSONObject) workItem.getParameter("PAYLOADJSON");
-		UserVo bpmUserVo			= (UserVo) workItem.getParameter("USERVO");
-		
-		
-		System.out.println("WorkItem.getId() -->"+workItem.getId());
-		System.out.println("WorkItem.getProcessInstanceId-->"+workItem.getProcessInstanceId());
-		
-		//System.out.println("URL="+uri+" operation="+operation+" mediaType="+mediaType);
-		Iterator<Entry<String, Object>> itr = jsonRequest.entrySet().iterator();
-		while(itr.hasNext()){
-			Map.Entry<String,Object> entry = (Map.Entry<String, Object>) itr.next();
-			System.out.println("Key  = " + entry.getKey() + " Value=" + entry.getValue());
-		}
-		
-		// Notify manager that work item has been completed and return results
-		UserVo userVo =  new UserVo();
-        Map<String, Object> results = new HashMap<String, Object>();
-        Map<String,Object> processedResults = new HashMap<String, Object>();
-		
-		// @TODO remove hard coding here use mediaType Parameter here -Mallesh
-        HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);  
-		
-		HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
-		
-		RestTemplate restTeamplate = new RestTemplate();
-		
-		//@TODO remove HttpMethod.POST hardcoding in the following line, use parameter - Mallesh 
-		ResponseEntity<UserVo> respEntity = 
-				restTeamplate.exchange(uri,HttpMethod.POST, entity, UserVo.class);
-		
-		if(respEntity.getStatusCode() == HttpStatus.OK){
-			UserVo filteredNewUserProfile = respEntity.getBody();
-			userVo.setFailCategory(filteredNewUserProfile.getFailCategory());
-			userVo.setCategory(filteredNewUserProfile.getCategory());
-		}
-		
-		
-		processedResults.put("USERVO", userVo);
-        results.put("Result", processedResults);
-        System.out.println("Results Size="+results.size());
-		manager.completeWorkItem(workItem.getId(), results);  
-		System.out.println("Handler Completed..........................");
-		
-	}*/
 
 	/* (non-Javadoc)
 	 * @see org.kie.api.runtime.process.WorkItemHandler#abortWorkItem(org.kie.api.runtime.process.WorkItem, org.kie.api.runtime.process.WorkItemManager)

@@ -6,16 +6,19 @@ package com.starquest.encryption.restservices;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.starquest.encryption.PasswordEncryption;
 import com.starquest.encryption.services.EncryptionService;
 import com.starquest.encryption.services.SaltGeneratorService;
 import com.starquest.encryption.services.SaltType;
+import com.starquest.usermgmt.vo.UserVo;
 
 /**
  * @author mallesh
@@ -27,7 +30,7 @@ import com.starquest.encryption.services.SaltType;
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("/encryption")
+@RequestMapping("/sq/encryption")
 public class EncryptionRESTfulService {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{rawValue}")
@@ -52,6 +55,23 @@ public class EncryptionRESTfulService {
 			return encryptedRawValue;
 		}
 		return encryptedRawValue;
+	}
+	
+	
+	@RequestMapping(value = "/newVer", method = { RequestMethod.POST }, 
+			consumes = { "application/json"}, produces = { "application/json",})
+	public ResponseEntity<UserVo> getNewEncryptedValue(@RequestBody UserVo rawValue){
+		String encryptedRawValue = new String();
+		try{
+			EncryptionService encryptionService = new PasswordEncryption();
+			encryptedRawValue = encryptionService.encryptPassword(rawValue.getPassword(), SaltType.NON_NATIVE, SaltGeneratorService.SHA1, 32);
+		}catch(Exception ex){
+			//bad way of programming
+			System.out.println(ex.toString());
+			encryptedRawValue =  rawValue.getPassword();
+		}
+		rawValue.setPassword(encryptedRawValue);
+		return new ResponseEntity<UserVo>(rawValue, HttpStatus.OK);
 	}
 	
 	/**

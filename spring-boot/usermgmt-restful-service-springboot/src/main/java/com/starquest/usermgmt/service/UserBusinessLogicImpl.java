@@ -74,9 +74,8 @@ public class UserBusinessLogicImpl implements UserBusinessLogic {
 			userVo.setFailCategory(filteredNewUser.getFailCategory());
 		}
 		
-		if(userVo.getFailCategory()==UserVo.FailCategory.VERY_STRONG || 
-				userVo.getFailCategory()==UserVo.FailCategory.VERY_VERY_STRONG ||
-				userVo.getFailCategory()==UserVo.FailCategory.VERY_VERY_VERY_STRONG || userVo.getFailCategory()==UserVo.FailCategory.STRONG_ENOUGH){
+		if(userVo.getFailCategory()==UserVo.FailCategory.ALL_GOOD) 
+				{
 			
 			String passwordHash = restTeamplate.getForObject(passwordHashURL+userVo.getPassword(), String.class);
 			if(null==passwordHash){

@@ -145,9 +145,9 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	@Override
 	public UserVo applySQPasswordRules(UserVo userVo) throws Exception {
 
-		//Commented for testing diverge
+		
 		//Mallesh Dont Load all rules....Load Only SSN Rules. 
-		/*KieSession kieSession = kieContainer.newKieSession(registrationPasswordRulesKSession);
+		KieSession kieSession = kieContainer.newKieSession(registrationPasswordRulesKSession);
 		
 		kieSession.insert(userVo);
 		
@@ -164,19 +164,8 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 				System.out.println("User Category::"+lVo.getCategory());
 				System.out.println("Kie Object Data :: END");
 			}
-		}*/
+		}
 		
-		System.out.println("START applySQPasswordRules()");
-		KieSession kieSession = kieContainer.newKieSession(registrationKIESession);
-		kieSession.getWorkItemManager().registerWorkItemHandler("com.starquest.kie.process.userreg.divergeTestingProcess", new SQRESTfulPostWorkItemHandler());
-		
-		
-		Map<String, Object> userRegFlowParams = new HashMap<String, Object>();
-		
-		userRegFlowParams.put("isRegRulesPassed", new Boolean(false));
-		
-		
-		ProcessInstance processInstance = kieSession.startProcess(registrationBPMProcessflowFulllName,userRegFlowParams);
 		
 		
 		

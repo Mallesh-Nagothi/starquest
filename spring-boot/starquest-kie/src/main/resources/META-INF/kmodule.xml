@@ -10,15 +10,14 @@ xmlns="http://jboss.org/kie/6.0.0/kmodule">
 		<ksession name="rules.starquest.userMgmtSSNKSession" />
 	</kbase>
 
-	<kbase name="bpm.starquest.userMgmtNotificationKBase" packages="com.starquest.kie.process.userreg">
+	<!-- <kbase name="bpm.starquest.userMgmtNotificationKBase" packages="com.starquest.kie.process.userreg">
 		<ksession name="rules.starquest.userMgmtNotificationKSession" />
-	</kbase>
+	</kbase> -->
 	
 	<!-- Registration KIE Starts -->
 	<kbase name="rules.starquest.registrationPasswordKBase" packages="com.starquest.kie.rules.registration.passwordrules">
 		<ksession name="rules.starquest.registrationPasswordKSession" />
 	</kbase>
-	
 	
 	
 	<kbase name="bpm.starquest.registrationKBase" packages="com.starquest.kie.process.userreg">

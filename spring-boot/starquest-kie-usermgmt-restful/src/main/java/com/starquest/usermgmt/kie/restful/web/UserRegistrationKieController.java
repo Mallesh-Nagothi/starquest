@@ -67,8 +67,11 @@ public class UserRegistrationKieController {
 	public ResponseEntity<UserVo> processPasswordRulesFail(@RequestBody UserVo userVo){
 		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPasswordRulesFail()....");
 		try{
+			
 			//userVo = userRegistrationKieService.applySQPasswordRules(userVo);
-			System.out.println("Empty for now.....");
+			System.out.println("Successfully processed Registration Failed Request...Recorded in MQ and Created a Flat File by CAMEL");
+			
+			
 		}catch(Exception ex){
 			System.out.println("Damallll::"+ex);
 		}
@@ -82,7 +85,8 @@ public class UserRegistrationKieController {
 		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->registrationPasswordRulesSuccessflow()....");
 		try{
 			//userVo = userRegistrationKieService.applySQPasswordRules(userVo);
-			System.out.println("Empty for now.....");
+			System.out.println("Processing Registration Success Reqest.....");
+			
 		}catch(Exception ex){
 			System.out.println("Damallll::"+ex);
 		}
@@ -105,19 +109,6 @@ public class UserRegistrationKieController {
 		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
 	}
 	
-	
-	@RequestMapping(path="/divergeTestingt", method = RequestMethod.POST,
-	consumes = { "application/json"}, produces = { "application/json"})
-	public ResponseEntity<UserVo> divergeTestingt(@RequestBody UserVo userVo){
-		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->divergeTestingt()....");
-		try{
-			userVo = userRegistrationKieService.applySQPasswordRules(userVo);
-		}catch(Exception ex){
-			System.out.println("Damallll::"+ex);
-		}
-		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->divergeTestingt()....");
-		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
-	}
 
 
 }
