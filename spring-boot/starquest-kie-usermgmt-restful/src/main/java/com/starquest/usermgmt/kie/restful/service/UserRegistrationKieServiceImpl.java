@@ -74,11 +74,6 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		
 		sqRESTfulEndpoints = new SQRESTfulEndPoints();
 		this.sqRESTfulEndpoints.setSqEndPoints(sqBpmConfig.getEndPoints());
-		
-		System.out.println("registrationKIESession -->"+registrationKIESession);
-		System.out.println("registrationBPMProcessflowName -->"+registrationBPMProcessflowName);
-		System.out.println("registrationBPMProcessflowFulllName -->"+registrationBPMProcessflowFulllName);
-		System.out.println("registrationPasswordRulesKSession -->"+registrationPasswordRulesKSession);
 	}
 
 	
@@ -106,11 +101,26 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		
 		
 		ProcessInstance processInstance = kieSession.startProcess(registrationBPMProcessflowFulllName,userRegFlowParams);
-		
+		//@TODO Remove Result in Process as well as in java code
 		Map<String, Object> results = (HashMap<String, Object>)((WorkflowProcessInstance) processInstance).getVariable("Result");
-		 System.out.println("JBPM Processed and returned objects size::"+results.size());
-		 
-		 
+		System.out.println("JBPM Processed and returned objects size::"+results.size());
+		
+		userVo = (UserVo)((WorkflowProcessInstance) processInstance).getVariable("USERVO"); 
+		if(null!= userVo){
+			System.out.println("Bpm Processed User Profile with User.FName=..."+userVo.getFirstName());
+			System.out.println("Bpm Processed User Profile with User.LName=..."+userVo.getLastName());
+			System.out.println("Bpm Processed User Profile with User.ENCRYPTEDPWD=..."+userVo.getPassword());
+			System.out.println("Bpm Processed User Profile with User.Email=..."+userVo.getEmailAddress());
+			System.out.println("Bpm Processed User Profile with User.FAILCATEGORY="+userVo.getFailCategory());
+			System.out.println("Bpm Processed User Profile with User.CATEGORY=..."+userVo.getCategory());
+			System.out.println("Bpm Processed User Profile with User.ISBADEMAIL="+userVo.isBadEmail());
+			System.out.println("Bpm Processed User Profile with User.ISBADLNAME=..."+userVo.isBadLastName());
+			System.out.println("Bpm Processed User Profile with User.ISBADFNAME="+userVo.isBadFirstName());
+			System.out.println("Bpm Processed User Profile with User.ISBADPASSWORD=..."+userVo.isBadPassword());
+			
+		}
+		
+		 //@TODO Remove Result in Process as well as in java code
 		 Iterator<Entry<String, Object>> itr = results.entrySet().iterator();
 		 while(itr.hasNext()){
 			 Map.Entry<String,Object> entry = (Map.Entry<String, Object>) itr.next();
@@ -125,12 +135,15 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 					 userVo.setBadLastName(tempUserProfile.isBadLastName());
 					 userVo.setBadFirstName(tempUserProfile.isBadFirstName());
 					 userVo.setBadPassword(tempUserProfile.isBadPassword());
-					 System.out.println("Bpm and Rules Processed User Profile with User.FAILCATEGORY="+tempUserProfile.getFailCategory());
+					 /*System.out.println("Bpm and Rules Processed User Profile with User.FAILCATEGORY="+tempUserProfile.getFailCategory());
 					 System.out.println("Bpm and Rules Processed User Profile with User.CATEGORY=..."+tempUserProfile.getCategory());
 					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADEMAIL="+tempUserProfile.isBadEmail());
 					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADLNAME=..."+tempUserProfile.isBadLastName());
 					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADFNAME="+tempUserProfile.isBadFirstName());
 					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADPASSWORD=..."+tempUserProfile.isBadPassword());
+					 System.out.println("Bpm and Rules Processed User Profile with User.FName=..."+tempUserProfile.getFirstName());
+					 System.out.println("Bpm and Rules Processed User Profile with User.ENCRYPTEDPWD=..."+tempUserProfile.getPassword());*/
+					 
 				 }
 			 }
 		 }
@@ -165,10 +178,6 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 				System.out.println("Kie Object Data :: END");
 			}
 		}
-		
-		
-		
-		
 		return userVo;
 	}
 	

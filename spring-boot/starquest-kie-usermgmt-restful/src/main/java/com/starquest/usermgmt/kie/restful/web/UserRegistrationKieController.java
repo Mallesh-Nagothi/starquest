@@ -46,9 +46,6 @@ public class UserRegistrationKieController {
 			if(null!=processedUserVo){
 				userVo.setFailCategory(processedUserVo.getFailCategory());
 				userVo.setCategory(processedUserVo.getCategory());
-				System.out.println("End Point-->startRegistrationBPMProcess() UserVo.FAILCATEGORY="+userVo.getFailCategory());;
-				System.out.println("End Point-->startRegistrationBPMProcess() UserVo.CATEGORY=..."+userVo.getCategory());
-				
 			}
 			httpStatus = HttpStatus.OK;
 		}catch(Exception ex){

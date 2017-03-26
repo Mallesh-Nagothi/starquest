@@ -1,17 +1,28 @@
 kie:
   registrationKIESession: "bpm.starquest.registrationKSession"
   registrationBPMProcessflowName: "SQRESTfulPost"
-  registrationBPMProcessflowFulllName: "com.starquest.kie.process.userreg.SQRegistrationProcess"
+  registrationBPMProcessflowFulllName: "com.starquest.kie.process.userreg.SQRegiostrationProcess1"
   registrationPasswordRulesKSession: "rules.starquest.registrationPasswordKSession"
   registrationBPMWorkflow: "registrationBPMWorkflow"
   registrationPasswordRulesflow: "registrationPasswordRulesflow"
   registrationPasswordRulesFailflow: "registrationPasswordRulesFailflow"
   registrationPasswordRulesSuccessflow: "registrationPasswordRulesSuccessflow"
+  registrationPersistBPMWorkflow: "registrationPersistBPMWorkflow"
   globalMediaTypeJson: "APPLICATION_JSON"
   globalOperationPost: "POST"
   WIApplyRegistrationRules: "WIApplyRegistrationRules"
   WIProcessFailedRegistration: "WIProcessFailedRegistration"
   WIEncryptKeyFields: "WIEncryptKeyFields"
+  registrationRulesFailed: "registrationRulesFailed"
+  registrationRulesSuccess: "registrationRulesSuccess"
+  registrationEncryptionFailed: "registrationEncryptionFailed"
+  registrationEncryptionSuccess: "registrationEncryptionSuccess"
+  registrationPersistenceFailed: "registrationPersistenceFailed"
+  registrationPersistenceSuccess: "registrationPersistenceSuccess"
+  registrationProcessFlowEnd: "registrationProcessFlowEnd" 
+  
+  
+  
   endPoints:
     - 
       endPoint: "registrationBPMWorkflow" 
@@ -35,5 +46,11 @@ kie:
       endPoint: "registrationPasswordRulesSuccessflow"
       url: "http://localhost:9292/sq/encryption/newVer"
       context: "sq/encryption/"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    -
+      endPoint: "registrationPersistBPMWorkflow"
+      url: "http://localhost:7272/sq/saveSQUser"
+      context: "sq/saveSQUser/"
       mediaType: "APPLICATION_JSON"
       operation: "POST"

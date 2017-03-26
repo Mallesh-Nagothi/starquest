@@ -23,7 +23,7 @@ import com.starquest.usermgmt.vo.UserVo;
  */
 
 @RestController
-@RequestMapping("/startquest")
+@RequestMapping("/sq")
 public class StarQuestUserRestfulService {
 	
 	Logger logger = Logger.getLogger(StarQuestUserRestfulService.class);
@@ -32,15 +32,17 @@ public class StarQuestUserRestfulService {
 	UserBusinessLogic userBusinessLogic;
 	
 	
-	@RequestMapping(value = "/newStarQuestUser", method = { RequestMethod.POST }, 
+	@RequestMapping(value = "/saveSQUser", method = { RequestMethod.POST }, 
 			consumes = { "application/json"}, produces = { "application/json",})
 	public ResponseEntity<UserVo> createStarQuestUser(@RequestBody UserVo userVo){
 		
-		logger.debug("Entrypoint :: /newStarQuestUser");
+		logger.debug("::End Poiont -->PersistSQUser-->/sq/saveSQUser START");
+		System.out.println("::End Poiont -->PersistSQUser-->/sq/saveSQUser START");
 		
 		userBusinessLogic.saveUser(userVo);
 		
-		logger.debug("Exitpoint :: /newStarQuestUser");
+		logger.debug("::End Poiont -->PersistSQUser-->/sq/saveSQUser END");
+		System.out.println("::End Poiont -->PersistSQUser-->/sq/saveSQUser END");
 		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
 		
 	}

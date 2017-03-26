@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,10 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.starquest.registration.config.SQEndPoint;
 import com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration;
+import com.starquest.usermgmt.kie.restful.utils.Utilities;
 import com.starquest.usermgmt.vo.UserVo;
 
 import net.minidev.json.JSONObject;
@@ -55,6 +56,14 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	private HttpMethod registrationPasswordRulesSuccessflowHttpMethod;
 	private MediaType registrationPasswordRulesSuccessflowMediaType;
 	
+	
+	//User Persit (Registration) End Points Configuration
+	private String registrationPersistBPMWorkflow;
+	private String registrationPersistBPMWorkflowEndPoint;
+	private HttpMethod registrationPersistBPMWorkflowHttpMethod;
+	private MediaType registrationPersistBPMWorkflowMediaType;
+	
+	
 	//Work Item for Applying Registration Rules in Registration jBPM Process 
 	private String wiApplyRegistrationRules;
 
@@ -64,6 +73,15 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	//Work Item for Encrypting Key Fields once Registration Rules Success in Registration jBPM Process 
 	private String wiEncryptKeyFields;
 
+	/** Registration Process Workflow Steps configuration **/
+	private String registrationRulesFailed;
+	private String registrationRulesSuccess;
+	private String registrationEncryptionFailed;
+	private String registrationEncryptionSuccess;
+	private String registrationPersistenceFailed;
+	private String registrationPersistenceSuccess;
+	private String registrationProcessFlowEnd;
+	
 	/**
 	 * Constructor
 	 */
@@ -73,7 +91,7 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	
 	/** Initialize Configuration **/
 	private void initializeWorkItem(SQBPMConfiguration sqBpmConfig){
-		System.out.println("=====================START SQRESTfulPostWorkItemHandler Post Constructor======================================");
+		/*System.out.println("=====================START SQRESTfulPostWorkItemHandler Post Constructor======================================");*/
 		//Getting End Point Constants for each flow jBPM Process for Registration
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesflow()){
 			this.registrationPasswordRulesflow = sqBpmConfig.getRegistrationPasswordRulesflow();
@@ -83,6 +101,9 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		}
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesSuccessflow()){
 			this.registrationPasswordRulesSuccessflow = sqBpmConfig.getRegistrationPasswordRulesSuccessflow();
+		}
+		if(null!=sqBpmConfig.getRegistrationPersistBPMWorkflow()){
+			this.registrationPersistBPMWorkflow = sqBpmConfig.getRegistrationPersistBPMWorkflow();
 		}
 		
 		//Getting Work Item Names from Configuration
@@ -96,6 +117,32 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 			this.wiProcessFailedRegistration = sqBpmConfig.getWiProcessFailedRegistration();
 		}
 		
+		/** Registration Process Workflow Steps configuration **/
+		//Rules Gateway
+		if(null!=sqBpmConfig.getRegistrationRulesFailed()){
+			this.registrationRulesFailed = sqBpmConfig.getRegistrationRulesFailed();
+		}
+		if(null!=sqBpmConfig.getRegistrationRulesSuccess()){
+			this.registrationRulesSuccess = sqBpmConfig.getRegistrationRulesSuccess();
+		}
+		//Encryption Gateway		
+		if(null!=sqBpmConfig.getRegistrationEncryptionFailed()){
+			this.registrationEncryptionFailed = sqBpmConfig.getRegistrationEncryptionFailed();
+		}
+		if(null!=sqBpmConfig.getRegistrationEncryptionSuccess()){
+			this.registrationEncryptionSuccess = sqBpmConfig.getRegistrationEncryptionSuccess();
+		}
+		//Persistence Gateway		
+		if(null!=sqBpmConfig.getRegistrationPersistenceFailed()){
+			this.registrationPersistenceFailed = sqBpmConfig.getRegistrationPersistenceFailed();
+		}
+		if(null!=sqBpmConfig.getRegistrationPersistenceSuccess()){
+			this.registrationPersistenceSuccess = sqBpmConfig.getRegistrationPersistenceSuccess();
+		}
+		//End of Workflow Process		
+		if(null!=sqBpmConfig.getRegistrationProcessFlowEnd()){
+			this.registrationProcessFlowEnd = sqBpmConfig.getRegistrationProcessFlowEnd();
+		}
 		
 		//Getting Configuration for each End Point for Each Work Item in the jBPM flow for Registration
 		List<SQEndPoint> sqEndPoints = sqBpmConfig.getEndPoints();
@@ -144,9 +191,29 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 						this.registrationPasswordRulesSuccessflowMediaType	= MediaType.APPLICATION_JSON;
 					}
 				}
+				
+				//Assigning Registration Persistence End Points
+				if(this.registrationPersistBPMWorkflow.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationPersistBPMWorkflowEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationPersistBPMWorkflowHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationPersistBPMWorkflowMediaType	= MediaType.APPLICATION_JSON;
+					}
+				}
+				
+				
+				
+				
+				
 			}
 		}
 		
+		/*
 		System.out.println("registrationPasswordRulesflow -->"+registrationPasswordRulesflow);
 		System.out.println("registrationPasswordRulesflowEndPoint -->"+registrationPasswordRulesflowEndPoint);
 		System.out.println("registrationPasswordRulesflowHttpMethod -->"+registrationPasswordRulesflowHttpMethod);
@@ -165,7 +232,13 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		System.out.println("wiApplyRegistrationRules -->"+wiApplyRegistrationRules);
 		System.out.println("wiProcessFailedRegistration -->"+wiProcessFailedRegistration);
 		System.out.println("wiEncryptKeyFields -->"+wiEncryptKeyFields);
-		System.out.println("=====================END SQRESTfulPostWorkItemHandler Post Constructor======================================");
+		*/
+		
+		/*System.out.println("registrationPersistBPMWorkflow -->"+registrationPersistBPMWorkflow);
+		System.out.println("registrationPersistBPMWorkflowEndPoint -->"+registrationPersistBPMWorkflowEndPoint);
+		System.out.println("registrationPersistBPMWorkflowHttpMethod -->"+registrationPersistBPMWorkflowHttpMethod);
+		System.out.println("registrationPersistBPMWorkflowMediaType -->"+registrationPersistBPMWorkflowMediaType);
+		System.out.println("=====================END SQRESTfulPostWorkItemHandler Post Constructor======================================");*/
 	}
 	
 	@Override
@@ -175,13 +248,20 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		System.out.println("Work Item: "+ workItem.getName() +", Work Item Id: "+ workItem.getId() + " Started::");
 		//Commented for DivergeTesting
 		UserVo userVo =  new UserVo();
+		Utilities utils = new Utilities();
 		
 		//Retrieve json representation of UserVo and UserVo POJO
-		JSONObject jsonRequest 					= (JSONObject) workItem.getParameter("PAYLOADJSON");
-		UserVo bpmUserVo						= (UserVo) workItem.getParameter("USERVO");
-		SQBPMConfiguration sqBpmConfig			= (SQBPMConfiguration) workItem.getParameter("SQBPMConfiguration");
+		JSONObject jsonRequest = (JSONObject) workItem.getParameter("PAYLOADJSON");
 		
+		UserVo bpmUserVo = (UserVo) workItem.getParameter("USERVO");
+		try{
+			jsonRequest  = utils.convertPojoToJSONObj(bpmUserVo);
+		}catch(Exception ex){
+			System.out.println("Something went wrong while convering POJO to JSON");
+		}
+		SQBPMConfiguration sqBpmConfig			= (SQBPMConfiguration) workItem.getParameter("SQBPMConfiguration");
 		initializeWorkItem(sqBpmConfig);
+		
 		
 		if(null!=jsonRequest.entrySet().iterator()){
 			Iterator<Entry<String, Object>> itr = jsonRequest.entrySet().iterator();
@@ -210,8 +290,8 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 				//TODO Handle all other HTTP Responses
 				if(respEntity.getStatusCode() == HttpStatus.OK){
 					UserVo resultedUserVo = respEntity.getBody();
-					userVo.setFailCategory(resultedUserVo.getFailCategory());
-					userVo.setCategory(resultedUserVo.getCategory());
+					bpmUserVo.setFailCategory(resultedUserVo.getFailCategory());
+					bpmUserVo.setCategory(resultedUserVo.getCategory());
 					if(resultedUserVo.getCategory()==UserVo.Category.REGISTRATION_SUCCESS){
 						nextStep = true;
 					}
@@ -219,61 +299,233 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 				
 				Map<String, Object> results = new HashMap<String, Object>();
 		        Map<String,Object> processedResults = new HashMap<String, Object>();
-		        processedResults.put("USERVO", userVo);
+		        processedResults.put("USERVO", bpmUserVo);
+		        
+		        //Process Workflow control logic. Very bad but until i get clarity on how jBPM handles WorkItem.Id, 
+		        //for now i'm not happy with jBPM Work Item handling
+		        String workFlowStep = sqBpmConfig.getRegistrationRulesFailed();
+		        if(nextStep){
+		        	workFlowStep = sqBpmConfig.getRegistrationRulesSuccess();
+		        }
+		        processedResults.put("NEXTSTEP", workFlowStep);
 		        results.put("Result", processedResults);
+		        results.put("USERVO", bpmUserVo);
+		        try{ 
+		        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+		        }catch(Exception ex){ 
+		        	System.out.println(ex); 
+		        }
 		        results.put("isRegRulesPassed", nextStep);
+		        results.put("isEncryptionSuccess", new Boolean(false));
+		        results.put("isPersistenceSuccess",new Boolean(false));
+		        results.put("NEXTSTEP",workFlowStep);
+		        
 		        manager.completeWorkItem(workItem.getId(), results);
 		        System.out.println("WORK ITEM 1 END");
-		        
-			}else if(2==workItem.getId()){
-				
-				System.out.println("WORK ITEM 2 STARTED");
-				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
-				ResponseEntity<UserVo> respEntity = 
-						restTeamplate.exchange(getRegistrationPasswordRulesSuccessflowEndPoint(),HttpMethod.POST, entity, UserVo.class);
-				Boolean nextStep = new Boolean(false);
-				
-				//TODO Handle all other HTTP Responses
-				if(respEntity.getStatusCode() == HttpStatus.OK){
-					UserVo encryptedUserVo = respEntity.getBody();
-					userVo.setPassword(encryptedUserVo.getPassword());
-				}
-				System.out.println("Encrypted Password = "+userVo.getPassword());
-				Map<String, Object> results = new HashMap<String, Object>();
-		        Map<String,Object> processedResults = new HashMap<String, Object>();
-		        processedResults.put("USERVO", userVo);
-		        results.put("Result", processedResults);
-		        manager.completeWorkItem(workItem.getId(), results);
-		        System.out.println("WORK ITEM 2 END");
-		        
-			}else if(3==workItem.getId()){
-				
-
-				System.out.println("WORK ITEM 3 STARTED");
-				//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
-				ResponseEntity<UserVo> respEntity = 
-						restTeamplate.exchange(getRegistrationPasswordRulesFailflowEndPoint(),HttpMethod.POST, entity, UserVo.class);
-				
-				//TODO Handle all other HTTP Responses
-				if(respEntity.getStatusCode() == HttpStatus.OK){
-					UserVo resultedUserVo = respEntity.getBody();
-					userVo.setFailCategory(resultedUserVo.getFailCategory());
-					userVo.setCategory(resultedUserVo.getCategory());
-				}
-				
-				Map<String, Object> results = new HashMap<String, Object>();
-		        Map<String,Object> processedResults = new HashMap<String, Object>();
-		        processedResults.put("USERVO", userVo);
-		        results.put("Result", processedResults);
-		        //workItem.getResults().put("isRegRulesPassed", new Boolean(true));
-		        //manager.completeWorkItem(workItem.getId(), null);
-				manager.completeWorkItem(workItem.getId(), results);
-				System.out.println("WORK ITEM 3 END");
-				
-			}else{
-				System.out.println("Work Item : "+workItem.getId()+ " Not configured Yet!!");
 			}
-			//End of Work Items
+			
+			if(workItem.getId()>1){
+				String nextStepInfo 	= (String) workItem.getParameter("NEXTSTEP");
+				
+				if(nextStepInfo!=null){
+					if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationRulesSuccess())){
+						
+						HttpEntity<String> entity2 = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+						
+						//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+						ResponseEntity<UserVo> respEntity = 
+								restTeamplate.exchange(getRegistrationPasswordRulesSuccessflowEndPoint(),HttpMethod.POST, entity2, UserVo.class);
+						Boolean nextStep = new Boolean(false);
+						
+						//TODO Handle all other HTTP Responses
+						if(respEntity.getStatusCode() == HttpStatus.OK){
+							UserVo encryptedUserVo = respEntity.getBody();
+							bpmUserVo.setPassword(encryptedUserVo.getPassword());
+							nextStep = true;
+						}
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        
+				        //Process Workflow control logic. Very bad but until i get clarity on how jBPM handles WorkItem.Id, 
+				        //for now i'm not happy with jBPM Work Item handling
+				        String workFlowStep = sqBpmConfig.getRegistrationEncryptionFailed();
+				        if(nextStep){
+				        	workFlowStep = sqBpmConfig.getRegistrationEncryptionSuccess();
+				        }
+				        processedResults.put("NEXTSTEP", workFlowStep);
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(true));
+				        results.put("isEncryptionSuccess", nextStep );
+				        results.put("isPersistenceSuccess",new Boolean(false));
+				        results.put("NEXTSTEP",workFlowStep);
+				        manager.completeWorkItem(workItem.getId(), results);
+				        System.out.println("WORK ITEM "+ workItem.getId() +" [Registration Rules Success Process END");
+				        
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationRulesFailed())){
+						
+						HttpEntity<String> entity2 = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+						//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+						ResponseEntity<UserVo> respEntity = 
+								restTeamplate.exchange(getRegistrationPasswordRulesFailflowEndPoint(),HttpMethod.POST, entity2, UserVo.class);
+						Boolean nextStep = new Boolean(false);
+						
+						//TODO Handle all other HTTP Responses
+						if(respEntity.getStatusCode() == HttpStatus.OK){
+							nextStep = true; //future use this flag to convey calling service that failed request is processed successfully
+						}
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        
+				        processedResults.put("NEXTSTEP", sqBpmConfig.getRegistrationProcessFlowEnd());
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(false));
+				        results.put("isEncryptionSuccess", new Boolean(false) );
+				        results.put("isPersistenceSuccess",new Boolean(false));
+				        manager.completeWorkItem(workItem.getId(), results);
+				        results.put("NEXTSTEP",sqBpmConfig.getRegistrationProcessFlowEnd());
+				        System.out.println("WORK ITEM "+ workItem.getId() +" [Process Registration Failures Process END");
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationEncryptionFailed())){
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Encryption Failures Process START");
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        processedResults.put("NEXTSTEP", sqBpmConfig.getRegistrationProcessFlowEnd()); //End the Flow
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(true));
+				        results.put("isEncryptionSuccess", new Boolean(false) );
+				        results.put("isPersistenceSuccess",new Boolean(false));
+				        results.put("NEXTSTEP",sqBpmConfig.getRegistrationProcessFlowEnd());
+				        manager.completeWorkItem(workItem.getId(), results);
+				        
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Encryption Failures Process END");
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationEncryptionSuccess())){
+						
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Encryption Success Process START");
+						
+						HttpEntity<String> entity2 = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+						
+						//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+						ResponseEntity<UserVo> respEntity = 
+								restTeamplate.exchange(getRegistrationPersistBPMWorkflowEndPoint(),HttpMethod.POST, entity2, UserVo.class);
+						Boolean nextStep = new Boolean(false);
+						
+						//TODO Handle all other HTTP Responses
+						if(respEntity.getStatusCode() == HttpStatus.OK){
+							UserVo encryptedUserVo = respEntity.getBody();
+							bpmUserVo.setCreatedBy(encryptedUserVo.getCreatedBy());
+							bpmUserVo.setCreatedOn(encryptedUserVo.getCreatedOn());
+							bpmUserVo.setId(encryptedUserVo.getId());
+							bpmUserVo.setUserId(encryptedUserVo.getUserId());
+							nextStep = true;
+						}
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        
+				        //Process Workflow control logic. Very bad but until i get clarity on how jBPM handles WorkItem.Id, 
+				        //for now i'm not happy with jBPM Work Item handling
+				        String workFlowStep = sqBpmConfig.getRegistrationPersistenceFailed();
+				        if(nextStep){
+				        	workFlowStep = sqBpmConfig.getRegistrationPersistenceSuccess();
+				        }
+				        processedResults.put("NEXTSTEP", workFlowStep);
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(false));
+				        results.put("isEncryptionSuccess", new Boolean(false) );
+				        results.put("isPersistenceSuccess", nextStep);
+				        results.put("NEXTSTEP",workFlowStep);
+				        manager.completeWorkItem(workItem.getId(), results);
+				        System.out.println("WORK ITEM "+ workItem.getId() +" [Process Encryption Success Process END");
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationPersistenceFailed())){
+						
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Persistence Failures Process START");
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        processedResults.put("NEXTSTEP", sqBpmConfig.getRegistrationProcessFlowEnd()); //End the Flow
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(true));
+				        results.put("isEncryptionSuccess", new Boolean(false) );
+				        results.put("isPersistenceSuccess",new Boolean(false));
+				        results.put("NEXTSTEP",sqBpmConfig.getRegistrationProcessFlowEnd());
+				        manager.completeWorkItem(workItem.getId(), results);
+				        
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Persistence Failures Process END");
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationPersistenceSuccess())){
+						
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Persistence Success Process START");
+						
+						Map<String, Object> results = new HashMap<String, Object>();
+				        Map<String,Object> processedResults = new HashMap<String, Object>();
+				        processedResults.put("USERVO", bpmUserVo);
+				        processedResults.put("NEXTSTEP", sqBpmConfig.getRegistrationProcessFlowEnd()); //End the Flow
+				        results.put("Result", processedResults);
+				        results.put("USERVO", bpmUserVo);
+				        try{ 
+				        	results.put("PAYLOADJSON", utils.convertPojoToJSONObj(bpmUserVo)); 
+				        }catch(Exception ex){ 
+				        	System.out.println(ex); 
+				        }
+				        results.put("isRegRulesPassed", new Boolean(true));
+				        results.put("isEncryptionSuccess", new Boolean(true) );
+				        results.put("isPersistenceSuccess",new Boolean(true));
+				        results.put("NEXTSTEP",sqBpmConfig.getRegistrationProcessFlowEnd());
+				        manager.completeWorkItem(workItem.getId(), results);
+				        
+						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Persistence Success Process END");
+						
+					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationProcessFlowEnd())){
+						System.out.println("::Registration Process End::");
+					}else{
+						System.out.println("Somethign Screwed up in NEXTSTEP of jBPM Workflow...[00]");
+					}
+				}else{
+					System.out.println("Something went wrong in jBPM Workflow......");
+				}
+				
+			}//jBPM Workflow > Step 1 End if
 		}else{
 			System.out.println("Invalid JSON Payload Received.......");
 		}
@@ -500,6 +752,160 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	 */
 	public void setWiEncryptKeyFields(String wiEncryptKeyFields) {
 		this.wiEncryptKeyFields = wiEncryptKeyFields;
+	}
+
+	/**
+	 * @return the registrationPersistBPMWorkflow
+	 */
+	public String getRegistrationPersistBPMWorkflow() {
+		return registrationPersistBPMWorkflow;
+	}
+
+	/**
+	 * @param registrationPersistBPMWorkflow the registrationPersistBPMWorkflow to set
+	 */
+	public void setRegistrationPersistBPMWorkflow(String registrationPersistBPMWorkflow) {
+		this.registrationPersistBPMWorkflow = registrationPersistBPMWorkflow;
+	}
+
+	/**
+	 * @return the registrationPersistBPMWorkflowEndPoint
+	 */
+	public String getRegistrationPersistBPMWorkflowEndPoint() {
+		return registrationPersistBPMWorkflowEndPoint;
+	}
+
+	/**
+	 * @param registrationPersistBPMWorkflowEndPoint the registrationPersistBPMWorkflowEndPoint to set
+	 */
+	public void setRegistrationPersistBPMWorkflowEndPoint(String registrationPersistBPMWorkflowEndPoint) {
+		this.registrationPersistBPMWorkflowEndPoint = registrationPersistBPMWorkflowEndPoint;
+	}
+
+	/**
+	 * @return the registrationPersistBPMWorkflowHttpMethod
+	 */
+	public HttpMethod getRegistrationPersistBPMWorkflowHttpMethod() {
+		return registrationPersistBPMWorkflowHttpMethod;
+	}
+
+	/**
+	 * @param registrationPersistBPMWorkflowHttpMethod the registrationPersistBPMWorkflowHttpMethod to set
+	 */
+	public void setRegistrationPersistBPMWorkflowHttpMethod(HttpMethod registrationPersistBPMWorkflowHttpMethod) {
+		this.registrationPersistBPMWorkflowHttpMethod = registrationPersistBPMWorkflowHttpMethod;
+	}
+
+	/**
+	 * @return the registrationPersistBPMWorkflowMediaType
+	 */
+	public MediaType getRegistrationPersistBPMWorkflowMediaType() {
+		return registrationPersistBPMWorkflowMediaType;
+	}
+
+	/**
+	 * @param registrationPersistBPMWorkflowMediaType the registrationPersistBPMWorkflowMediaType to set
+	 */
+	public void setRegistrationPersistBPMWorkflowMediaType(MediaType registrationPersistBPMWorkflowMediaType) {
+		this.registrationPersistBPMWorkflowMediaType = registrationPersistBPMWorkflowMediaType;
+	}
+
+	/**
+	 * @return the registrationRulesFailed
+	 */
+	public String getRegistrationRulesFailed() {
+		return registrationRulesFailed;
+	}
+
+	/**
+	 * @param registrationRulesFailed the registrationRulesFailed to set
+	 */
+	public void setRegistrationRulesFailed(String registrationRulesFailed) {
+		this.registrationRulesFailed = registrationRulesFailed;
+	}
+
+	/**
+	 * @return the registrationRulesSuccess
+	 */
+	public String getRegistrationRulesSuccess() {
+		return registrationRulesSuccess;
+	}
+
+	/**
+	 * @param registrationRulesSuccess the registrationRulesSuccess to set
+	 */
+	public void setRegistrationRulesSuccess(String registrationRulesSuccess) {
+		this.registrationRulesSuccess = registrationRulesSuccess;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailed
+	 */
+	public String getRegistrationEncryptionFailed() {
+		return registrationEncryptionFailed;
+	}
+
+	/**
+	 * @param registrationEncryptionFailed the registrationEncryptionFailed to set
+	 */
+	public void setRegistrationEncryptionFailed(String registrationEncryptionFailed) {
+		this.registrationEncryptionFailed = registrationEncryptionFailed;
+	}
+
+	/**
+	 * @return the registrationEncryptionSuccess
+	 */
+	public String getRegistrationEncryptionSuccess() {
+		return registrationEncryptionSuccess;
+	}
+
+	/**
+	 * @param registrationEncryptionSuccess the registrationEncryptionSuccess to set
+	 */
+	public void setRegistrationEncryptionSuccess(String registrationEncryptionSuccess) {
+		this.registrationEncryptionSuccess = registrationEncryptionSuccess;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailed
+	 */
+	public String getRegistrationPersistenceFailed() {
+		return registrationPersistenceFailed;
+	}
+
+	/**
+	 * @param registrationPersistenceFailed the registrationPersistenceFailed to set
+	 */
+	public void setRegistrationPersistenceFailed(String registrationPersistenceFailed) {
+		this.registrationPersistenceFailed = registrationPersistenceFailed;
+	}
+
+	/**
+	 * @return the registrationPersistenceSuccess
+	 */
+	public String getRegistrationPersistenceSuccess() {
+		return registrationPersistenceSuccess;
+	}
+
+	/**
+	 * @param registrationPersistenceSuccess the registrationPersistenceSuccess to set
+	 */
+	public void setRegistrationPersistenceSuccess(String registrationPersistenceSuccess) {
+		this.registrationPersistenceSuccess = registrationPersistenceSuccess;
+	}
+
+	/**
+	 * @return the registrationProcessFlowEnd
+	 */
+	public String getRegistrationProcessFlowEnd() {
+		return registrationProcessFlowEnd;
+	}
+
+	/**
+	 * @param registrationProcessFlowEnd the registrationProcessFlowEnd to set
+	 */
+	public void setRegistrationProcessFlowEnd(String registrationProcessFlowEnd) {
+		this.registrationProcessFlowEnd = registrationProcessFlowEnd;
 	}
 
 }

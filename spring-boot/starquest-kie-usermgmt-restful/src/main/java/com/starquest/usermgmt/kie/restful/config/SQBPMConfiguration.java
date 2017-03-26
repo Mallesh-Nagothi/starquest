@@ -54,6 +54,21 @@ public class SQBPMConfiguration {
 
 	//Work Item for Encrypting Key Fields once Registration Rules Success in Registration jBPM Process 
 	private String wiEncryptKeyFields;
+	
+	//RESTful End point configuration to Persist User with in New Registration jBPM Workflow
+	private String registrationPersistBPMWorkflow;
+	
+	
+	/** Registration Process Workflow Steps configuration **/
+	private String registrationRulesFailed;
+	private String registrationRulesSuccess;
+	private String registrationEncryptionFailed;
+	private String registrationEncryptionSuccess;
+	private String registrationPersistenceFailed;
+	private String registrationPersistenceSuccess;
+	private String registrationProcessFlowEnd;
+	
+	
 
 	
 	public SQBPMConfiguration(String registrationKIESession,
@@ -69,7 +84,15 @@ public class SQBPMConfiguration {
 								String registrationPasswordRulesSuccessflow,
 								String wiApplyRegistrationRules,
 								String wiProcessFailedRegistration,
-								String wiEncryptKeyFields) {
+								String wiEncryptKeyFields,
+								String registrationPersistBPMWorkflow,
+								String registrationRulesFailed,
+								String registrationRulesSuccess,
+								String registrationEncryptionFailed,
+								String registrationEncryptionSuccess,
+								String registrationPersistenceFailed,
+								String registrationPersistenceSuccess,
+								String registrationProcessFlowEnd) {
 		
 		this.registrationBPMProcessflowFulllName 	= registrationBPMProcessflowFulllName;
 		this.registrationBPMProcessflowName			= registrationBPMProcessflowName;
@@ -85,6 +108,14 @@ public class SQBPMConfiguration {
 		this.wiApplyRegistrationRules				= wiApplyRegistrationRules;
 		this.wiEncryptKeyFields						= wiEncryptKeyFields;
 		this.wiProcessFailedRegistration			= wiProcessFailedRegistration;
+		this.registrationPersistBPMWorkflow			= registrationPersistBPMWorkflow;
+		this.registrationRulesFailed				= registrationRulesFailed;
+		this.registrationRulesSuccess				= registrationRulesSuccess;
+		this.registrationEncryptionFailed			= registrationEncryptionFailed ;
+		this.registrationEncryptionSuccess			= registrationEncryptionSuccess;
+		this.registrationPersistenceFailed			= registrationPersistenceFailed;
+		this.registrationPersistenceSuccess			= registrationPersistenceSuccess;
+		
 		
 	}
 	
@@ -286,6 +317,118 @@ public class SQBPMConfiguration {
 	 */
 	public void setWiEncryptKeyFields(String wiEncryptKeyFields) {
 		this.wiEncryptKeyFields = wiEncryptKeyFields;
+	}
+
+	/**
+	 * @return the registrationPersistBPMWorkflow
+	 */
+	public String getRegistrationPersistBPMWorkflow() {
+		return registrationPersistBPMWorkflow;
+	}
+
+	/**
+	 * @param registrationPersistBPMWorkflow the registrationPersistBPMWorkflow to set
+	 */
+	public void setRegistrationPersistBPMWorkflow(String registrationPersistBPMWorkflow) {
+		this.registrationPersistBPMWorkflow = registrationPersistBPMWorkflow;
+	}
+
+	/**
+	 * @return the registrationRulesFailed
+	 */
+	public String getRegistrationRulesFailed() {
+		return registrationRulesFailed;
+	}
+
+	/**
+	 * @param registrationRulesFailed the registrationRulesFailed to set
+	 */
+	public void setRegistrationRulesFailed(String registrationRulesFailed) {
+		this.registrationRulesFailed = registrationRulesFailed;
+	}
+
+	/**
+	 * @return the registrationRulesSuccess
+	 */
+	public String getRegistrationRulesSuccess() {
+		return registrationRulesSuccess;
+	}
+
+	/**
+	 * @param registrationRulesSuccess the registrationRulesSuccess to set
+	 */
+	public void setRegistrationRulesSuccess(String registrationRulesSuccess) {
+		this.registrationRulesSuccess = registrationRulesSuccess;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailed
+	 */
+	public String getRegistrationEncryptionFailed() {
+		return registrationEncryptionFailed;
+	}
+
+	/**
+	 * @param registrationEncryptionFailed the registrationEncryptionFailed to set
+	 */
+	public void setRegistrationEncryptionFailed(String registrationEncryptionFailed) {
+		this.registrationEncryptionFailed = registrationEncryptionFailed;
+	}
+
+	/**
+	 * @return the registrationEncryptionSuccess
+	 */
+	public String getRegistrationEncryptionSuccess() {
+		return registrationEncryptionSuccess;
+	}
+
+	/**
+	 * @param registrationEncryptionSuccess the registrationEncryptionSuccess to set
+	 */
+	public void setRegistrationEncryptionSuccess(String registrationEncryptionSuccess) {
+		this.registrationEncryptionSuccess = registrationEncryptionSuccess;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailed
+	 */
+	public String getRegistrationPersistenceFailed() {
+		return registrationPersistenceFailed;
+	}
+
+	/**
+	 * @param registrationPersistenceFailed the registrationPersistenceFailed to set
+	 */
+	public void setRegistrationPersistenceFailed(String registrationPersistenceFailed) {
+		this.registrationPersistenceFailed = registrationPersistenceFailed;
+	}
+
+	/**
+	 * @return the registrationPersistenceSuccess
+	 */
+	public String getRegistrationPersistenceSuccess() {
+		return registrationPersistenceSuccess;
+	}
+
+	/**
+	 * @param registrationPersistenceSuccess the registrationPersistenceSuccess to set
+	 */
+	public void setRegistrationPersistenceSuccess(String registrationPersistenceSuccess) {
+		this.registrationPersistenceSuccess = registrationPersistenceSuccess;
+	}
+
+	/**
+	 * @return the registrationProcessFlowEnd
+	 */
+	public String getRegistrationProcessFlowEnd() {
+		return registrationProcessFlowEnd;
+	}
+
+	/**
+	 * @param registrationProcessFlowEnd the registrationProcessFlowEnd to set
+	 */
+	public void setRegistrationProcessFlowEnd(String registrationProcessFlowEnd) {
+		this.registrationProcessFlowEnd = registrationProcessFlowEnd;
 	}
 	
 	

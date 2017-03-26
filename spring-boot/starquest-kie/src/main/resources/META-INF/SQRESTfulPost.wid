@@ -12,9 +12,10 @@ import org.drools.core.process.core.datatype.impl.type.BooleanDataType;
       "PAYLOADJSON" : new ObjectDataType("net.minidev.json.JSONObject"),
       "USERVO" : new ObjectDataType("com.starquest.usermgmt.vo.UserVo"),
       "isRegRulesPassed" : new BooleanDataType(),
+      "isEncryptionSuccess" : new BooleanDataType(),
+      "isPersistenceSuccess" : new BooleanDataType(),
+      "NEXTSTEP" : new StringDataType(),
       "SQBPMConfiguration" : new ObjectDataType("com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration"),
-      
-      
     ], 
     "results" : [ 
         "Result" : new ObjectDataType("java.util.Map") 

@@ -62,15 +62,18 @@ public class EncryptionRESTfulService {
 			consumes = { "application/json"}, produces = { "application/json",})
 	public ResponseEntity<UserVo> getNewEncryptedValue(@RequestBody UserVo rawValue){
 		String encryptedRawValue = new String();
+		System.out.println(":::Encryption Service receive Request:::");
 		try{
 			EncryptionService encryptionService = new PasswordEncryption();
 			encryptedRawValue = encryptionService.encryptPassword(rawValue.getPassword(), SaltType.NON_NATIVE, SaltGeneratorService.SHA1, 32);
+			System.out.println("Encryption Service Encrypted::"+encryptedRawValue);
 		}catch(Exception ex){
 			//bad way of programming
 			System.out.println(ex.toString());
 			encryptedRawValue =  rawValue.getPassword();
 		}
 		rawValue.setPassword(encryptedRawValue);
+		System.out.println(":::Encryption Service Processed Complete:::");
 		return new ResponseEntity<UserVo>(rawValue, HttpStatus.OK);
 	}
 	

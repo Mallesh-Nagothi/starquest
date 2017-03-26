@@ -50,58 +50,45 @@ public class UserBusinessLogicImpl implements UserBusinessLogic {
 	@Override
 	public UserVo saveUser(UserVo userVo) {
 		
-		logger.debug("Entrypoint :: /saveUser");
+		logger.debug("::End Poiont -->PersistSQUser::Business Logic-->saveUser START");
+		System.out.println("::End Poiont -->PersistSQUser::Business Logic-->saveUser START");
 		
-		String urlStringForPasswordRules = new String("http://localhost:8282/starquest/userregrules/validatepassword");
-		String passwordHashURL = new  String("http://localhost:8080/encryption/");
-		
-		JSONObject jsonRequest = new JSONObject();
-		jsonRequest.put("","");
-		jsonRequest.put("password", userVo.getPassword());
-		
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		
-		
-		HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
-		
-		RestTemplate restTeamplate = new RestTemplate();
-		ResponseEntity<UserVo> respEntity = 
-				restTeamplate.exchange(urlStringForPasswordRules,HttpMethod.POST, entity, UserVo.class);
-		
-		if(respEntity.getStatusCode() == HttpStatus.OK){
-			UserVo filteredNewUser = respEntity.getBody();
-			userVo.setFailCategory(filteredNewUser.getFailCategory());
-		}
-		
-		if(userVo.getFailCategory()==UserVo.FailCategory.ALL_GOOD) 
-				{
-			
-			String passwordHash = restTeamplate.getForObject(passwordHashURL+userVo.getPassword(), String.class);
-			if(null==passwordHash){
-	        	passwordHash = userVo.getPassword();
-	        }
-	        User user = new User();
+		User user = new User();
+		if(userVo.getUserId()!=null){
 			user.setUserId(userVo.getUserId());
-			user.setFirstName(userVo.getFirstName());
-			user.setLastName(userVo.getLastName());
-			user.setEmailAddress(userVo.getEmailAddress());
-			user.setCreatedBy(userVo.getCreatedBy());
-			user.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
-			user = userRepository.save(user);
-			
-			Login login = new Login();
-			login.setPasswordSalt("NoSaltYet");
-			login.setPasswordHash(passwordHash);
-			login.setCreatedBy(userVo.getCreatedBy());
-			login.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
-			login.setUserId(user.getId());
-			login.setUser(user);
-			loginRepository.save(login);
+		}else{
+			user.setUserId(userVo.getEmailAddress()); //Email Address will be present as its crossing jBPM flow, but always write defensive code, later visit this and clean it up
+		}
+		user.setFirstName(userVo.getFirstName());
+		user.setLastName(userVo.getLastName());
+		user.setEmailAddress(userVo.getEmailAddress());
 		
+		if (userVo.getCreatedBy()!=null){
+			user.setCreatedBy(userVo.getCreatedBy());
+		}else{
+			user.setCreatedBy("MALLESH");
 		}
 		
-		logger.debug("Exitpoint :: /saveUser");
+		
+		user.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
+		user = userRepository.save(user);
+		Login login = new Login();
+		login.setPasswordSalt("NoSaltYet");
+		login.setPasswordHash(userVo.getPassword());
+		if (userVo.getCreatedBy()!=null){
+			login.setCreatedBy(userVo.getCreatedBy());
+		}else{
+			login.setCreatedBy("MALLESH");
+		}
+		
+		login.setCreatedOn(new java.sql.Date(new java.util.Date().getTime()));
+		login.setUserId(user.getId());
+		login.setUser(user);
+		loginRepository.save(login);
+		
+		logger.debug("::End Poiont -->PersistSQUser::Business Logic-->saveUser END");
+		System.out.println("::End Poiont -->PersistSQUser::Business Logic-->saveUser END");
+		
 		return userVo;
 	}
 
