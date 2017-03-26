@@ -1,16 +1,26 @@
-# Mallesh Nagothi Git  Hub Repo
-## jBPM- Custom WorkItem Handlers ##
-### Repo contains RESTful Services - RESTAPI[with HATEOS], runs on Springboot/Wildfly Swarm with JPA Persistence, Angular JS wiht MAterial Design Bootstrap ###
+<snippet>
+  <content><![CDATA[
+# ${1:Mallesh Nagothi Git  Hub Repo}
+Repor Contains SOA Examples: jBPM [with Custom WorkItem handlers for RESTful Services, dynamically handling Apache-Camel Route, AngularJS with Material Design-Bootstrap,
+      Springboot, Wildfly SWARMs, Dockers, Core Java Design Patterns, REST-API with HATEOS
 -----
 [Visit my Docker Hub](https://hub.docker.com/u/malleshnagothi/ "Mallesh Nagothi Docker Hub Page")
 -----
 ![alt text](jBPM_JPA_Springboot_WildflySwarm.png "jBPM with JPA Persistence on Springboot/Wildfly Swarm[RESTful ServicesHATEOS")
 
 
-STARQUEST
-
-Welcome to StarQuest Repository. This repository contains sevearal java examples
-
+## Installation
+TODO: Coming up..........
+## Usage
+TODO: Write usage instructions [Coming up..........]
+## Contributing
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+## History
+TODO: Write history
 02/27/2017
 Initial Delivery of
 Cryptography implementation and Javadoc for the same.
@@ -82,15 +92,10 @@ excel rules and applies and returns to service --> if valid snn --> then it call
 
 <b>03/25/2017</b>
 Keep pushing code to GIT HUB.. no time to leave comments.. Apologies for  total mess (my Repo], soo clean everyting and will upload documentation for clear understanding of examples..
-
-
-
-
-
-
-
-
-
-
-
-
+## Credits
+TODO: Musthaf [my goto guy for technical discussions.. :) ]
+## License
+TODO: Nope
+]]></content>
+  <tabTrigger>readme</tabTrigger>
+</snippet>
