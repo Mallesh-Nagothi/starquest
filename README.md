@@ -80,6 +80,9 @@ excel rules and applies and returns to service --> if valid snn --> then it call
 --> if this goes good --> it calls another micros service sitting on wildfly swarm docker for encrypting password with JNI Salt Gen
 --> if this goes good another micro service is called for JPA persistence.--> SPA displays message either case..
 
+<b>03/25/2017</b>
+Keep pushing code to GIT HUB.. no time to leave comments.. Apologies for  total mess (my Repo], soo clean everyting and will upload documentation for clear understanding of examples..
+
 
 
 
