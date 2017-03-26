@@ -1,6 +1,6 @@
 # Mallesh Nagothi Git  Hub Repo
 ## jBPM- Custom WorkItem Handlers ##
-### Report contains RESTful Services - RESTAPI[with HATEOS], runs on Springboot/Wildfly Swarm with JPA Persistence, Angular JS wiht MAterial Design Bootstrap ###
+### Repo contains RESTful Services - RESTAPI[with HATEOS], runs on Springboot/Wildfly Swarm with JPA Persistence, Angular JS wiht MAterial Design Bootstrap ###
 -----
 [Visit my Docker Hub](https://hub.docker.com/u/malleshnagothi/ "Mallesh Nagothi Docker Hub Page")
 -----
@@ -9,11 +9,11 @@
 
 STARQUEST
 
-Welcome to StarQuest Repository. This repository contains sevearal java services
+Welcome to StarQuest Repository. This repository contains sevearal java examples
 
 02/27/2017
 Initial Delivery of
-Cryptography implementation and Javadoc API.
+Cryptography implementation and Javadoc for the same.
 
 What is working, & what is not
 CSPRNG is working properly. But generating  Salt from Native library is not working properly on all environment. stay tuned..
