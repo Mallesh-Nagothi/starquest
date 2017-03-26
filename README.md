@@ -1,13 +1,14 @@
-<snippet>
-  <content><![CDATA[
-# ${1:Mallesh Nagothi Git  Hub Repo}
-Repor Contains SOA Examples: jBPM [with Custom WorkItem handlers for RESTful Services, dynamically handling Apache-Camel Route, AngularJS with Material Design-Bootstrap,
-      Springboot, Wildfly SWARMs, Dockers, Core Java Design Patterns, REST-API with HATEOS
 -----
 [Visit my Docker Hub](https://hub.docker.com/u/malleshnagothi/ "Mallesh Nagothi Docker Hub Page")
 -----
 ![alt text](jBPM_JPA_Springboot_WildflySwarm.png "jBPM with JPA Persistence on Springboot/Wildfly Swarm[RESTful ServicesHATEOS")
 
+----
+<snippet>
+  <content><![CDATA[
+# ${1:Mallesh Nagothi Git  Hub Repo}
+Repor Contains SOA Examples: jBPM [with Custom WorkItem handlers for RESTful Services, dynamically handling Apache-Camel Route, AngularJS with Material Design-Bootstrap,
+      Springboot, Wildfly SWARMs, Dockers, Core Java Design Patterns, REST-API with HATEOS
 
 ## Installation
 TODO: Coming up..........
