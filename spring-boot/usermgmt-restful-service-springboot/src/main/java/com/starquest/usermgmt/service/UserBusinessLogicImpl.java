@@ -27,7 +27,8 @@ import net.minidev.json.JSONObject;
 
 /**
  * @author mallesh
- *
+ * @since Mar/2017
+ * @version 1.0
  */
 @Service
 public class UserBusinessLogicImpl implements UserBusinessLogic {
@@ -50,7 +51,7 @@ public class UserBusinessLogicImpl implements UserBusinessLogic {
 	@Override
 	public UserVo saveUser(UserVo userVo) {
 		
-		logger.debug("::End Poiont -->PersistSQUser::Business Logic-->saveUser START");
+		logger.debug("::PersistSQUser::Business Logic-->saveUser START");
 		System.out.println("::End Poiont -->PersistSQUser::Business Logic-->saveUser START");
 		
 		User user = new User();
@@ -86,8 +87,8 @@ public class UserBusinessLogicImpl implements UserBusinessLogic {
 		login.setUser(user);
 		loginRepository.save(login);
 		
-		logger.debug("::End Poiont -->PersistSQUser::Business Logic-->saveUser END");
-		System.out.println("::End Poiont -->PersistSQUser::Business Logic-->saveUser END");
+		logger.debug("::PersistSQUser::Business Logic-->saveUser END");
+		System.out.println("::PersistSQUser::Business Logic-->saveUser END");
 		
 		return userVo;
 	}

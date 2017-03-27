@@ -57,24 +57,7 @@ public class UserRegistrationKieController {
 		return new ResponseEntity<UserVo>(userVo, httpStatus);
 		
 	}
-	
-	
-	@RequestMapping(path="/processPasswordRulesFail", method = RequestMethod.POST,
-	consumes = { "application/json"}, produces = { "application/json"})
-	public ResponseEntity<UserVo> processPasswordRulesFail(@RequestBody UserVo userVo){
-		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPasswordRulesFail()....");
-		try{
-			
-			//userVo = userRegistrationKieService.applySQPasswordRules(userVo);
-			System.out.println("Successfully processed Registration Failed Request...Recorded in MQ and Created a Flat File by CAMEL");
-			
-			
-		}catch(Exception ex){
-			System.out.println("Damallll::"+ex);
-		}
-		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->processPasswordRulesFail()....");
-		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
-	}
+
 	
 	@RequestMapping(path="/registrationPasswordRulesSuccessflow", method = RequestMethod.POST,
 	consumes = { "application/json"}, produces = { "application/json"})
@@ -103,6 +86,48 @@ public class UserRegistrationKieController {
 			System.out.println("Damallll::"+ex);
 		}
 		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->validatePasswordNewwUserRegistration()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+	
+	
+	
+	@RequestMapping(path="/processPasswordRulesFail", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> processPasswordRulesFail(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPasswordRulesFail()....");
+		try{
+			userRegistrationKieService.processRegistrationRulesFail(userVo);
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->processPasswordRulesFail()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="/processEncryptionFail", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> processEncryptionFail(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPasswordRulesFail()....");
+		try{
+			userRegistrationKieService.processRegistrationEncryptionFail(userVo);
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->processPasswordRulesFail()....");
+		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(path="/processPersistenceFail", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<UserVo> processPersistenceFail(@RequestBody UserVo userVo){
+		logger.debug("BPMS-BRMS KIE Controller Received Request-->End Point-->processPersistenceFail()....");
+		try{
+			userRegistrationKieService.processRegistrationPersistFail(userVo);
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		logger.debug("END BPMS-BRMS KIE Controller Request-->End Point-->processPersistenceFail()....");
 		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
 	}
 	

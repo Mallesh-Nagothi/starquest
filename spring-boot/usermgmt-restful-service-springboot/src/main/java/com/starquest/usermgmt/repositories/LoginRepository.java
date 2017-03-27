@@ -10,7 +10,8 @@ import com.starquest.usermgmt.domain.Login;
 
 /**
  * @author mallesh
- *
+ * @since Mar/2017
+ * @version 1.0
  */
 @Repository
 public interface LoginRepository extends CrudRepository<Login, Integer> {

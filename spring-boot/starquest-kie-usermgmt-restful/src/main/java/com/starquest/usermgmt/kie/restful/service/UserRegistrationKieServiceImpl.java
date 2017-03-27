@@ -6,6 +6,7 @@ package com.starquest.usermgmt.kie.restful.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,8 +18,16 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.starquest.registration.config.SQEndPoint;
 import com.starquest.registration.config.SQRESTfulEndPoints;
 import com.starquest.usermgmt.kie.restful.bpm.SQRESTfulPostWorkItemHandler;
 import com.starquest.usermgmt.kie.restful.config.SQBPMConfiguration;
@@ -40,13 +49,31 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	@Autowired
 	private SQBPMConfiguration	sqBpmConfig;
 	
-	//BPM Related Properties
+	/** jBPM congiration for Registration  **/
 	private String registrationKIESession;
 	private String registrationBPMProcessflowName;
 	private String registrationBPMProcessflowFulllName;
 	private String registrationPasswordRulesKSession;
 	
+	/** ESB End points configuration**/
+	private String registrationRulesFailedNotification; 
+	private String registrationRulesFailedNotificationEndPoint;
+	private HttpMethod registrationRulesFailedNotificationHttpMethod;
+	private MediaType registrationRulesFailedNotificationMediaType;
+	
+	private String registrationEncryptionFailedNotification;
+	private String registrationEncryptionFailedNotificationEndPoint;
+	private HttpMethod registrationEncryptionFailedNotificationHttpMethod;
+	private MediaType registrationEncryptionFailedNotificationMediaType;
+	
+	private String registrationPersistenceFailedNotification;
+	private String registrationPersistenceFailedNotificationEndPoint;
+	private HttpMethod registrationPersistenceFailedNotificationHttpMethod;
+	private MediaType registrationPersistenceFailedNotificationMediaType;
+	
+	
 	private SQRESTfulEndPoints sqRESTfulEndpoints;
+	
 	
 	
 	@Autowired
@@ -70,6 +97,64 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		}
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesKSession()){
 			this.registrationPasswordRulesKSession = sqBpmConfig.getRegistrationPasswordRulesKSession();
+		}
+		
+		if(null!=sqBpmConfig.getRegistrationRulesFailedNotification()){
+			this.registrationRulesFailedNotification = sqBpmConfig.getRegistrationRulesFailedNotification();
+		}
+		if(null!=sqBpmConfig.getRegistrationEncryptionFailedNotification()){
+			this.registrationEncryptionFailedNotification = sqBpmConfig.getRegistrationEncryptionFailedNotification();
+		}
+		if(null!=sqBpmConfig.getRegistrationPersistenceFailedNotification()){
+			this.registrationPersistenceFailedNotification = sqBpmConfig.getRegistrationPersistenceFailedNotification();
+		}
+		List<SQEndPoint> sqEndPoints = sqBpmConfig.getEndPoints();
+		if(sqEndPoints.size()>0){
+			for(SQEndPoint sqEndPoint: sqEndPoints){
+		
+				//configuring end points for rules fail notification ESB
+				if(this.registrationRulesFailedNotification.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationRulesFailedNotificationEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationRulesFailedNotificationHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationRulesFailedNotificationMediaType	= MediaType.APPLICATION_JSON;
+					}
+				}
+				
+				//configuring end points for encryption fail notification ESB
+				if(this.registrationEncryptionFailedNotification.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationEncryptionFailedNotificationEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationEncryptionFailedNotificationHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationEncryptionFailedNotificationMediaType	= MediaType.APPLICATION_JSON;
+					}
+				}
+				
+				//configuring end points for persistence fail notification ESB
+				if(this.registrationPersistenceFailedNotification.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationPersistenceFailedNotificationEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationPersistenceFailedNotificationHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationPersistenceFailedNotificationMediaType	= MediaType.APPLICATION_JSON;
+					}
+				}
+				
+			}
 		}
 		
 		sqRESTfulEndpoints = new SQRESTfulEndPoints();
@@ -107,6 +192,7 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 		
 		userVo = (UserVo)((WorkflowProcessInstance) processInstance).getVariable("USERVO"); 
 		if(null!= userVo){
+			//verify UserVo after jBPM Process
 			System.out.println("Bpm Processed User Profile with User.FName=..."+userVo.getFirstName());
 			System.out.println("Bpm Processed User Profile with User.LName=..."+userVo.getLastName());
 			System.out.println("Bpm Processed User Profile with User.ENCRYPTEDPWD=..."+userVo.getPassword());
@@ -135,15 +221,6 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 					 userVo.setBadLastName(tempUserProfile.isBadLastName());
 					 userVo.setBadFirstName(tempUserProfile.isBadFirstName());
 					 userVo.setBadPassword(tempUserProfile.isBadPassword());
-					 /*System.out.println("Bpm and Rules Processed User Profile with User.FAILCATEGORY="+tempUserProfile.getFailCategory());
-					 System.out.println("Bpm and Rules Processed User Profile with User.CATEGORY=..."+tempUserProfile.getCategory());
-					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADEMAIL="+tempUserProfile.isBadEmail());
-					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADLNAME=..."+tempUserProfile.isBadLastName());
-					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADFNAME="+tempUserProfile.isBadFirstName());
-					 System.out.println("Bpm and Rules Processed User Profile with User.ISBADPASSWORD=..."+tempUserProfile.isBadPassword());
-					 System.out.println("Bpm and Rules Processed User Profile with User.FName=..."+tempUserProfile.getFirstName());
-					 System.out.println("Bpm and Rules Processed User Profile with User.ENCRYPTEDPWD=..."+tempUserProfile.getPassword());*/
-					 
 				 }
 			 }
 		 }
@@ -184,6 +261,105 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	
 	
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see com.starquest.usermgmt.kie.restful.service.UserRegistrationKieService#processRegistrationRulesFail(com.starquest.usermgmt.vo.UserVo)
+	 */
+	@Override
+	public boolean processRegistrationRulesFail(UserVo userVo) throws Exception {
+		System.out.println("::RegistrationRulesFail Process START::");
+		boolean rulesFailProcessSuccess = false;
+		try{
+			Utilities utils = new Utilities();
+			JSONObject jsonRequest = utils.convertPojoToJSONObj(userVo);
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			
+			HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+			RestTemplate restTeamplate = new RestTemplate();
+			
+			
+			//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+			ResponseEntity<UserVo> respEntity = 
+					restTeamplate.exchange(getRegistrationRulesFailedNotificationEndPoint(),HttpMethod.POST, entity, UserVo.class);
+			if(respEntity.getStatusCode() == HttpStatus.OK){
+				rulesFailProcessSuccess = true;
+			}
+			
+		}catch(Exception ex){
+			System.out.println(ex);
+	
+		}
+		
+		System.out.println("::RegistrationRulesFail Process END::");
+		return rulesFailProcessSuccess;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.starquest.usermgmt.kie.restful.service.UserRegistrationKieService#processRegistrationEncryptionFail(com.starquest.usermgmt.vo.UserVo)
+	 */
+	@Override
+	public boolean processRegistrationEncryptionFail(UserVo userVo) throws Exception {
+		System.out.println("::RegistrationEncryptionFail Process START::");
+		boolean encryptionFailProcessSuccess = false;
+		try{
+			Utilities utils = new Utilities();
+			JSONObject jsonRequest = utils.convertPojoToJSONObj(userVo);
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			
+			HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+			RestTemplate restTeamplate = new RestTemplate();
+			
+			
+			//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+			ResponseEntity<UserVo> respEntity = 
+					restTeamplate.exchange(getRegistrationEncryptionFailedNotificationEndPoint(),HttpMethod.POST, entity, UserVo.class);
+			if(respEntity.getStatusCode() == HttpStatus.OK){
+				encryptionFailProcessSuccess = true;
+			}
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+		
+		System.out.println("::RegistrationEncryptionFail Process END::");
+		return encryptionFailProcessSuccess;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.starquest.usermgmt.kie.restful.service.UserRegistrationKieService#processRegistrationPersistFail(com.starquest.usermgmt.vo.UserVo)
+	 */
+	@Override
+	public boolean processRegistrationPersistFail(UserVo userVo) throws Exception {
+		System.out.println("::RegistrationPersistFail Process START::");
+		boolean persistenceFailProcessSuccess = false;
+		try{
+			Utilities utils = new Utilities();
+			JSONObject jsonRequest = utils.convertPojoToJSONObj(userVo);
+			
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			
+			HttpEntity<String> entity = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+			RestTemplate restTeamplate = new RestTemplate();
+			
+			//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+			ResponseEntity<UserVo> respEntity = 
+					restTeamplate.exchange(getRegistrationPersistenceFailedNotificationEndPoint(),HttpMethod.POST, entity, UserVo.class);
+			if(respEntity.getStatusCode() == HttpStatus.OK){
+				persistenceFailProcessSuccess = true;
+			}
+		}catch(Exception ex){
+			System.out.println(ex);
+		}		
+		
+		System.out.println("::RegistrationPersistFail Process END::");
+		return persistenceFailProcessSuccess;
+	}
+
 	/**
 	 * @return the registrationKIESession
 	 */
@@ -262,6 +438,199 @@ public class UserRegistrationKieServiceImpl implements UserRegistrationKieServic
 	public void setRegistrationPasswordRulesKSession(String registrationPasswordRulesKSession) {
 		this.registrationPasswordRulesKSession = registrationPasswordRulesKSession;
 	}
+
+	/**
+	 * @return the registrationRulesFailedNotification
+	 */
+	public String getRegistrationRulesFailedNotification() {
+		return registrationRulesFailedNotification;
+	}
+
+	/**
+	 * @param registrationRulesFailedNotification the registrationRulesFailedNotification to set
+	 */
+	public void setRegistrationRulesFailedNotification(String registrationRulesFailedNotification) {
+		this.registrationRulesFailedNotification = registrationRulesFailedNotification;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailedNotification
+	 */
+	public String getRegistrationEncryptionFailedNotification() {
+		return registrationEncryptionFailedNotification;
+	}
+
+	/**
+	 * @param registrationEncryptionFailedNotification the registrationEncryptionFailedNotification to set
+	 */
+	public void setRegistrationEncryptionFailedNotification(String registrationEncryptionFailedNotification) {
+		this.registrationEncryptionFailedNotification = registrationEncryptionFailedNotification;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailedNotification
+	 */
+	public String getRegistrationPersistenceFailedNotification() {
+		return registrationPersistenceFailedNotification;
+	}
+
+	/**
+	 * @param registrationPersistenceFailedNotification the registrationPersistenceFailedNotification to set
+	 */
+	public void setRegistrationPersistenceFailedNotification(String registrationPersistenceFailedNotification) {
+		this.registrationPersistenceFailedNotification = registrationPersistenceFailedNotification;
+	}
+
+	/**
+	 * @return the sqRESTfulEndpoints
+	 */
+	public SQRESTfulEndPoints getSqRESTfulEndpoints() {
+		return sqRESTfulEndpoints;
+	}
+
+	/**
+	 * @param sqRESTfulEndpoints the sqRESTfulEndpoints to set
+	 */
+	public void setSqRESTfulEndpoints(SQRESTfulEndPoints sqRESTfulEndpoints) {
+		this.sqRESTfulEndpoints = sqRESTfulEndpoints;
+	}
+
+	/**
+	 * @return the registrationRulesFailedNotificationEndPoint
+	 */
+	public String getRegistrationRulesFailedNotificationEndPoint() {
+		return registrationRulesFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @param registrationRulesFailedNotificationEndPoint the registrationRulesFailedNotificationEndPoint to set
+	 */
+	public void setRegistrationRulesFailedNotificationEndPoint(String registrationRulesFailedNotificationEndPoint) {
+		this.registrationRulesFailedNotificationEndPoint = registrationRulesFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @return the registrationRulesFailedNotificationHttpMethod
+	 */
+	public HttpMethod getRegistrationRulesFailedNotificationHttpMethod() {
+		return registrationRulesFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @param registrationRulesFailedNotificationHttpMethod the registrationRulesFailedNotificationHttpMethod to set
+	 */
+	public void setRegistrationRulesFailedNotificationHttpMethod(HttpMethod registrationRulesFailedNotificationHttpMethod) {
+		this.registrationRulesFailedNotificationHttpMethod = registrationRulesFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @return the registrationRulesFailedNotificationMediaType
+	 */
+	public MediaType getRegistrationRulesFailedNotificationMediaType() {
+		return registrationRulesFailedNotificationMediaType;
+	}
+
+	/**
+	 * @param registrationRulesFailedNotificationMediaType the registrationRulesFailedNotificationMediaType to set
+	 */
+	public void setRegistrationRulesFailedNotificationMediaType(MediaType registrationRulesFailedNotificationMediaType) {
+		this.registrationRulesFailedNotificationMediaType = registrationRulesFailedNotificationMediaType;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailedNotificationEndPoint
+	 */
+	public String getRegistrationEncryptionFailedNotificationEndPoint() {
+		return registrationEncryptionFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @param registrationEncryptionFailedNotificationEndPoint the registrationEncryptionFailedNotificationEndPoint to set
+	 */
+	public void setRegistrationEncryptionFailedNotificationEndPoint(
+			String registrationEncryptionFailedNotificationEndPoint) {
+		this.registrationEncryptionFailedNotificationEndPoint = registrationEncryptionFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailedNotificationHttpMethod
+	 */
+	public HttpMethod getRegistrationEncryptionFailedNotificationHttpMethod() {
+		return registrationEncryptionFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @param registrationEncryptionFailedNotificationHttpMethod the registrationEncryptionFailedNotificationHttpMethod to set
+	 */
+	public void setRegistrationEncryptionFailedNotificationHttpMethod(
+			HttpMethod registrationEncryptionFailedNotificationHttpMethod) {
+		this.registrationEncryptionFailedNotificationHttpMethod = registrationEncryptionFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailedNotificationMediaType
+	 */
+	public MediaType getRegistrationEncryptionFailedNotificationMediaType() {
+		return registrationEncryptionFailedNotificationMediaType;
+	}
+
+	/**
+	 * @param registrationEncryptionFailedNotificationMediaType the registrationEncryptionFailedNotificationMediaType to set
+	 */
+	public void setRegistrationEncryptionFailedNotificationMediaType(
+			MediaType registrationEncryptionFailedNotificationMediaType) {
+		this.registrationEncryptionFailedNotificationMediaType = registrationEncryptionFailedNotificationMediaType;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailedNotificationEndPoint
+	 */
+	public String getRegistrationPersistenceFailedNotificationEndPoint() {
+		return registrationPersistenceFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @param registrationPersistenceFailedNotificationEndPoint the registrationPersistenceFailedNotificationEndPoint to set
+	 */
+	public void setRegistrationPersistenceFailedNotificationEndPoint(
+			String registrationPersistenceFailedNotificationEndPoint) {
+		this.registrationPersistenceFailedNotificationEndPoint = registrationPersistenceFailedNotificationEndPoint;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailedNotificationHttpMethod
+	 */
+	public HttpMethod getRegistrationPersistenceFailedNotificationHttpMethod() {
+		return registrationPersistenceFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @param registrationPersistenceFailedNotificationHttpMethod the registrationPersistenceFailedNotificationHttpMethod to set
+	 */
+	public void setRegistrationPersistenceFailedNotificationHttpMethod(
+			HttpMethod registrationPersistenceFailedNotificationHttpMethod) {
+		this.registrationPersistenceFailedNotificationHttpMethod = registrationPersistenceFailedNotificationHttpMethod;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailedNotificationMediaType
+	 */
+	public MediaType getRegistrationPersistenceFailedNotificationMediaType() {
+		return registrationPersistenceFailedNotificationMediaType;
+	}
+
+	/**
+	 * @param registrationPersistenceFailedNotificationMediaType the registrationPersistenceFailedNotificationMediaType to set
+	 */
+	public void setRegistrationPersistenceFailedNotificationMediaType(
+			MediaType registrationPersistenceFailedNotificationMediaType) {
+		this.registrationPersistenceFailedNotificationMediaType = registrationPersistenceFailedNotificationMediaType;
+	}
+
+	
+
+	
+
 	
 
 }

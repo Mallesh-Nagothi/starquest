@@ -229,7 +229,7 @@ public class UserController {
 	@RequestMapping(value = "/createMemberIncome", method = { RequestMethod.POST }, 
 			consumes = { "application/json"}, produces = { "application/json",})
 	public ResponseEntity<UserProfile> createMemberIncome(@RequestBody UserProfile userProfile){
-		logger.debug("Entrypoint :: /createMemberIncome");
+		logger.debug("::EndPoint::/createMemberIncome");
 		System.out.println("Welcome to the World of WildFlies.....");
 		System.out.println("Received Request @SERVER[CONTROLLER] End");
 		System.out.println("Delegating @SERVER[CONTROLLER] to @SERVER[BusinessLayer]");

@@ -63,6 +63,19 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	private HttpMethod registrationPersistBPMWorkflowHttpMethod;
 	private MediaType registrationPersistBPMWorkflowMediaType;
 	
+	//Persistence(Registration) Fail End points configuration
+	private String registrationPersistenceFailflow;
+	private String registrationPersistenceFailflowEndPoint;
+	private HttpMethod registrationPersistenceFailflowHttpMethod;
+	private MediaType registrationPersistenceFailflowMediaType;
+	
+	//Encryption(Registration) Fail End points configuration
+	private String registrationEncryptionFailflow;
+	private String registrationEncryptionFailflowEndPoint;
+	private HttpMethod registrationEncryptionFailflowHttpMethod;
+	private MediaType registrationEncryptionFailflowMediaType;
+	
+	
 	
 	//Work Item for Applying Registration Rules in Registration jBPM Process 
 	private String wiApplyRegistrationRules;
@@ -98,6 +111,12 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		}
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesFailflow()){
 			this.registrationPasswordRulesFailflow = sqBpmConfig.getRegistrationPasswordRulesFailflow();
+		}
+		if(null!=sqBpmConfig.getRegistrationEncryptionFailflow()){
+			this.registrationEncryptionFailflow = sqBpmConfig.getRegistrationEncryptionFailflow();
+		}
+		if(null!=sqBpmConfig.getRegistrationPersistenceFailflow()){
+			this.registrationPersistenceFailflow = sqBpmConfig.getRegistrationPersistenceFailflow();
 		}
 		if(null!=sqBpmConfig.getRegistrationPasswordRulesSuccessflow()){
 			this.registrationPasswordRulesSuccessflow = sqBpmConfig.getRegistrationPasswordRulesSuccessflow();
@@ -192,6 +211,21 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 					}
 				}
 				
+				//Assigning Registration Encryption Fail End Points
+				if(this.registrationEncryptionFailflow.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationEncryptionFailflowEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationEncryptionFailflowHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationEncryptionFailflowMediaType	= MediaType.APPLICATION_JSON;
+					}
+					
+				}
+				
 				//Assigning Registration Persistence End Points
 				if(this.registrationPersistBPMWorkflow.equalsIgnoreCase(sqEndPoint.getEndPoint())){
 					this.registrationPersistBPMWorkflowEndPoint	= sqEndPoint.getUrl();
@@ -206,9 +240,20 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 					}
 				}
 				
-				
-				
-				
+				//Assigning Registration Persistence Fail End Points
+				if(this.registrationPersistenceFailflow.equalsIgnoreCase(sqEndPoint.getEndPoint())){
+					this.registrationPersistenceFailflowEndPoint	= sqEndPoint.getUrl();
+					
+					if(null!=sqEndPoint.getOperation() 
+							&& sqEndPoint.getOperation().equalsIgnoreCase(sqBpmConfig.getGlobalOperationPost())){
+						this.registrationPersistenceFailflowHttpMethod	= HttpMethod.POST;
+					}
+					if(null!=sqEndPoint.getMediaType() && 
+							sqEndPoint.getMediaType().equalsIgnoreCase(sqBpmConfig.getGlobalMediaTypeJson())){
+						this.registrationPersistenceFailflowMediaType	= MediaType.APPLICATION_JSON;
+					}
+					
+				}
 				
 			}
 		}
@@ -246,7 +291,6 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		
 		
 		System.out.println("Work Item: "+ workItem.getName() +", Work Item Id: "+ workItem.getId() + " Started::");
-		//Commented for DivergeTesting
 		UserVo userVo =  new UserVo();
 		Utilities utils = new Utilities();
 		
@@ -257,8 +301,9 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 		try{
 			jsonRequest  = utils.convertPojoToJSONObj(bpmUserVo);
 		}catch(Exception ex){
-			System.out.println("Something went wrong while convering POJO to JSON");
+			System.out.println("Something went wrong while converting POJO to JSON");
 		}
+		//following line is not required. cleanup
 		SQBPMConfiguration sqBpmConfig			= (SQBPMConfiguration) workItem.getParameter("SQBPMConfiguration");
 		initializeWorkItem(sqBpmConfig);
 		
@@ -405,6 +450,18 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationEncryptionFailed())){
 						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Encryption Failures Process START");
 						
+						HttpEntity<String> entity2 = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+						//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+						ResponseEntity<UserVo> respEntity = 
+								restTeamplate.exchange(getRegistrationEncryptionFailflowEndPoint(),HttpMethod.POST, entity2, UserVo.class);
+						Boolean nextStep = new Boolean(false);
+						
+						//TODO Handle all other HTTP Responses
+						if(respEntity.getStatusCode() == HttpStatus.OK){
+							nextStep = true; //future use this flag to convey calling service that failed request is processed successfully
+						}
+						
+						
 						Map<String, Object> results = new HashMap<String, Object>();
 				        Map<String,Object> processedResults = new HashMap<String, Object>();
 				        processedResults.put("USERVO", bpmUserVo);
@@ -473,6 +530,16 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 					}else if(nextStepInfo.equalsIgnoreCase(sqBpmConfig.getRegistrationPersistenceFailed())){
 						
 						System.out.println("WORK ITEM "+ workItem.getId() +" [Process Persistence Failures Process START");
+						HttpEntity<String> entity2 = new HttpEntity<String>(jsonRequest.toString() ,httpHeaders);
+						//@TODO remove HttpMethod.POST hard coding in the following line, use parameter - Mallesh 
+						ResponseEntity<UserVo> respEntity = 
+								restTeamplate.exchange(getRegistrationPersistenceFailflowEndPoint(),HttpMethod.POST, entity2, UserVo.class);
+						Boolean nextStep = new Boolean(false);
+						
+						//TODO Handle all other HTTP Responses
+						if(respEntity.getStatusCode() == HttpStatus.OK){
+							nextStep = true; //future use this flag to convey calling service that failed request is processed successfully
+						}
 						
 						Map<String, Object> results = new HashMap<String, Object>();
 				        Map<String,Object> processedResults = new HashMap<String, Object>();
@@ -906,6 +973,118 @@ public class SQRESTfulPostWorkItemHandler implements WorkItemHandler {
 	 */
 	public void setRegistrationProcessFlowEnd(String registrationProcessFlowEnd) {
 		this.registrationProcessFlowEnd = registrationProcessFlowEnd;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailflow
+	 */
+	public String getRegistrationPersistenceFailflow() {
+		return registrationPersistenceFailflow;
+	}
+
+	/**
+	 * @param registrationPersistenceFailflow the registrationPersistenceFailflow to set
+	 */
+	public void setRegistrationPersistenceFailflow(String registrationPersistenceFailflow) {
+		this.registrationPersistenceFailflow = registrationPersistenceFailflow;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailflowEndPoint
+	 */
+	public String getRegistrationPersistenceFailflowEndPoint() {
+		return registrationPersistenceFailflowEndPoint;
+	}
+
+	/**
+	 * @param registrationPersistenceFailflowEndPoint the registrationPersistenceFailflowEndPoint to set
+	 */
+	public void setRegistrationPersistenceFailflowEndPoint(String registrationPersistenceFailflowEndPoint) {
+		this.registrationPersistenceFailflowEndPoint = registrationPersistenceFailflowEndPoint;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailflowHttpMethod
+	 */
+	public HttpMethod getRegistrationPersistenceFailflowHttpMethod() {
+		return registrationPersistenceFailflowHttpMethod;
+	}
+
+	/**
+	 * @param registrationPersistenceFailflowHttpMethod the registrationPersistenceFailflowHttpMethod to set
+	 */
+	public void setRegistrationPersistenceFailflowHttpMethod(HttpMethod registrationPersistenceFailflowHttpMethod) {
+		this.registrationPersistenceFailflowHttpMethod = registrationPersistenceFailflowHttpMethod;
+	}
+
+	/**
+	 * @return the registrationPersistenceFailflowMediaType
+	 */
+	public MediaType getRegistrationPersistenceFailflowMediaType() {
+		return registrationPersistenceFailflowMediaType;
+	}
+
+	/**
+	 * @param registrationPersistenceFailflowMediaType the registrationPersistenceFailflowMediaType to set
+	 */
+	public void setRegistrationPersistenceFailflowMediaType(MediaType registrationPersistenceFailflowMediaType) {
+		this.registrationPersistenceFailflowMediaType = registrationPersistenceFailflowMediaType;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailflow
+	 */
+	public String getRegistrationEncryptionFailflow() {
+		return registrationEncryptionFailflow;
+	}
+
+	/**
+	 * @param registrationEncryptionFailflow the registrationEncryptionFailflow to set
+	 */
+	public void setRegistrationEncryptionFailflow(String registrationEncryptionFailflow) {
+		this.registrationEncryptionFailflow = registrationEncryptionFailflow;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailflowEndPoint
+	 */
+	public String getRegistrationEncryptionFailflowEndPoint() {
+		return registrationEncryptionFailflowEndPoint;
+	}
+
+	/**
+	 * @param registrationEncryptionFailflowEndPoint the registrationEncryptionFailflowEndPoint to set
+	 */
+	public void setRegistrationEncryptionFailflowEndPoint(String registrationEncryptionFailflowEndPoint) {
+		this.registrationEncryptionFailflowEndPoint = registrationEncryptionFailflowEndPoint;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailflowHttpMethod
+	 */
+	public HttpMethod getRegistrationEncryptionFailflowHttpMethod() {
+		return registrationEncryptionFailflowHttpMethod;
+	}
+
+	/**
+	 * @param registrationEncryptionFailflowHttpMethod the registrationEncryptionFailflowHttpMethod to set
+	 */
+	public void setRegistrationEncryptionFailflowHttpMethod(HttpMethod registrationEncryptionFailflowHttpMethod) {
+		this.registrationEncryptionFailflowHttpMethod = registrationEncryptionFailflowHttpMethod;
+	}
+
+	/**
+	 * @return the registrationEncryptionFailflowMediaType
+	 */
+	public MediaType getRegistrationEncryptionFailflowMediaType() {
+		return registrationEncryptionFailflowMediaType;
+	}
+
+	/**
+	 * @param registrationEncryptionFailflowMediaType the registrationEncryptionFailflowMediaType to set
+	 */
+	public void setRegistrationEncryptionFailflowMediaType(MediaType registrationEncryptionFailflowMediaType) {
+		this.registrationEncryptionFailflowMediaType = registrationEncryptionFailflowMediaType;
 	}
 
 }

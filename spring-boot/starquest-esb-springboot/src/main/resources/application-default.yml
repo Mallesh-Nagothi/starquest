@@ -1,4 +1,4 @@
-kie:
+esb:
   registrationKIESession: "bpm.starquest.registrationKSession"
   registrationBPMProcessflowName: "SQRESTfulPost"
   registrationBPMProcessflowFulllName: "com.starquest.kie.process.userreg.SQRegiostrationProcess1"
@@ -8,8 +8,6 @@ kie:
   registrationPasswordRulesFailflow: "registrationPasswordRulesFailflow"
   registrationPasswordRulesSuccessflow: "registrationPasswordRulesSuccessflow"
   registrationPersistBPMWorkflow: "registrationPersistBPMWorkflow"
-  registrationEncryptionFailflow: "registrationEncryptionFailflow"
-  registrationPersistenceFailflow: "registrationPersistenceFailflow"
   globalMediaTypeJson: "APPLICATION_JSON"
   globalOperationPost: "POST"
   WIApplyRegistrationRules: "WIApplyRegistrationRules"
@@ -21,10 +19,8 @@ kie:
   registrationEncryptionSuccess: "registrationEncryptionSuccess"
   registrationPersistenceFailed: "registrationPersistenceFailed"
   registrationPersistenceSuccess: "registrationPersistenceSuccess"
-  registrationProcessFlowEnd: "registrationProcessFlowEnd"
-  registrationRulesFailedNotification: "registrationRulesFailedNotification" 
-  registrationEncryptionFailedNotification: "registrationEncryptionFailedNotification"
-  registrationPersistenceFailedNotification: "registrationPersistenceFailedNotification"
+  registrationProcessFlowEnd: "registrationProcessFlowEnd" 
+  
   
   
   endPoints:
@@ -47,18 +43,6 @@ kie:
       mediaType: "APPLICATION_JSON"
       operation: "POST"  
     - 
-      endPoint: "registrationEncryptionFailflow" 
-      url: "http://localhost:8282/sq/registrationkie/processEncryptionFail"
-      context: "/sq/registrationkie/processEncryptionFail"
-      mediaType: "APPLICATION_JSON"
-      operation: "POST"  
-    - 
-      endPoint: "registrationPersistenceFailflow" 
-      url: "http://localhost:8282/sq/registrationkie/processPersistenceFail"
-      context: "/sq/registrationkie/processEncryptionFail"
-      mediaType: "APPLICATION_JSON"
-      operation: "POST"  
-    -
       endPoint: "registrationPasswordRulesSuccessflow"
       url: "http://localhost:9292/sq/encryption/newVer"
       context: "sq/encryption/"
@@ -70,23 +54,3 @@ kie:
       context: "sq/saveSQUser/"
       mediaType: "APPLICATION_JSON"
       operation: "POST"
-    -
-      endPoint: "registrationRulesFailedNotification"
-      url: "http://localhost:6262/sq/esb/registrationRulesFail"
-      context: "sq/esb/registrationRulesFail"
-      mediaType: "APPLICATION_JSON"
-      operation: "POST"
-    -
-      endPoint: "registrationEncryptionFailedNotification"
-      url: "http://localhost:6262/sq/esb/registrationEncryptionFail"
-      context: "sq/esb/registrationEncryptionFail"
-      mediaType: "APPLICATION_JSON"
-      operation: "POST"
-    -
-      endPoint: "registrationPersistenceFailedNotification"
-      url: "http://localhost:6262/sq/esb/registrationPersistenceFail"
-      context: "sq/esb/registrationPersistenceFail"
-      mediaType: "APPLICATION_JSON"
-      operation: "POST"
-      
-      

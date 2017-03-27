@@ -9,7 +9,8 @@ import com.starquest.usermgmt.domain.User;
 
 /**
  * @author mallesh
- *
+ * @since Mar/2017
+ * @version 1.0
  */
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
