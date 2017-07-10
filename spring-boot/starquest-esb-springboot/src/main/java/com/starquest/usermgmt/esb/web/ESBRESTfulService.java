@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.starquest.registration.config.NotificationRouter;
 import com.starquest.usermgmt.esb.service.SQESBNotificationService;
 import com.starquest.usermgmt.vo.UserVo;
 
@@ -63,6 +64,20 @@ public class ESBRESTfulService {
 		
 		return new ResponseEntity<UserVo>(userVo, HttpStatus.OK);
 	}
+	
+	@RequestMapping(path="/notifyRegistrationSuccess", method = RequestMethod.POST,
+	consumes = { "application/json"}, produces = { "application/json"})
+	public ResponseEntity<NotificationRouter> notifyRegistrationSuccess(@RequestBody NotificationRouter notificationRouter){
+		try{
+			sqESBNotificationService.notifyRegistrationSuccess(notificationRouter);
+		}catch (Exception ex){
+			System.out.println(ex);
+		}
+		
+		return new ResponseEntity<NotificationRouter>(notificationRouter, HttpStatus.OK);
+	}
+	
+	
 	
 	
 

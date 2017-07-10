@@ -1,0 +1,16 @@
+<div id='content' ng-controller='LoginController'>
+    <div class="container">
+        <form class="form-signin" role="form" ng-submit="login()">
+            <h3 class="form-signin-heading">Login Form</h3>
+            <span><b>Username :</b>&nbsp; <input type="username"
+                class="form-control" ng-model="user.name" required> </span> </br>
+            </br> <span><b>Password :</b>&nbsp;&nbsp; <input type="password"
+                class="form-control" ng-model="user.password" required> </span>
+            <br><br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                <b>Sign in</b>
+            </button>
+        </form>
+    </div>
+    <!-- /container -->
+</div>

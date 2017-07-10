@@ -49,6 +49,12 @@ public class Utilities {
 		return jSonObj;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 * Please improve my logic
+	 */
 	public boolean isValidString(String string){
 		boolean isValidString = false;
 		if(null!=string && string.length()>0){

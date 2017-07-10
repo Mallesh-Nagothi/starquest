@@ -29,12 +29,21 @@ public class SQRegistrationAppKieProperties {
 	private String invalidEndPointURL;
 	private String globalMediaTypeJson;
 	private String globalOperationPost;
-	
 	private List<SQEndPoint> endPoints = new ArrayList<SQEndPoint>();
+	
+	private String loginBPMWorkflow;
+	private String invalidLoginEndPointURL;
+	private String loginMediaTypeJson;
+	private String loginOperationPost;
+	
+	
 	
 	public SQRegistrationAppKieProperties(String registrationBPMWorkflow, String validatepassword, 
 											String ssnValidation, String invalidEndPointURL, List<SQEndPoint> endPoints,
-											String globalMediaTypeJson, String globalOperationPost) {
+											String globalMediaTypeJson, String globalOperationPost,
+											String loginBPMWorkflow, String invalidLoginEndPointURL,
+											String loginMediaTypeJson, String loginOperationPost
+											) {
 		
 		this.registrationBPMWorkflow 	= registrationBPMWorkflow;
 		this.validatepassword			= validatepassword;
@@ -43,11 +52,21 @@ public class SQRegistrationAppKieProperties {
 		this.endPoints					= endPoints;
 		this.globalMediaTypeJson		= globalMediaTypeJson;
 		this.globalOperationPost		= globalOperationPost;
+		this.loginBPMWorkflow			= loginBPMWorkflow; 
+		this.invalidLoginEndPointURL	= invalidLoginEndPointURL;
+		this.loginMediaTypeJson			= loginMediaTypeJson;
+		this.loginOperationPost			= loginOperationPost;
+		
 		
 	}
 	
 	public SQRegistrationAppKieProperties(){
 		
+	}
+	
+	public SQEndPoint getLoginBPMWorkFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.LOGIN_BPM_WORKFLOW_ENDPOINT.endPoint())
+				).findFirst().get();
 	}
 	
 	/**
@@ -146,6 +165,38 @@ public class SQRegistrationAppKieProperties {
 	 */
 	public void setGlobalOperationPost(String globalOperationPost) {
 		this.globalOperationPost = globalOperationPost;
+	}
+
+	public String getLoginBPMWorkflow() {
+		return loginBPMWorkflow;
+	}
+
+	public void setLoginBPMWorkflow(String loginBPMWorkflow) {
+		this.loginBPMWorkflow = loginBPMWorkflow;
+	}
+
+	public String getInvalidLoginEndPointURL() {
+		return invalidLoginEndPointURL;
+	}
+
+	public void setInvalidLoginEndPointURL(String invalidLoginEndPointURL) {
+		this.invalidLoginEndPointURL = invalidLoginEndPointURL;
+	}
+
+	public String getLoginMediaTypeJson() {
+		return loginMediaTypeJson;
+	}
+
+	public void setLoginMediaTypeJson(String loginMediaTypeJson) {
+		this.loginMediaTypeJson = loginMediaTypeJson;
+	}
+
+	public String getLoginOperationPost() {
+		return loginOperationPost;
+	}
+
+	public void setLoginOperationPost(String loginOperationPost) {
+		this.loginOperationPost = loginOperationPost;
 	}
 	
 

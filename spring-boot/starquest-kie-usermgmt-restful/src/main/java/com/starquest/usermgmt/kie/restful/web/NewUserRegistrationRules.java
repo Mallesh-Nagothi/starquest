@@ -61,10 +61,4 @@ public class NewUserRegistrationRules {
 		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
 		
 	}
-	
-	
-	
-	
-	
-
 }

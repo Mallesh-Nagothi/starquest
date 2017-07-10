@@ -1,0 +1,23 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+import org.drools.core.process.core.datatype.impl.type.BooleanDataType;
+[
+  //This is MVL Expression for RESTful API 
+  //BPMN2 compliance 
+   [
+    "name" : "SQRestfulPostV1",
+    "parameters" : [
+      "URL" : new StringDataType(),
+      "OPERATION" : new StringDataType(),
+      "MEDIATYPE" : new StringDataType(),
+      "PAYLOADJSON" : new ObjectDataType("net.minidev.json.JSONObject"),
+      "CUSTOMOBJ" : new ObjectDataType("com.starquest.usermgmt.vo.UserVo"),
+      "isNextStep" : new BooleanDataType(),
+      "NEXTSTEP" : new StringDataType()
+    ], 
+    "results" : [ 
+        "Result" : new ObjectDataType("java.util.Map") 
+    ],
+    "displayName" : "SQRestfulPost-Ver1",
+    "icon" : "icons/notification.gif"
+  ]
+]

@@ -1,0 +1,37 @@
+{"properties": [
+  {
+    "name": "kie.registration-bPMWorkflow",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.registration-bPMWorkflow'"
+  },
+  {
+    "name": "kie.invalid-end-point-uRL",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.invalid-end-point-uRL'"
+  },
+  {
+    "name": "kie.invalid-login-end-point-uRL",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.invalid-login-end-point-uRL'"
+  },
+  {
+    "name": "kie.login-bPMWorkflow",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.login-bPMWorkflow'"
+  },
+  {
+    "name": "kie.login-media-type-json",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.login-media-type-json'"
+  },
+  {
+    "name": "kie.login-operation-post",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.login-operation-post'"
+  },
+  {
+    "name": "kie.login-end-points",
+    "type": "java.lang.String",
+    "description": "A description for 'kie.login-end-points'"
+  }
+]}

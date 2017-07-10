@@ -23,5 +23,9 @@ xmlns="http://jboss.org/kie/6.0.0/kmodule">
 	<kbase name="bpm.starquest.registrationKBase" packages="com.starquest.kie.process.userreg">
 		<ksession name="bpm.starquest.registrationKSession" />
 	</kbase>
+	
+	<kbase name="bpm.starquest.loginKBase" packages="com.starquest.kie.process.login">
+		<ksession name="bpm.starquest.loginKSession" />
+	</kbase>
 
 </kmodule>

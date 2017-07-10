@@ -10,6 +10,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import com.starquest.registration.config.SQEndPoint;
+import com.starquest.registration.config.SqEndPoints;
+
+
 
 /**
  * @author mallesh
@@ -20,11 +23,25 @@ import com.starquest.registration.config.SQEndPoint;
 public class SQBPMConfiguration {
 	
 	//jBPM Process Configuration
+	//User Registration BPM Flow
 	private String registrationKIESession;
 	private String registrationBPMProcessflowName;
 	private String registrationBPMProcessflowFulllName;
 	private String registrationPasswordRulesKSession;
 	private List<SQEndPoint> endPoints = new ArrayList<SQEndPoint>();
+	
+	//Login BPM Flow
+	private String loginBPMProcessFlowName;
+	private String loginBPMProcessFlowNameFullName;
+	private String loginKIESession;
+	private String passwordDecryptFlow;
+	private String passwordDecryptFailFlow;
+	private String validateCredentialsFlow;
+	private String loginCredentialsFailFlow;
+	private String loginCredentialsSucessFlow;
+	private String loginFlowEnd;
+	
+	
 	
 	//RESTful End point configuration for GLOBAL SETUP. 
 	//Fall back, in case if the properties are not available
@@ -117,7 +134,16 @@ public class SQBPMConfiguration {
 								String registrationEncryptionFailedNotification,
 								String registrationPersistenceFailedNotification,
 								String registrationEncryptionFailflow,
-								String registrationPersistenceFailflow) {
+								String registrationPersistenceFailflow,
+								String loginBPMProcessFlowName,
+								String loginBPMProcessFlowNameFullName,
+								String loginKIESession,
+								String passwordDecryptFlow,
+								String passwordDecryptFailFlow,
+								String validateCredentialsFlow,
+								String loginCredentialsFailFlow,
+								String loginCredentialsSucessFlow,
+								String loginFlowEnd) {
 		
 		this.registrationBPMProcessflowFulllName 	= registrationBPMProcessflowFulllName;
 		this.registrationBPMProcessflowName			= registrationBPMProcessflowName;
@@ -145,6 +171,15 @@ public class SQBPMConfiguration {
 		this.registrationPersistenceFailedNotification	= registrationPersistenceFailedNotification;
 		this.registrationEncryptionFailflow			= registrationEncryptionFailflow;
 		this.registrationPersistenceFailflow  		= registrationPersistenceFailflow;
+		this.loginBPMProcessFlowName				= loginBPMProcessFlowName;
+		this.loginBPMProcessFlowNameFullName		= loginBPMProcessFlowNameFullName;
+		this.loginKIESession						= loginKIESession;
+		this.passwordDecryptFlow					= passwordDecryptFlow;
+		this.passwordDecryptFailFlow				= passwordDecryptFailFlow;
+		this.validateCredentialsFlow 				= validateCredentialsFlow;
+		this.loginCredentialsFailFlow  				= loginCredentialsFailFlow;
+		this.loginCredentialsSucessFlow  			= loginCredentialsSucessFlow;
+		this.loginFlowEnd 							= loginFlowEnd;
 		
 		
 	}
@@ -530,10 +565,103 @@ public class SQBPMConfiguration {
 	public void setRegistrationPersistenceFailflow(String registrationPersistenceFailflow) {
 		this.registrationPersistenceFailflow = registrationPersistenceFailflow;
 	}
+
+	public String getLoginBPMProcessFlowName() {
+		return loginBPMProcessFlowName;
+	}
+
+	public void setLoginBPMProcessFlowName(String loginBPMProcessFlowName) {
+		this.loginBPMProcessFlowName = loginBPMProcessFlowName;
+	}
+
+	public String getLoginBPMProcessFlowNameFullName() {
+		return loginBPMProcessFlowNameFullName;
+	}
+
+	public void setLoginBPMProcessFlowNameFullName(String loginBPMProcessFlowNameFullName) {
+		this.loginBPMProcessFlowNameFullName = loginBPMProcessFlowNameFullName;
+	}
+
+	public String getLoginKIESession() {
+		return loginKIESession;
+	}
+
+	public void setLoginKIESession(String loginKIESession) {
+		this.loginKIESession = loginKIESession;
+	}
 	
+	public SQEndPoint getPasswordDecryptFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.PASSWORD_DECRYPT_ENDPOINT.endPoint())
+				).findFirst().get();
+	}
 	
+	public SQEndPoint getPasswordDecryptFailFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.PASSWORD_DECRYPT_FAIL_ENDPOINT.endPoint())
+				).findFirst().get();
+	}
 	
+	public SQEndPoint getPasswordDecryptSuccessFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.PASSWORD_DECRYPT_SUCCESS_ENDPOINT.endPoint())
+				).findFirst().get();
+	}
 	
+	public SQEndPoint getCredentialsFailFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.VALIDATE_CREDENTIALS_FAIL_ENDPOINT.endPoint())
+				).findFirst().get();
+	}
+	public SQEndPoint getCredentialsSuccessFlowEndPointDetails(){
+		return (SQEndPoint) endPoints.stream().filter(endPoint -> endPoint.getEndPoint().equals(SqEndPoints.VALIDATE_CREDENTIALS_SUCCESS_ENDPOINT.endPoint())
+				).findFirst().get();
+	}
+
+	public String getPasswordDecryptFlow() {
+		return passwordDecryptFlow;
+	}
+
+	public void setPasswordDecryptFlow(String passwordDecryptFlow) {
+		this.passwordDecryptFlow = passwordDecryptFlow;
+	}
+
+	public String getPasswordDecryptFailFlow() {
+		return passwordDecryptFailFlow;
+	}
+
+	public void setPasswordDecryptFailFlow(String passwordDecryptFailFlow) {
+		this.passwordDecryptFailFlow = passwordDecryptFailFlow;
+	}
+
+	public String getValidateCredentialsFlow() {
+		return validateCredentialsFlow;
+	}
+
+	public void setValidateCredentialsFlow(String validateCredentialsFlow) {
+		this.validateCredentialsFlow = validateCredentialsFlow;
+	}
+
+	public String getLoginCredentialsFailFlow() {
+		return loginCredentialsFailFlow;
+	}
+
+	public void setLoginCredentialsFailFlow(String loginCredentialsFailFlow) {
+		this.loginCredentialsFailFlow = loginCredentialsFailFlow;
+	}
+
+	public String getLoginCredentialsSucessFlow() {
+		return loginCredentialsSucessFlow;
+	}
+
+	public void setLoginCredentialsSucessFlow(String loginCredentialsSucessFlow) {
+		this.loginCredentialsSucessFlow = loginCredentialsSucessFlow;
+	}
+
+	public String getLoginFlowEnd() {
+		return loginFlowEnd;
+	}
+
+	public void setLoginFlowEnd(String loginFlowEnd) {
+		this.loginFlowEnd = loginFlowEnd;
+	}
 	
 	
 }
+

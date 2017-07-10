@@ -1,4 +1,20 @@
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+####  KIE (Knowledge is everything configuration file                                                              ####
+####  STEP1: Define Process Identifier                                                                             ####
+####  STEP2: Define BPM Flow Name and Fully qualified name. look at KBase.xml as well as bpmn2 file. It must match ####
+####  STEP3: Define RESTful End Point Identifer for each Work Item of each flow in the BPM Flow                    ####
+####  STEP4: Define End Point details such as URL, Method, Payload type, context etc in endPoints Section          ####
+####  STEP5: Goto SQBPMConfiguration File, write setters and getters and any customer getters.                     ####
+####  Now All set to write your logic                                                                              ####
+####  Author: MALLESWARA.NAGOTHI@GMAIL.COM                                                                         ####
+####  Since : Nov/Nov/2016                                                                                         ####
+####################################################################################################################### 
+#######################################################################################################################
+#######################################################################################################################
 kie:
+#  User Registration Flow Starts here
   registrationKIESession: "bpm.starquest.registrationKSession"
   registrationBPMProcessflowName: "SQRESTfulPost"
   registrationBPMProcessflowFulllName: "com.starquest.kie.process.userreg.SQRegiostrationProcess1"
@@ -25,7 +41,16 @@ kie:
   registrationRulesFailedNotification: "registrationRulesFailedNotification" 
   registrationEncryptionFailedNotification: "registrationEncryptionFailedNotification"
   registrationPersistenceFailedNotification: "registrationPersistenceFailedNotification"
-  
+#  Login Flow Starts here
+  loginKIESession: "bpm.starquest.loginKSession"
+  loginBPMProcessFlowName: "SQRestfulPostV1"
+  loginBPMProcessFlowNameFullName: "userLoginBPMFlow"
+  passwordDecryptFlow: "passwordDecryptFlow" 
+  passwordDecryptFailFlow: "passwordDecryptFailFlow"
+  validateCredentialsFlow: "validateCredentialsFlow"
+  loginCredentialsFailFlow: "loginCredentialsFailFlow"
+  loginCredentialsSucessFlow: "loginCredentialsSucessFlow"
+  loginFlowEnd: "loginFlowEnd"
   
   endPoints:
     - 
@@ -86,6 +111,42 @@ kie:
       endPoint: "registrationPersistenceFailedNotification"
       url: "http://localhost:6262/sq/esb/registrationPersistenceFail"
       context: "sq/esb/registrationPersistenceFail"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "userLoginBPMFlow" 
+      url: "http://localhost:8282/sq/userloginkie/startLoginProcess"
+      context: "/sq/userloginkie/startLoginProcess"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    -
+      endPoint: "passwordDecryptFlow" 
+      url: "http://localhost:9292/sq/decryption/password"
+      context: "/sq/decryption/password"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST" 
+    -
+      endPoint: "passwordDecryptFailFlow" 
+      url: "http://localhost:8282/sq/userloginkie/passwordDecryptFailFlow"
+      context: "/sq/userloginkie/passwordDecryptFailFlow"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST" 
+    -
+      endPoint: "validateCredentialsFlow" 
+      url: "http://localhost:8282/sq/userloginkie/validateCredentialsFlow"
+      context: "/sq/userloginkie/validateCredentialsFlow"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"   
+    -
+      endPoint: "passwordDecryptFlow" 
+      url: "http://localhost:8282/sq/userloginkie/loginCredentialsFailFlow"
+      context: "/sq/userloginkie/loginCredentialsFailFlow"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    -
+      endPoint: "loginCredentialsSucessFlow" 
+      url: "http://localhost:8282/sq/userloginkie/loginCredentialsSucessFlow"
+      context: "/sq/userloginkie/loginCredentialsSucessFlow"
       mediaType: "APPLICATION_JSON"
       operation: "POST"
       

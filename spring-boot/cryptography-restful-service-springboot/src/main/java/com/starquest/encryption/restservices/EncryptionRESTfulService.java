@@ -4,8 +4,6 @@
 package com.starquest.encryption.restservices;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +27,6 @@ import com.starquest.usermgmt.vo.UserVo;
  */
 
 @RestController
-@EnableAutoConfiguration
 @RequestMapping("/sq/encryption")
 public class EncryptionRESTfulService {
 
@@ -83,8 +80,9 @@ public class EncryptionRESTfulService {
 	 * @throws Exception
 	 */
 	
-	public static void main(String[] args) throws Exception{
+	/*public static void main(String[] args) throws Exception{
 		SpringApplication.run(EncryptionRESTfulService.class, args);
-	}
+		//SpringApplication.run(DecryptionRESTfulService.class, args);
+	}*/
 	
 }

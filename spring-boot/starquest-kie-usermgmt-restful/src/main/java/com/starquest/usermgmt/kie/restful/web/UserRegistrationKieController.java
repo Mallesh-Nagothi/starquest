@@ -57,6 +57,24 @@ public class UserRegistrationKieController {
 		return new ResponseEntity<UserVo>(userVo, httpStatus);
 		
 	}
+	
+	
+	public ResponseEntity<UserVo> startLoginBPMProcess(@RequestBody UserVo userVo){
+		HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+		System.out.println("Starting Login BPM Flow");
+		
+		try{
+			
+			
+		}catch(Exception ex){
+			System.out.println("Damallll::"+ex);
+		}
+		
+		
+		System.out.println("Ending Login BPM Flow");
+		return new ResponseEntity<UserVo>(userVo,httpStatus);
+		
+	}
 
 	
 	@RequestMapping(path="/registrationPasswordRulesSuccessflow", method = RequestMethod.POST,

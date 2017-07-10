@@ -5,6 +5,10 @@ kie:
   invalidEndPointURL: "http://localhost:9002/404_page.html"
   globalMediaTypeJson: "APPLICATION_JSON"
   globalOperationPost: "POST"
+  loginBPMWorkflow: "loginBPMWorkflow"
+  invalidLoginEndPointURL: "http://localhost:9002/404_page.html"
+  loginMediaTypeJson: "APPLICATION_JSON"
+  loginOperationPost: "POST"
   endPoints:
     - 
       endPoint: "registrationBPMWorkflow" 
@@ -22,5 +26,11 @@ kie:
       endPoint: "validatepassword" 
       url: "http://localhost:8282/starquest/userregrules/validatepassword"
       context: "/starquest/userregrules/validatepassword"
+      mediaType: "APPLICATION_JSON"
+      operation: "POST"
+    - 
+      endPoint: "loginBPMWorkflow" 
+      url: "http://localhost:8282/sq/userloginkie/startLoginProcess"
+      context: "/sq/userloginkie/startLoginProcess"
       mediaType: "APPLICATION_JSON"
       operation: "POST"

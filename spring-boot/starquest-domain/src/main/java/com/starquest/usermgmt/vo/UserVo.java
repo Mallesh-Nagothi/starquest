@@ -22,7 +22,9 @@ public class UserVo implements Serializable{
     	INVALID_REGISTRATION_DATA,
         DUP_EMAIL,
         ALL_GOOD,
-        NA
+        NA,
+        LOGIN_SUCCESS,
+        LOGIN_FAILED
     };
     
    
